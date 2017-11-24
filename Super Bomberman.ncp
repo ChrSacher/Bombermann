@@ -1,0 +1,527 @@
+<Project>
+  <Name>Super Bomberman</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Klassen Diagram</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Bomberman</Name>
+        <Access>Public</Access>
+        <Location left="52" top="679" />
+        <Size width="403" height="315" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private double movementSpeed</Member>
+        <Member type="Field">private int maxBombs</Member>
+        <Member type="Field">private Bomb templateBomb</Member>
+        <Member type="Field">private bool isDead</Member>
+        <Member type="Field">private int numBombsThrown</Member>
+        <Member type="Field">private int numKills</Member>
+        <Member type="Field">private int gridXPos</Member>
+        <Member type="Field">private int gridYPos</Member>
+        <Member type="Field">Image[] images</Member>
+        <Member type="Field">int lifes</Member>
+        <Member type="Field">movementDirection currentDirection</Member>
+        <Member type="Method">void move(MovementDirection direction)</Member>
+        <Member type="Method">void throwBomb()</Member>
+        <Member type="Method">void findPowerUp()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>MovementDirection</Name>
+        <Access>Public</Access>
+        <Location left="52" top="61" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>Up</Value>
+        <Value>Down</Value>
+        <Value>Left</Value>
+        <Value>Right</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>ExplosionHandling</Name>
+        <Access>Public</Access>
+        <Location left="243" top="61" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>None</Value>
+        <Value>Receive</Value>
+        <Value>Block</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>Bomb</Name>
+        <Access>Public</Access>
+        <Location left="606" top="863" />
+        <Size width="194" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Bomberman owner</Member>
+        <Member type="Field">int strength</Member>
+        <Member type="Field">int explosionTime</Member>
+        <Member type="Field">int explosionFadeTime</Member>
+        <Member type="Field">Image normalImage</Member>
+        <Member type="Field">Image explodedImage</Member>
+        <Member type="Field">Explosion explosionTemplate</Member>
+        <Member type="Field">Sound explosionSound</Member>
+        <Member type="Method">public void explode()</Member>
+        <Member type="Method">public void tick()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Actor</Name>
+        <Access>Public</Access>
+        <Location left="667" top="63" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PowerUp</Name>
+        <Access>Public</Access>
+        <Location left="858" top="863" />
+        <Size width="289" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int value</Member>
+        <Member type="Field">PowerUpType type</Member>
+        <Member type="Field">Image displayImage</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>PowerUpType</Name>
+        <Access>Public</Access>
+        <Location left="442" top="61" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Value>Speed</Value>
+        <Value>Strength</Value>
+        <Value>Death</Value>
+        <Value>Ammount</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>Obstacle</Name>
+        <Access>Public</Access>
+        <Location left="1199" top="863" />
+        <Size width="275" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">ExplosionHandling explosionHandlingType</Member>
+        <Member type="Field">PowerUpType[] possibleUpgrades</Member>
+        <Member type="Field">Image standardImage</Member>
+        <Member type="Field">Image destructionImage</Member>
+        <Member type="Field">bool isDestructable</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BomberWorld</Name>
+        <Access>Public</Access>
+        <Location left="2032" top="398" />
+        <Size width="290" height="298" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int xGridSize</Member>
+        <Member type="Field">int yGridSize</Member>
+        <Member type="Field">ArrayList&lt;Bomberman&gt; bomberMans</Member>
+        <Member type="Field">Arraylist&lt;Obstacle&gt; obstacles</Member>
+        <Member type="Field">ArrayList&lt;PowerUp&gt; powerUps</Member>
+        <Member type="Field">Sound backgroundMusic</Member>
+        <Member type="Field">int timeLimit</Member>
+        <Member type="Field">bool[][] occupationGrid</Member>
+        <Member type="Method">public void bombermanDied(Bomberman deadBomber)</Member>
+        <Member type="Method">public void generateWorld()</Member>
+        <Member type="Method">public void OnTimeLimitReached()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>World</Name>
+        <Access>Public</Access>
+        <Location left="937" top="61" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PlayerBomberman</Name>
+        <Access>Public</Access>
+        <Location left="211" top="1076" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">String[] keySet = "w","s","a","d","space"</Member>
+        <Member type="Method">public void handleKeys()</Member>
+        <Member type="Method">public void setKeySet(String upKey, String downKey, String leftKey, String rightKey, String bombKey)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ComputerBomberman</Name>
+        <Access>Public</Access>
+        <Location left="398" top="1076" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void decide()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>InteractableActor</Name>
+        <Access>Public</Access>
+        <Location left="560" top="304" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">ExplosionHandling explosionHandlingType</Member>
+        <Member type="Method">public void OnReceiveExplosion()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Explosion</Name>
+        <Access>Public</Access>
+        <Location left="1538" top="863" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Image centerPieceImage</Member>
+        <Member type="Field">Image endPieceImage</Member>
+        <Member type="Field">Image pieceImage</Member>
+        <Member type="Field">bool isEndPiece</Member>
+        <Member type="Field">movementDirection direction</Member>
+        <Member type="Method">void decideImage()</Member>
+        <Member type="Method">void collisionWithActor()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FloorTile</Name>
+        <Access>Public</Access>
+        <Location left="1782" top="861" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Image image</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Welt für den Bomberman.
+Legt Spielregeln fest und beinhaltet alle Daten die man brauchen könnte.
+Soll auch Spielfeld und weiter generieren.
+
+Das Spiel basiert auf einen Gitter. Das heißt , das Bomben ,Hindernisse und Kollision mit diesen Gitter gemacht werden.
+-&gt; Objekte haben eine Position zum anzeigen und eine wo sie im Gitter sind.
+
+
+occupationGrid ist eine einfache Repräsentation der Welt. Sie zeigt alle begehbaren Felder an. Hindernisse die zerstört werden sollte dies updaten.
+
+Es sollte verhindert werden, dass 2 Hindernisse die selbe Position haben.
+</Text>
+        <Location left="1824" top="26" />
+        <Size width="387" height="268" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Diese Klasse wird gebraucht um einen einheitlichen Stand zu haben was Kollision von Explosionen betrifft.
+
+Weiterhin ist es eine Abschirmung gegen Kollision von FloorTile. Jede Interaktion kann nur mit und zu diesen Actor passieren.
+
+OnReceiveExplosion wird von der Explosion gerufen falls sie auf ein InteractableActor trifft und es nicht den handlingType Block hat.
+
+
+
+</Text>
+        <Location left="254" top="397" />
+        <Size width="254" height="180" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Zum Anzeigen von Explosionen. 
+
+decideImage()
+
+Je nach Richtung und Ende musst das Bild gedreht bzw. ausgetauscht werden.
+
+Was genau die Richtung ist, wird von der Bombe gesteuert.
+
+Bei Kollision mit einem InteractableActor soll es die Methode OnReceiveExplosion aufrufen (nur 1 mal).
+
+</Text>
+        <Location left="1518" top="1144" />
+        <Size width="225" height="242" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Variable Spielefeldgröße mit unterschiedlichen Untergrundtypen, Farben und andere Eigenschaften.
+Dafür ist eine eigene Boden-generierung nötig.
+
+
+Diese Klasse wird benutzt um einen Untergrund für jedes Gitterfeld zu erschaffen.
+
+</Text>
+        <Location left="1761" top="1144" />
+        <Size width="212" height="241" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Spieler Bomberman der mit Tasten bewegt werden soll.
+
+Soll Tasten auch austauschen können.
+</Text>
+        <Location left="211" top="1370" />
+        <Size width="162" height="102" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Hindernisse die den Spieler blockieren. Zerstörbar und nicht zerstörbar.
+
+Kann man theorethisch auch in 2 Klassen aufteilen.
+</Text>
+        <Location left="1199" top="1165" />
+        <Size width="211" height="130" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Bombe die explodiert.
+Bei Explosion soll es die Explosionsstreifen an die richtige Stelle setzen.
+
+tick() zum anzeigen wie lang
+die Bombe noch bis zum explodieren braucht.
+
+explosionFadeTime: Zeit bis Explosionsstreifen verschwinden
+
+explosionTemplate. Template für eine Explosion und all dazugehörigen Sachen. Ist auch  nützlich wenn man für mehrere Figuren unterschiedliche Explosionen haben möchte.
+
+owner: Bomberman, wem die Bomb gehört.</Text>
+        <Location left="575" top="1165" />
+        <Size width="207" height="308" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Powerups welche den Bomber verstärken/schwächen.
+
+Werden von einem Bomberman aufgehoben.
+
+
+
+
+</Text>
+        <Location left="818" top="1165" />
+        <Size width="310" height="118" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Vom Computer gesteuerter Bomber. Nicht unbedingt sehr schlau.</Text>
+        <Location left="398" top="1400" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Wie reagiert ein Block auf eine Explosion.
+None dann geht die Explosion einfach durch.
+Receive Explosion stoppt in diesen Feld.
+Block Explosion hört vor dem Feld auf.</Text>
+        <Location left="25" top="397" />
+        <Size width="182" height="160" />
+      </Entity>
+      <Entity type="Class">
+        <Name>MultiplayerTestWorld</Name>
+        <Access>Public</Access>
+        <Location left="2043" top="895" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ComputerTestWorld</Name>
+        <Access>Public</Access>
+        <Location left="2221" top="898" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Welten zum einfachen Testen von Mehrspieler und AI.  </Text>
+        <Location left="2151" top="1256" />
+        <Size width="232" height="55" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Basis Klasse für den Bomber man.
+Soll sich bewegen können und entscheiden welches Bild angezeigt werden muss um eine Art Animation zu zeigen.
+Bomben legen.
+
+Muss Kollision mit Obstacle erkennen und darauf reagieren.
+
+Template bomb ist eine Bomb welche bei ablegen einer Bombe kopiert wird. 
+Dadurch ist mehr Flexibilität möglich.
+
+findPowerUp() überprüft ob man auf einen PowerUp steht. Falls ja wird es aufgenommen.</Text>
+        <Location left="25" top="1017" />
+        <Size width="153" height="456" />
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="3">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="8" second="9">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="11" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>429</X>
+          <Y>1019</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="10" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>327</X>
+          <Y>1019</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="12" second="4">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>747</X>
+          <Y>347</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="13" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1627</X>
+          <Y>838</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>763</X>
+          <Y>362</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>617</X>
+          <Y>551</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>646</X>
+          <Y>580</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>698</X>
+          <Y>545</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="14" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>790</X>
+          <Y>307</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="16" second="12">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>533</X>
+          <Y>514</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>535</X>
+          <Y>486</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="17" second="13">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1607</X>
+          <Y>1119</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Comment" first="18" second="14">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="19" second="10">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="20" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="21" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="22" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="23" second="11">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="24" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="15" second="8">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>2347</X>
+          <Y>548</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="25" second="8">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="26" second="8">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="27" second="26">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="27" second="25">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="3" second="13">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1509</X>
+          <Y>1141</Y>
+        </BendPoint>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>
+        </StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Comment" first="28" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>209</X>
+          <Y>1053</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>219</X>
+          <Y>1036</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="0" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>588</X>
+          <Y>554</Y>
+        </BendPoint>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
