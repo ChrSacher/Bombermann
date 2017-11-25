@@ -1,4 +1,8 @@
 public enum PowerUpType
 {
-    speed,streng,death,ammount
+    Speed,
+    Strength,
+    Ammount,
+    Death;
+    
 }

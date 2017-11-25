@@ -6,14 +6,31 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class FloorTile extends Actor
+public class FloorTile extends GridActor
 {
+    private boolean isEdge = false;
     /**
-     * Act - do whatever the FloorTile wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * Method loadImage
+     *
+     * @param isEdge A parameter
      */
-    public void act() 
+    public void loadImage(boolean newIsEdge)
     {
-        // Add your action code here.
-    }    
+        isEdge = newIsEdge;
+        if(isEdge == true)
+        {
+            setImage(bomberWorld.getStyleSheet().getEdgeFloorTileImage());
+        }
+        else
+        {
+            setImage(bomberWorld.getStyleSheet().getFloorTileImage());
+        }
+    }
+    
+    public void addedToWorld(World world)
+    {
+        super.addedToWorld(world);
+        loadImage(isEdge);
+    }
+  
 }

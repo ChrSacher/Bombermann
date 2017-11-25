@@ -1,3 +1,8 @@
 public enum ExplosionHandling
-{ none,receive,block
+{ 
+    None,
+    Receive,
+    Block
+    
+    
 }

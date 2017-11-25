@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Explosion extends Actor
+public class Explosion extends GridActor
 {
     /**
      * Act - do whatever the Explosion wants to do. This method is called whenever

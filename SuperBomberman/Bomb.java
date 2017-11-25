@@ -8,6 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Bomb extends InteractableActor
 {
+    private int explosionGridLength = 2;
     /**
      * Act - do whatever the Bomb wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -16,4 +17,24 @@ public class Bomb extends InteractableActor
     {
         // Add your action code here.
     }    
+    
+    public Bomb()
+    {
+        
+    }
+    
+    public Bomb(Bomb otherBomb)
+    {
+        
+    }
+    
+    public int getExplosionGridLength()
+    {
+        return explosionGridLength;
+    }
+    
+     public void setExplosionGridLength(int newLength)
+    {
+        explosionGridLength = newLength;
+    }
 }

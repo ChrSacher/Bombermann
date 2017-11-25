@@ -21,11 +21,6 @@ public class Obstacle extends InteractableActor
         }
     }
     
-    protected void addedToWorld(World world)
-    {
-        BomberWorld tWorld = (BomberWorld)world;
-        setLocation(tWorld.gridSize,tWorld.gridSize);
-    }
     /**
      * Act - do whatever the Obstacle wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.

@@ -6,9 +6,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class InteractableActor extends Actor
+public class InteractableActor extends GridActor
 {
-    protected ExplosionHandling ExplosionHandlingType= ExplosionHandling.none;
+    protected ExplosionHandling ExplosionHandlingType= ExplosionHandling.None;
  
     protected void OnReceiveExplosion()
     { 

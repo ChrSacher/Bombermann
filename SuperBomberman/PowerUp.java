@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class PowerUp extends InteractableActor
 {  
     private int value =1;
-    private PowerUpType powerUp = PowerUpType.speed;
+    private PowerUpType powerUpType = PowerUpType.Speed;
     private GreenfootImage image = new GreenfootImage("/SpriteSheetImages/Powerups/SpeedUp.png");  
 
     /**
@@ -18,27 +18,38 @@ public class PowerUp extends InteractableActor
      */
     public void act() 
     {
-        Wahlen();
+        decideImage();
     }
-
+    
+    public PowerUpType getPowerUpType()
+    {
+        return powerUpType;
+    }
+    
     public void setValue( int neueValue)
     {
         value = neueValue;
 
-        Wahlen();
+        decideImage();
 
     }
     public void setPowerUp(PowerUpType newPowerUp)
     {
-        powerUp = newPowerUp;
-        Wahlen();
+        powerUpType = newPowerUp;
+        decideImage();
     }
-
-    public void Wahlen()
+    
+    public int getValue()
     {
-        switch( powerUp)
+        return value;
+    }
+    
+    
+    public void decideImage()
+    {
+        switch( powerUpType)
         {
-            case speed:
+            case Speed:
             {
 
                 if (value >=1)
@@ -52,7 +63,7 @@ public class PowerUp extends InteractableActor
 
             }  
             break;
-            case streng:
+            case Strength:
             { 
                 if (value >=1)
                 { 
@@ -64,7 +75,7 @@ public class PowerUp extends InteractableActor
                 }
             }
             break;
-            case death:
+            case Death:
             { 
                 if (value >=1)
                 { 
@@ -77,7 +88,7 @@ public class PowerUp extends InteractableActor
 
             } 
             break;
-            case ammount:
+            case Ammount:
             {
                 if (value >=1)
                 { 
