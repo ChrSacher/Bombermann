@@ -14,7 +14,8 @@ public class Obstacle extends InteractableActor
     }
     
     protected void OnReceiveExplosion()
-    { if( isDestructable== true)
+    {
+        if( isDestructable== true)
         {
             getWorld().removeObject(this);
             
@@ -28,20 +29,31 @@ public class Obstacle extends InteractableActor
     public void act() 
     {
         setWallImage();
-    }    
+    } 
+    
+    public void addedToWorld(World world)
+    {
+        super.addedToWorld(world);
+        setWallImage();
+    }
+    
+    public void setisDestructable(boolean newIsDestructable)
+    {
+        isDestructable = newIsDestructable;
+        setWallImage();
+    }
     public void setWallImage()
     { 
         if (isDestructable== true)
         { 
-            setImage ( zerstoertImage );
+            setImage ( bomberWorld.getStyleSheet().getObstacleImage());
         
         }
         else 
         {
-            setImage ( unzerstoertImage );
+            setImage ( bomberWorld.getStyleSheet().getWallImage());
         }
     }
     private boolean isDestructable= true;
-    private GreenfootImage zerstoertImage= new GreenfootImage("/SpriteSheetImages/FloorTiles/Obstacle.png");
-    private GreenfootImage unzerstoertImage = new GreenfootImage ("/SpriteSheetImages/FloorTiles/Wall.png");
+   
 }

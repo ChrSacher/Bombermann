@@ -15,28 +15,26 @@ public class Bomberman extends InteractableActor
     private Bomb templateBomb = new Bomb();
     private boolean isDead = false;
 
-    private int gridXPos = 0;
-    private int gridYPos = 0;
     //for statistics
     private int numBombThrown = 0;
     private int numKills = 0;
 
     private BomberWorld bomberWorld = null;
-    
+
     private MovementDirection currentDirection = MovementDirection.Down;
-    
+
     Bomberman()
     {
-         
+        forceGridLocation = false;
     }
-   
+
     /**
      * @return the maxNumOfBombs
      */
     public PlayerColor getPlayerColor() 
     {
         return playerColor;
-       
+
     }
 
     /**
@@ -47,7 +45,7 @@ public class Bomberman extends InteractableActor
         playerColor = color;
         setDirectionImage(currentDirection);
     }
-    
+
     /**
      * @return the maxNumOfBombs
      */
@@ -131,38 +129,6 @@ public class Bomberman extends InteractableActor
     }
 
     /**
-     * @return the gridXPos
-     */
-    public int getGridXPos() 
-    {
-        return gridXPos;
-    }
-
-    /**
-     * @param gridXPos the gridXPos to set
-     */
-    public void setGridXPos(int gridXPos) 
-    {
-        this.gridXPos = gridXPos;
-    }
-
-    /**
-     * @return the gridYPos
-     */
-    public int getGridYPos() 
-    {
-        return gridYPos;
-    }
-
-    /**
-     * @param gridYPos the gridYPos to set
-     */
-    public void setGridYPos(int gridYPos)
-    {
-        this.gridYPos = gridYPos;
-    }
-
-    /**
      * @return the numBombThrown
      */
     public int getNumBombThrown() 
@@ -238,11 +204,62 @@ public class Bomberman extends InteractableActor
         setImage(w.getStyleSheet().getBombermanImage(playerColor,dir));
     }
 
+    /**
+     * Method canMove
+     *
+     * @param newDirection A parameter
+     * @return The return value
+     */
     protected boolean canMove(MovementDirection newDirection)
     {
+
+        for(int i = 1; i <= movementSpeed;i++)
+        {
+
+            List<Obstacle> blocking = new ArrayList<Obstacle>();
+            switch(newDirection)
+            {
+                case Up:
+                {
+                    setLocation(getX(),getY() - i);
+                    blocking = getIntersectingObjects(Obstacle.class);
+                    setLocation(getX(),getY() + i );
+
+                }break;
+                case Down:
+                {
+                    setLocation(getX(),getY() + i);
+                    blocking = getIntersectingObjects(Obstacle.class);
+                    setLocation(getX(),getY() - i);
+                }break;
+                case Left:
+                {
+                    setLocation(getX() - i,getY() );
+                    blocking = getIntersectingObjects(Obstacle.class);
+                    setLocation(getX() + i,getY() );
+                }break;
+                case Right:
+                {
+                    setLocation(getX() + i,getY() );
+                    blocking = getIntersectingObjects(Obstacle.class);
+                    setLocation(getX() - i,getY() );
+                }break;
+
+            }
+            if(blocking.size() != 0) 
+            {               
+                return false;
+            }
+        }
+
         return true;
     }
-
+    
+    /**
+     * Method move  Da unsere Kollision pixel genau ist muss man perfekt den Spalt treffen um Richtungen zu wechseln. Da dies sehr umständlich ist , gibt es eine kluge Bewegungshilfe.
+     *
+     * @param newDirection In welche Richtung soll gelaufen werden.
+     */
     protected void move(MovementDirection newDirection)
     {
         if(canMove(newDirection) == false) return;
@@ -259,17 +276,17 @@ public class Bomberman extends InteractableActor
             }break;
             case Down:
             {
-                 setLocation(getX(),getY() + (int)Math.round(movementSpeed));
+                setLocation(getX(),getY() + (int)Math.round(movementSpeed));
             }break;
             case Left:
             {
-                 setLocation(getX()- (int)Math.round(movementSpeed),getY() );
+                setLocation(getX()- (int)Math.round(movementSpeed),getY() );
             }break;
             case Right:
             {
-                 setLocation(getX() + (int)Math.round(movementSpeed),getY() );
+                setLocation(getX() + (int)Math.round(movementSpeed),getY() );
             }break;
-            
+
         }
     }
 

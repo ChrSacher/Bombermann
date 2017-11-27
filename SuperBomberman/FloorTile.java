@@ -14,6 +14,11 @@ public class FloorTile extends GridActor
      *
      * @param isEdge A parameter
      */
+    FloorTile(boolean newIsEdge)
+    {
+        isEdge = newIsEdge;
+    }
+    
     public void loadImage(boolean newIsEdge)
     {
         isEdge = newIsEdge;

@@ -21,7 +21,7 @@ public class BombermanStyleSheet
 
     private GreenfootImage obstacleImage = new GreenfootImage("/SpriteSheetImages/FloorTiles/Obstacle.png");
 
-    private GreenfootImage floorTile = new GreenfootImage("/SpriteSheetImages/FloorTiles/Floor.png");
+    private GreenfootImage floorTile = new GreenfootImage("/SpriteSheetImages/FloorTiles/Floor3.png");
 
     private GreenfootImage edgeFloorTile = new GreenfootImage("/SpriteSheetImages/FloorTiles/Edge_Floor.png");
 
