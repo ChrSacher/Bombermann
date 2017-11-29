@@ -21,4 +21,6 @@ comment7.params=world
 comment7.target=void\ addedToWorld(greenfoot.World)
 comment8.params=locX\ locY
 comment8.target=void\ setLocation(int,\ int)
-numComments=9
+comment9.params=
+comment9.target=void\ loadImage()
+numComments=10

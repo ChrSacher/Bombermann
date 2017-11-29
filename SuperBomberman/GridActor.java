@@ -75,6 +75,7 @@ public class GridActor extends Actor
     {
         bomberWorld = (BomberWorld)world;
         setLocation(getX(),getY());
+        loadImage();
     }
 
     public void setLocation(int locX ,int locY)
@@ -92,5 +93,8 @@ public class GridActor extends Actor
             super.setLocation(locX,locY);
         }
     }
-
+    protected void loadImage()
+    {
+        
+    }
 }
