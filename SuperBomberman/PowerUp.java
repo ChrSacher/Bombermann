@@ -47,61 +47,10 @@ public class PowerUp extends InteractableActor
     
     public void decideImage()
     {
-        switch( powerUpType)
-        {
-            case Speed:
-            {
-
-                if (value >= 0)
-                { 
-                    setImage("/SpriteSheetImages/Powerups/SpeedUp.png");
-                }
-                else
-                { 
-                    setImage("/SpriteSheetImages/Powerups/SpeedDown.png");
-                }
-
-            }  
-            break;
-            case Strength:
-            { 
-                if (value >= 0)
-                { 
-                    setImage("/SpriteSheetImages/Powerups/LengthUp.png");
-                }
-                else
-                { 
-                    setImage("/SpriteSheetImages/Powerups/LengthDown.png");
-                }
-            }
-            break;
-            case Death:
-            { 
-                if (value >= 0)
-                { 
-                    setImage("/SpriteSheetImages/Powerups/Death.png");
-                }
-                else
-                { 
-                    setImage("/SpriteSheetImages/Powerups/Death2.png");
-                }
-
-            } 
-            break;
-            case Ammount:
-            {
-                if (value >= 0)
-                { 
-                    setImage("/SpriteSheetImages/Powerups/BombsUp.png");
-                }
-                else
-                { 
-                    setImage("/SpriteSheetImages/Powerups/BombsDown.png");
-                }
-
-            }
-            break;
-        }
+        GreenfootImage image = bomberWorld.getStyleSheet().getPowerupImage(powerUpType, value);
+        setImage(image);
+        
     }
+    
 
 }
