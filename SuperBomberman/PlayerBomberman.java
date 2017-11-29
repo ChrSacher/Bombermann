@@ -39,19 +39,19 @@ public class PlayerBomberman extends Bomberman
     {
         if(Greenfoot.isKeyDown(keySet[InputKeys.Up.ordinal()]))
         {
-            move(MovementDirection.Up);
+            decideMove(MovementDirection.Up);
         }
         else if(Greenfoot.isKeyDown(keySet[InputKeys.Down.ordinal()]))
         {
-            move(MovementDirection.Down);
+            decideMove(MovementDirection.Down);
         }
         else if(Greenfoot.isKeyDown(keySet[InputKeys.Left.ordinal()]))
         {
-            move(MovementDirection.Left);
+            decideMove(MovementDirection.Left);
         }
         else if(Greenfoot.isKeyDown(keySet[InputKeys.Right.ordinal()]))
         {
-            move(MovementDirection.Right);
+            decideMove(MovementDirection.Right);
         }
         else if(Greenfoot.isKeyDown(keySet[InputKeys.ThrowBomb.ordinal()]))
         {

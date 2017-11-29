@@ -29,7 +29,14 @@ public class GridActor extends Actor
         else gridYPos = -1;
         return gridXPos;
     }
-
+    
+    public int getGridXPosAsPixel() 
+    {
+        if(bomberWorld != null) return bomberWorld.convertGridToPos(getGridXPos());
+     
+        return -1;
+    }
+    
     /**
      * @param gridXPos the gridXPos to set
      */
@@ -48,6 +55,14 @@ public class GridActor extends Actor
         return gridYPos;
     }
 
+    
+    public int getGridYPosAsPixel() 
+    {
+        if(bomberWorld != null) return bomberWorld.convertGridToPos(getGridYPos());
+     
+        return -1;
+    }
+    
     /**
      * @param gridYPos the gridYPos to set
      */

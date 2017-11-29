@@ -8,9 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class PowerUp extends InteractableActor
 {  
-    private int value =1;
+    private int value = 1;
     private PowerUpType powerUpType = PowerUpType.Speed;
-    private GreenfootImage image = new GreenfootImage("/SpriteSheetImages/Powerups/SpeedUp.png");  
+   
 
     /**
      * Act - do whatever the PowerUp wants to do. This method is called whenever
@@ -26,12 +26,16 @@ public class PowerUp extends InteractableActor
         return powerUpType;
     }
     
-    public void setValue( int neueValue)
+    public void setValue(int newValue)
     {
-        value = neueValue;
+        value = newValue;
 
         decideImage();
 
+    }
+    public int getValue()
+    {
+        return value;
     }
     public void setPowerUp(PowerUpType newPowerUp)
     {
@@ -39,10 +43,6 @@ public class PowerUp extends InteractableActor
         decideImage();
     }
     
-    public int getValue()
-    {
-        return value;
-    }
     
     
     public void decideImage()
@@ -52,7 +52,7 @@ public class PowerUp extends InteractableActor
             case Speed:
             {
 
-                if (value >=1)
+                if (value >= 0)
                 { 
                     setImage("/SpriteSheetImages/Powerups/SpeedUp.png");
                 }
@@ -65,7 +65,7 @@ public class PowerUp extends InteractableActor
             break;
             case Strength:
             { 
-                if (value >=1)
+                if (value >= 0)
                 { 
                     setImage("/SpriteSheetImages/Powerups/LengthUp.png");
                 }
@@ -77,7 +77,7 @@ public class PowerUp extends InteractableActor
             break;
             case Death:
             { 
-                if (value >=1)
+                if (value >= 0)
                 { 
                     setImage("/SpriteSheetImages/Powerups/Death.png");
                 }
@@ -90,7 +90,7 @@ public class PowerUp extends InteractableActor
             break;
             case Ammount:
             {
-                if (value >=1)
+                if (value >= 0)
                 { 
                     setImage("/SpriteSheetImages/Powerups/BombsUp.png");
                 }

@@ -53,7 +53,10 @@ public class BomberWorld extends World
         drawGrid();
         repaint();
     }
-
+    public int getGridSize()
+    {
+        return gridSize;
+    }
     /**
      * Method getStyleSheet
      *

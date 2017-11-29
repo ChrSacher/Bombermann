@@ -10,7 +10,7 @@ public class Bomberman extends InteractableActor
 {
     private PlayerColor playerColor = PlayerColor.White;
     private int maxNumOfBombs = 2;
-    private double movementSpeed = 1;
+    private int movementSpeed = 1;
     private int lifes = 3;
     private Bomb templateBomb = new Bomb();
     private boolean isDead = false;
@@ -65,7 +65,7 @@ public class Bomberman extends InteractableActor
     /**
      * @return the movementSpeed
      */
-    public double getMovementSpeed() 
+    public int getMovementSpeed() 
     {
         return movementSpeed;
     }
@@ -73,10 +73,10 @@ public class Bomberman extends InteractableActor
     /**
      * @param movementSpeed the movementSpeed to set
      */
-    public void setMovementSpeed(double movementSpeed) 
+    public void setMovementSpeed(int movementSpeed) 
     {
-        if(movementSpeed < 0.5) movementSpeed = 0.5;
-        if(movementSpeed > 4) movementSpeed = 4;
+        if(movementSpeed <= 1) movementSpeed = 1;
+        if(movementSpeed >= 4) movementSpeed = 4;
         this.movementSpeed = movementSpeed;
     }
 
@@ -203,16 +203,25 @@ public class Bomberman extends InteractableActor
         BomberWorld w = (BomberWorld)getWorld();
         setImage(w.getStyleSheet().getBombermanImage(playerColor,dir));
     }
-
-    /**
-     * Method canMove
-     *
-     * @param newDirection A parameter
-     * @return The return value
-     */
-    protected boolean canMove(MovementDirection newDirection)
+    protected boolean canMoveAtPos(MovementDirection direction,int x,int y)
     {
-
+        int currentX = getX();
+        int currentY = getY();
+        
+        setLocation(x,y);
+        if(canMove(direction))
+        {
+            setLocation(currentX,currentY);
+            return true;
+        }
+        else
+        {
+            setLocation(currentX,currentY);
+            return false;
+        }
+    }
+    protected int maxMoveDistance(MovementDirection newDirection)
+    {
         for(int i = 1; i <= movementSpeed;i++)
         {
 
@@ -222,45 +231,106 @@ public class Bomberman extends InteractableActor
                 case Up:
                 {
                     setLocation(getX(),getY() - i);
-                    blocking = getIntersectingObjects(Obstacle.class);
+                    blocking.addAll(getIntersectingObjects(Obstacle.class));
                     setLocation(getX(),getY() + i );
 
                 }break;
                 case Down:
                 {
                     setLocation(getX(),getY() + i);
-                    blocking = getIntersectingObjects(Obstacle.class);
+                    blocking.addAll(getIntersectingObjects(Obstacle.class));
                     setLocation(getX(),getY() - i);
                 }break;
                 case Left:
                 {
                     setLocation(getX() - i,getY() );
-                    blocking = getIntersectingObjects(Obstacle.class);
+                    blocking.addAll(getIntersectingObjects(Obstacle.class));
                     setLocation(getX() + i,getY() );
                 }break;
                 case Right:
                 {
                     setLocation(getX() + i,getY() );
-                    blocking = getIntersectingObjects(Obstacle.class);
+                    blocking.addAll(getIntersectingObjects(Obstacle.class));
                     setLocation(getX() - i,getY() );
                 }break;
 
             }
             if(blocking.size() != 0) 
             {               
-                return false;
+                return i;
             }
         }
-
-        return true;
+        return -1;
     }
-    
+    /**
+     * Method canMove
+     *
+     * @param newDirection A parameter
+     * @return The return value
+     */
+    protected boolean canMove(MovementDirection newDirection)
+    {
+        return maxMoveDistance(newDirection) > 0;
+    }
+    protected void decideMove(MovementDirection newDirection)
+    {
+        switch(newDirection)
+        {
+            case Up:
+            {
+                //Überprüfe ob wir hoch können
+                if(canMove(newDirection))
+                {
+                    move(newDirection);
+                    return;
+                }
+                //überprüfe ob wir perfekt in unseren grid hoch können
+                if(canMoveAtPos(newDirection,getGridXPosAsPixel(),getGridYPosAsPixel()))
+                {
+                    int deltaX = getGridXPosAsPixel() - getX();
+                    int remainingMovement =  movementSpeed - deltaX;
+                    if(remainingMovement <= 0)
+                    {
+                         move(newDirection);
+                    }
+                }
+                //Überprüfe ob wir links oder rechts hoch können
+                if(getX() % bomberWorld.getGridSize() < bomberWorld.getGridSize() / 2)
+                {
+                    //nach links
+                    
+                }
+                else
+                {
+                    //nach rechts
+                }
+               
+            }break;
+            case Down:
+            {
+                
+            }break;
+            case Left:
+            {
+                
+            }break;
+            case Right:
+            {
+                
+            }break;
+
+        }
+    }
+    protected void move(MovementDirection newDirection)
+    {
+        move (newDirection,maxMoveDistance(newDirection));
+    }
     /**
      * Method move  Da unsere Kollision pixel genau ist muss man perfekt den Spalt treffen um Richtungen zu wechseln. Da dies sehr umständlich ist , gibt es eine kluge Bewegungshilfe.
      *
      * @param newDirection In welche Richtung soll gelaufen werden.
      */
-    protected void move(MovementDirection newDirection)
+    protected void move(MovementDirection newDirection,int distance)
     {
         if(canMove(newDirection) == false) return;
         if(currentDirection != newDirection)
@@ -272,19 +342,21 @@ public class Bomberman extends InteractableActor
         {
             case Up:
             {
-                setLocation(getX(),getY() - (int)Math.round(movementSpeed));
+               
+                
+                setLocation(getX(),getY() - distance);
             }break;
             case Down:
             {
-                setLocation(getX(),getY() + (int)Math.round(movementSpeed));
+                setLocation(getX(),getY() + distance);
             }break;
             case Left:
             {
-                setLocation(getX()- (int)Math.round(movementSpeed),getY() );
+                setLocation(getX()- distance ,getY());
             }break;
             case Right:
             {
-                setLocation(getX() + (int)Math.round(movementSpeed),getY() );
+                setLocation(getX() + distance,getY() );
             }break;
 
         }

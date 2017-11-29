@@ -37,6 +37,18 @@ public class BombermanStyleSheet
      */
     private GreenfootImage explosionImages[] = new GreenfootImage[9];
 
+    public GreenfootImage getPowerupImage(PowerUpType type,int value)
+    {
+        if(value >= 0)
+        {
+            return powerUpImages[type.ordinal()];
+        }
+        else
+        {
+            return powerUpImages[type.ordinal() +1];
+        }
+        
+    }
     public GreenfootImage getWallImage()
     {
         return wallImage;
