@@ -19,8 +19,6 @@ public class Bomberman extends InteractableActor
     private int numBombThrown = 0;
     private int numKills = 0;
 
-    private BomberWorld bomberWorld = null;
-
     private MovementDirection currentDirection = MovementDirection.Down;
 
     Bomberman()
@@ -186,12 +184,6 @@ public class Bomberman extends InteractableActor
         // Add your action code here.
     }  
 
-    public void addedToWorld(World world)
-    {
-        super.addedToWorld(world);
-        setDirectionImage(currentDirection);
-    }
-
     void onDeath()
     {
 
@@ -203,11 +195,12 @@ public class Bomberman extends InteractableActor
         BomberWorld w = (BomberWorld)getWorld();
         setImage(w.getStyleSheet().getBombermanImage(playerColor,dir));
     }
+
     protected boolean canMoveAtPos(MovementDirection direction,int x,int y)
     {
         int currentX = getX();
         int currentY = getY();
-        
+
         setLocation(x,y);
         if(canMove(direction))
         {
@@ -220,6 +213,7 @@ public class Bomberman extends InteractableActor
             return false;
         }
     }
+
     protected int maxMoveDistance(MovementDirection newDirection)
     {
         for(int i = 1; i <= movementSpeed;i++)
@@ -257,11 +251,12 @@ public class Bomberman extends InteractableActor
             }
             if(blocking.size() != 0) 
             {               
-                return i;
+                return i -1;
             }
         }
-        return -1;
+        return movementSpeed;
     }
+
     /**
      * Method canMove
      *
@@ -272,59 +267,210 @@ public class Bomberman extends InteractableActor
     {
         return maxMoveDistance(newDirection) > 0;
     }
+
+    
+
+    protected void decideMoveY(MovementDirection dir)
+    {
+        //Überprüfe ob wir hoch können
+        if(canMove(dir) == true)
+        {
+            System.out.println("moving up perfectly");
+            move(dir);
+            return;
+        }
+        //überprüfe ob wir perfekt in unseren grid hoch können
+
+        if(canMoveAtPos(dir,getGridXPosAsPixel(),getGridYPosAsPixel()))
+        {
+            int deltaX = getGridXPosAsPixel() - getX();
+            int remainingMovement =  movementSpeed - Math.abs(deltaX);
+            if(remainingMovement <= 0)
+            {
+                System.out.println("moving right fully");
+                if(deltaX > 0)
+                {
+                    move(MovementDirection.Right,movementSpeed);
+                }
+                else
+                {
+                    move(MovementDirection.Left,movementSpeed);
+                }
+
+                return;
+            }
+            else
+            {
+               
+                move(MovementDirection.Right,deltaX);
+                move(dir,remainingMovement);
+                return;
+            }
+        }
+        //Überprüfe ob wir links oder rechts hoch können
+        if(getX() % bomberWorld.getGridSize() < bomberWorld.getGridSize() / 2)
+        {
+            //nach links
+            if(canMoveAtPos(dir,bomberWorld.convertGridToPos(gridXPos - 1),getGridYPosAsPixel()))
+            {
+                int deltaX = bomberWorld.convertGridToPos(gridXPos - 1) - getX();
+                int remainingMovement =  movementSpeed - Math.abs(deltaX);
+                if(remainingMovement <= 0)
+                {
+                    
+                    move(MovementDirection.Left,movementSpeed);
+                    return;
+                }
+                else
+                {
+                    
+                    move(MovementDirection.Left,-deltaX);
+                    move(dir,remainingMovement);
+                    return;
+                }
+            }
+        }
+        else
+        {
+            if(canMoveAtPos(dir,bomberWorld.convertGridToPos(gridXPos + 1),getGridYPosAsPixel()))
+            {
+                int deltaX = bomberWorld.convertGridToPos(gridXPos + 1) - getX();
+                int remainingMovement =  movementSpeed - deltaX;
+                if(remainingMovement <= 0)
+                {
+                    
+                    move(MovementDirection.Right,movementSpeed);
+                    return;
+                }
+                else
+                {
+                   
+                    move(MovementDirection.Right,deltaX);
+                    move(dir,remainingMovement);
+                    return;
+                }
+            }
+        }
+    }
+
+    protected void decideMoveX(MovementDirection dir)
+    {
+        if(canMove(dir) == true)
+        {
+            System.out.println("Moving Left");
+            move(dir);
+            return;
+        }
+        //überprüfe ob wir perfekt in unseren grid hoch können
+
+        if(canMoveAtPos(dir,getGridXPosAsPixel(),getGridYPosAsPixel()))
+        {
+            int deltaY = getGridYPosAsPixel() - getY();
+            int remainingMovement =  movementSpeed - Math.abs(deltaY);
+            if(remainingMovement <= 0)
+            {
+
+                if(deltaY >= 0)
+                {
+                    
+                    move(MovementDirection.Down,movementSpeed);
+                }
+                else
+                {
+                    
+                    move(MovementDirection.Up,movementSpeed);
+                }
+
+                return;
+            }
+            else
+            {
+                
+                move(MovementDirection.Down,deltaY);
+                
+                move(dir,remainingMovement);
+                return;
+            }
+        }
+        //Überprüfe ob wir links oder rechts hoch können
+        if(getY() % bomberWorld.getGridSize() < bomberWorld.getGridSize() / 2)
+        {
+            //nach links
+            if(canMoveAtPos(dir,getGridXPosAsPixel(),bomberWorld.convertGridToPos(gridYPos - 1) ))
+            {
+                int deltaY = bomberWorld.convertGridToPos(gridYPos - 1) - getY();
+                int remainingMovement =  movementSpeed - Math.abs(deltaY);
+                if(remainingMovement <= 0)
+                {
+                    
+                    move(MovementDirection.Up,movementSpeed);
+                    return;
+                }
+                else
+                {
+                    
+                    move(dir,-deltaY);
+                    move(MovementDirection.Up,remainingMovement);
+                    return;
+                }
+            }
+        }
+        else
+        {
+            if(canMoveAtPos(dir,getGridXPosAsPixel(),bomberWorld.convertGridToPos(gridYPos + 1)))
+            {
+                int deltaX = bomberWorld.convertGridToPos(gridXPos + 1) - getX();
+                int remainingMovement =  movementSpeed - deltaX;
+                if(remainingMovement <= 0)
+                {
+                    
+                    move(MovementDirection.Down,movementSpeed);
+                    return;
+                }
+                else
+                {
+                   
+                    move(MovementDirection.Down,deltaX);
+                    move(dir,remainingMovement);
+                    return;
+                }
+            }
+        }
+    }
+    
+    
+
     protected void decideMove(MovementDirection newDirection)
     {
         switch(newDirection)
         {
             case Up:
             {
-                //Überprüfe ob wir hoch können
-                if(canMove(newDirection))
-                {
-                    move(newDirection);
-                    return;
-                }
-                //überprüfe ob wir perfekt in unseren grid hoch können
-                if(canMoveAtPos(newDirection,getGridXPosAsPixel(),getGridYPosAsPixel()))
-                {
-                    int deltaX = getGridXPosAsPixel() - getX();
-                    int remainingMovement =  movementSpeed - deltaX;
-                    if(remainingMovement <= 0)
-                    {
-                         move(newDirection);
-                    }
-                }
-                //Überprüfe ob wir links oder rechts hoch können
-                if(getX() % bomberWorld.getGridSize() < bomberWorld.getGridSize() / 2)
-                {
-                    //nach links
-                    
-                }
-                else
-                {
-                    //nach rechts
-                }
-               
+
+                decideMoveY(newDirection);
             }break;
             case Down:
             {
-                
+                 decideMoveY(newDirection);
             }break;
             case Left:
             {
-                
+                decideMoveX(newDirection);
+
             }break;
             case Right:
             {
-                
+               decideMoveX(newDirection);
             }break;
 
         }
     }
+
     protected void move(MovementDirection newDirection)
     {
         move (newDirection,maxMoveDistance(newDirection));
     }
+
     /**
      * Method move  Da unsere Kollision pixel genau ist muss man perfekt den Spalt treffen um Richtungen zu wechseln. Da dies sehr umständlich ist , gibt es eine kluge Bewegungshilfe.
      *
@@ -342,8 +488,7 @@ public class Bomberman extends InteractableActor
         {
             case Up:
             {
-               
-                
+
                 setLocation(getX(),getY() - distance);
             }break;
             case Down:
@@ -367,10 +512,14 @@ public class Bomberman extends InteractableActor
 
     }
 
+    /**
+     * Method dropBomb
+     *
+     */
     void dropBomb()
     {
         Bomb newBomb = new Bomb(templateBomb);
-        newBomb.setLocation(bomberWorld.convertGridToPos(gridXPos),bomberWorld.convertGridToPos(gridYPos));
+        bomberWorld.addObject(newBomb,bomberWorld.convertGridToPos(gridXPos),bomberWorld.convertGridToPos(gridYPos));
     }
 
     void findPowerUp()
@@ -399,5 +548,10 @@ public class Bomberman extends InteractableActor
                 }break;
             }
         }
+    }
+
+    protected void loadImage()
+    {
+        setDirectionImage(currentDirection);
     }
 }

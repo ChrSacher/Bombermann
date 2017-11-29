@@ -37,6 +37,7 @@ public class PlayerBomberman extends Bomberman
 
     private void handleKeys()
     {
+        System.out.println(Greenfoot.getKey());
         if(Greenfoot.isKeyDown(keySet[InputKeys.Up.ordinal()]))
         {
             decideMove(MovementDirection.Up);

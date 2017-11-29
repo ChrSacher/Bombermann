@@ -213,7 +213,7 @@ public class BomberWorld extends World
      */
     public  void playerTestSceneario()
     {
-        generateWorld(30,15,15,50);
-        addPlayer(new PlayerBomberman(),1,1);
+        generateWorld(50,15,15,50);
+        addPlayer(new PlayerBomberman(),7,6);
     }
 }

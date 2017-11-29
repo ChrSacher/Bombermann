@@ -10,13 +10,13 @@ public class GridActor extends Actor
 {
     //Referenz auf unsere eigene Welt für schnellern Zugriff
     protected BomberWorld bomberWorld = null;
-    
+
     //Variable die steuert ob eine Actor nur auf dem Grid bewegt werden kann.
     protected boolean forceGridLocation = true;
 
     //Position auf dem Grid in XRichtung
     protected int gridXPos = -1;
-    
+
     //Position auf dem Grid in YRichtung
     protected int gridYPos = -1;
 
@@ -29,14 +29,14 @@ public class GridActor extends Actor
         else gridYPos = -1;
         return gridXPos;
     }
-    
+
     public int getGridXPosAsPixel() 
     {
         if(bomberWorld != null) return bomberWorld.convertGridToPos(getGridXPos());
-     
+
         return -1;
     }
-    
+
     /**
      * @param gridXPos the gridXPos to set
      */
@@ -55,14 +55,13 @@ public class GridActor extends Actor
         return gridYPos;
     }
 
-    
     public int getGridYPosAsPixel() 
     {
         if(bomberWorld != null) return bomberWorld.convertGridToPos(getGridYPos());
-     
+
         return -1;
     }
-    
+
     /**
      * @param gridYPos the gridYPos to set
      */
@@ -80,21 +79,40 @@ public class GridActor extends Actor
 
     public void setLocation(int locX ,int locY)
     {
-        if(bomberWorld != null && forceGridLocation)
+        try
         {
-            gridXPos = bomberWorld.convertPosToGrid(locX);
-            gridYPos = bomberWorld.convertPosToGrid(locY);
-            super.setLocation(bomberWorld.roundToGrid(locX),bomberWorld.roundToGrid(locY));
-        } 
-        else
+
+            if(bomberWorld != null && forceGridLocation)
+            {
+
+                gridXPos = bomberWorld.convertPosToGrid(locX);
+                gridYPos = bomberWorld.convertPosToGrid(locY);
+                super.setLocation(bomberWorld.roundToGrid(locX),bomberWorld.roundToGrid(locY));
+
+            } 
+            else
+            {
+                if(bomberWorld != null)
+                {
+                    gridXPos = bomberWorld.convertPosToGrid(locX);
+                    gridYPos = bomberWorld.convertPosToGrid(locY);
+                }
+                else
+                {
+                    gridXPos = -1;
+                    gridYPos = -1;
+                }
+
+                super.setLocation(locX,locY);
+            } }
+        catch(Exception e)
         {
-            gridXPos = -1;
-            gridYPos = -1;
-            super.setLocation(locX,locY);
+            e.printStackTrace();
         }
     }
+
     protected void loadImage()
     {
-        
+
     }
 }
