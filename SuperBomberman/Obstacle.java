@@ -12,14 +12,39 @@ public class Obstacle extends InteractableActor
     {
        
     }
+    public Obstacle( boolean obstacle)
+    {
+        isDestructable =  obstacle ;
+       
+    }
     
     protected void OnReceiveExplosion()
     {
         if( isDestructable== true)
         {
+            PowerUp powerUp = new PowerUp ();
+            bomberWorld.addObject(powerUp, getX(), getY());
+            powerUp.setPowerUp(PowerUpType.values()[Greenfoot.getRandomNumber(PowerUpType.values().length)]);
+            
+           int zufallzahl = Greenfoot.getRandomNumber(100);
+           if ( zufallzahl<= 50)
+           {
+            powerUp.setValue(1);
+            
+            }
+            else {
+            powerUp.setValue(-1);
+        }
             getWorld().removeObject(this);
             
         }
+       
+        
+    }
+   
+    public boolean getIsDestructable()
+    { 
+     return isDestructable;
     }
     
     /**
