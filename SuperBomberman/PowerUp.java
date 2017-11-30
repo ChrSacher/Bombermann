@@ -9,9 +9,19 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class PowerUp extends InteractableActor
 {  
     private int value = 1;
+    
     private PowerUpType powerUpType = PowerUpType.Speed;
    
-
+    public PowerUp()
+    {
+        
+    }
+    
+    public PowerUp(int value,PowerUpType powerUpType)
+    {
+        this.value = value;
+        this.powerUpType = powerUpType;
+    }
     /**
      * Act - do whatever the PowerUp wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -44,7 +54,10 @@ public class PowerUp extends InteractableActor
     }
     
     
-    
+    protected void loadImage()
+    {
+        decideImage();
+    }
     public void decideImage()
     {
         GreenfootImage image = bomberWorld.getStyleSheet().getPowerupImage(powerUpType, value);

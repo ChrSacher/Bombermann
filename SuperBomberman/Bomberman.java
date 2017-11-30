@@ -9,23 +9,64 @@ import java.util.*;
 public class Bomberman extends InteractableActor
 {
     private PlayerColor playerColor = PlayerColor.White;
-    private int maxNumOfBombs = 2;
-    private int movementSpeed = 1;
+    
+    private int maxNumOfBombs = 3;
+    
+    private int movementSpeed = 2;
+    
     private int lifes = 3;
+    
     private Bomb templateBomb = new Bomb();
+    
     private boolean isDead = false;
 
+    List<Bomb> thrownBombsList = new ArrayList<Bomb>();
     //for statistics
     private int numBombThrown = 0;
+    
     private int numKills = 0;
 
     private MovementDirection currentDirection = MovementDirection.Down;
-
+    
+    private int invulnerabilityTime = 150;
+    
+    private boolean isInvulnerable = false;
+ 
+    
+    private int invulnerabilityTimeCounter = 0;
     Bomberman()
     {
         forceGridLocation = false;
+        templateBomb.setBesitzer(this);
     }
-
+    
+    /**
+     * Bomberman Constructor
+     *
+     * @param newPlayerColor A parameter
+     * @param newMaxNumOfBombs A parameter
+     * @param newMovementSpeed A parameter
+     * @param newLifes A parameter
+     */
+    Bomberman(PlayerColor newPlayerColor,int newMaxNumOfBombs, int newMovementSpeed,int newLifes)
+    {
+        forceGridLocation = false;
+        playerColor = newPlayerColor;
+        newMaxNumOfBombs = newMaxNumOfBombs;
+        templateBomb.setBesitzer(this);
+        movementSpeed = newMovementSpeed;
+        lifes = newLifes;
+    }
+    
+    public void addThrownBomb(Bomb newBomb)
+    {
+        thrownBombsList.add(newBomb);
+    }
+    
+    public void removeThrownBomb(Bomb removeBomb)
+    {
+        thrownBombsList.remove(removeBomb);
+    }
     /**
      * @return the maxNumOfBombs
      */
@@ -49,6 +90,7 @@ public class Bomberman extends InteractableActor
      */
     public int getMaxNumOfBombs() 
     {
+      
         return maxNumOfBombs;
     }
 
@@ -57,6 +99,7 @@ public class Bomberman extends InteractableActor
      */
     public void setMaxNumOfBombs(int maxNumOfBombs) 
     {
+          if(maxNumOfBombs <= 1) maxNumOfBombs = 1; 
         this.maxNumOfBombs = maxNumOfBombs;
     }
 
@@ -73,8 +116,8 @@ public class Bomberman extends InteractableActor
      */
     public void setMovementSpeed(int movementSpeed) 
     {
-        if(movementSpeed <= 1) movementSpeed = 1;
-        if(movementSpeed >= 4) movementSpeed = 4;
+        if(movementSpeed <= 2) movementSpeed = 2;
+        if(movementSpeed >= 5) movementSpeed = 5;
         this.movementSpeed = movementSpeed;
     }
 
@@ -92,6 +135,10 @@ public class Bomberman extends InteractableActor
     public void setLifes(int lifes) 
     {
         this.lifes = lifes;
+        if(lifes <= 0)
+        {
+            OnDeath();
+        }
     }
 
     /**
@@ -181,10 +228,30 @@ public class Bomberman extends InteractableActor
      */
     public void act() 
     {
-        // Add your action code here.
+        findPowerUp();
+        if(isInvulnerable)
+        {
+            invulnerabilityTimeCounter--;
+            if(invulnerabilityTimeCounter <= 0)
+            {
+                OnEndInvulnerability();
+            }
+        }
     }  
-
-    void onDeath()
+    protected void OnStartInvulnerability()
+    {
+        invulnerabilityTimeCounter = invulnerabilityTime;
+        isInvulnerable = true;
+        setDirectionImage(currentDirection);
+    }
+    
+    protected void OnEndInvulnerability()
+    {
+        isInvulnerable = false;
+        setDirectionImage(currentDirection);
+    }
+    
+    protected void onDeath()
     {
 
     }
@@ -193,7 +260,15 @@ public class Bomberman extends InteractableActor
     {
 
         BomberWorld w = (BomberWorld)getWorld();
-        setImage(w.getStyleSheet().getBombermanImage(playerColor,dir));
+        if(isInvulnerable == true)
+        {
+            setImage(w.getStyleSheet().getBombermanInvulnerableImage(playerColor,dir));
+        }
+        else
+        {
+            setImage(w.getStyleSheet().getBombermanImage(playerColor,dir));
+        }
+        
     }
 
     protected boolean canMoveAtPos(MovementDirection direction,int x,int y)
@@ -213,7 +288,7 @@ public class Bomberman extends InteractableActor
             return false;
         }
     }
-
+    
     protected int maxMoveDistance(MovementDirection newDirection)
     {
         for(int i = 1; i <= movementSpeed;i++)
@@ -275,7 +350,7 @@ public class Bomberman extends InteractableActor
         //Überprüfe ob wir hoch können
         if(canMove(dir) == true)
         {
-            System.out.println("moving up perfectly");
+            
             move(dir);
             return;
         }
@@ -287,7 +362,7 @@ public class Bomberman extends InteractableActor
             int remainingMovement =  movementSpeed - Math.abs(deltaX);
             if(remainingMovement <= 0)
             {
-                System.out.println("moving right fully");
+               
                 if(deltaX > 0)
                 {
                     move(MovementDirection.Right,movementSpeed);
@@ -357,7 +432,7 @@ public class Bomberman extends InteractableActor
     {
         if(canMove(dir) == true)
         {
-            System.out.println("Moving Left");
+            
             move(dir);
             return;
         }
@@ -509,7 +584,12 @@ public class Bomberman extends InteractableActor
 
     protected void OnReceiveExplosion()
     {
-
+        if(isInvulnerable == false)
+        {
+             setLifes(getLifes() - 1 );
+             OnStartInvulnerability();
+        }
+        
     }
 
     /**
@@ -518,10 +598,21 @@ public class Bomberman extends InteractableActor
      */
     void dropBomb()
     {
-        Bomb newBomb = new Bomb(templateBomb);
-        bomberWorld.addObject(newBomb,bomberWorld.convertGridToPos(gridXPos),bomberWorld.convertGridToPos(gridYPos));
+        
+        if(getMaxNumOfBombs() > thrownBombsList.size())
+        {
+            Bomb newBomb = new Bomb(templateBomb);
+            
+            bomberWorld.addObject(newBomb,bomberWorld.convertGridToPos(gridXPos),bomberWorld.convertGridToPos(gridYPos));         
+            addThrownBomb(newBomb);
+        }
+        
     }
 
+    /**
+     * Method findPowerUp
+     *
+     */
     void findPowerUp()
     {
         List<PowerUp> foundPowerUpsList = getIntersectingObjects(PowerUp.class);
@@ -535,7 +626,7 @@ public class Bomberman extends InteractableActor
                 }break;
                 case Death:
                 {
-                    setLifes(getLifes()+ foundPowerUp.getValue());
+                    setLifes(getLifes() + foundPowerUp.getValue());
                 }break;
 
                 case Ammount:
@@ -547,11 +638,17 @@ public class Bomberman extends InteractableActor
                     templateBomb.setExplosionGridLength(templateBomb.getExplosionGridLength() + foundPowerUp.getValue());
                 }break;
             }
+            bomberWorld.removeObject(foundPowerUp);
         }
     }
 
     protected void loadImage()
     {
         setDirectionImage(currentDirection);
+    }
+    
+    public void OnDeath()
+    {
+        
     }
 }

@@ -16,7 +16,12 @@ public class BombermanStyleSheet
      * The type is by the same order as the MovementDirection Enum
      */
     private GreenfootImage bombermanImageFiles[][] = new GreenfootImage[4][4];
-
+    /*
+     * First index is the player Number and the second index is the the Type of Image
+     * The type is by the same order as the MovementDirection Enum
+     */
+    private GreenfootImage bombermanInvulnerableImageFiles[][] = new GreenfootImage[4][4];
+    
     private GreenfootImage wallImage = new GreenfootImage("/SpriteSheetImages/FloorTiles/Wall.png");
 
     private GreenfootImage obstacleImage = new GreenfootImage("/SpriteSheetImages/FloorTiles/Obstacle.png");
@@ -41,11 +46,11 @@ public class BombermanStyleSheet
     {
         if(value >= 0)
         {
-            return powerUpImages[type.ordinal()];
+            return powerUpImages[type.ordinal() * 2];
         }
         else
         {
-            return powerUpImages[type.ordinal() +1];
+            return powerUpImages[type.ordinal() * 2 +1];
         }
         
     }
@@ -78,6 +83,10 @@ public class BombermanStyleSheet
     {
         return bombermanImageFiles[color.ordinal()][direction.ordinal()];
     }
+     public GreenfootImage getBombermanInvulnerableImage(PlayerColor color,MovementDirection direction)
+    {
+        return bombermanInvulnerableImageFiles[color.ordinal()][direction.ordinal()];
+    }
 
     public GreenfootImage getExplosionCenterImage()
     {
@@ -86,12 +95,12 @@ public class BombermanStyleSheet
 
     public GreenfootImage getExplosionEndImage(MovementDirection direction)
     {
-        return explosionImages[direction.ordinal() * 2 +1];
+        return explosionImages[direction.ordinal() * 2 + 2];
     }
 
-    public GreenfootImage getExplosionCenterImage(MovementDirection direction)
+    public GreenfootImage getExplosionPieceImage(MovementDirection direction)
     {
-        return explosionImages[direction.ordinal() * 2];
+        return explosionImages[direction.ordinal() * 2 + 1];
     }
 
     /**
@@ -130,6 +139,17 @@ public class BombermanStyleSheet
         bombermanImageFiles[PlayerColor.Blue.ordinal()][MovementDirection.Left.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlue_Left.png");
         bombermanImageFiles[PlayerColor.Blue.ordinal()][MovementDirection.Right.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlue_Right.png");
 
+         for(int i = 0; i < bombermanImageFiles.length;i++)
+        {
+             for(int j = 0; j < bombermanImageFiles.length;j++)
+            {
+                GreenfootImage image = new GreenfootImage(bombermanImageFiles[i][j]);
+                image.setTransparency(100);
+                bombermanInvulnerableImageFiles[i][j] = image;
+            }
+        }
+       
+        
         String piecePath = "/SpriteSheetImages/Explosion/Piece.png";
         String endPath =  "/SpriteSheetImages/Explosion/End.png";
 
@@ -151,9 +171,9 @@ public class BombermanStyleSheet
         explosionImages[MovementDirection.Left.ordinal() * 2 + 2].rotate(180);
 
         explosionImages[MovementDirection.Right.ordinal() * 2 + 1] = new GreenfootImage(piecePath);
-        explosionImages[MovementDirection.Right.ordinal() * 2 + 1].rotate(-90);
+        //explosionImages[MovementDirection.Right.ordinal() * 2 + 1].rotate(-90);
         explosionImages[MovementDirection.Right.ordinal() * 2 + 2] = new GreenfootImage(endPath);
-        explosionImages[MovementDirection.Right.ordinal() * 2 + 2].rotate(-90);
+        //explosionImages[MovementDirection.Right.ordinal() * 2 + 2].rotate(-90);
 
         powerUpImages[PowerUpType.Speed.ordinal() * 2] = new GreenfootImage("/SpriteSheetImages/Powerups/SpeedUp.png");
         powerUpImages[PowerUpType.Speed.ordinal() * 2 + 1] = new GreenfootImage("/SpriteSheetImages/Powerups/SpeedDown.png");   
@@ -176,6 +196,15 @@ public class BombermanStyleSheet
             for(GreenfootImage image : i)
             {
                 image.scale(size,size);
+                
+            }
+        }
+        for(GreenfootImage[] i : bombermanInvulnerableImageFiles)
+        {
+            for(GreenfootImage image : i)
+            {
+                image.scale(size,size);
+                
             }
         }
 
@@ -188,6 +217,7 @@ public class BombermanStyleSheet
         edgeFloorTile.scale(size,size);
 
         bombImage.scale(size,size);
+        
         for(GreenfootImage powerImage : powerUpImages)
         {
             powerImage.scale(size,size);

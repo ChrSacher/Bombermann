@@ -10,43 +10,54 @@ public class Obstacle extends InteractableActor
 {
     public Obstacle()
     {
-       
+
     }
+
     public Obstacle( boolean obstacle)
     {
         isDestructable =  obstacle ;
-       
+
     }
-    
+
     protected void OnReceiveExplosion()
     {
         if( isDestructable== true)
         {
-            PowerUp powerUp = new PowerUp ();
-            bomberWorld.addObject(powerUp, getX(), getY());
-            powerUp.setPowerUp(PowerUpType.values()[Greenfoot.getRandomNumber(PowerUpType.values().length)]);
-            
-           int zufallzahl = Greenfoot.getRandomNumber(100);
-           if ( zufallzahl<= 50)
-           {
-            powerUp.setValue(1);
-            
+
+            int zufallzahl = Greenfoot.getRandomNumber(100);
+            if ( zufallzahl<= 25)
+            {
+                PowerUp powerUp = new PowerUp ();
+                bomberWorld.addObject(powerUp, getX(), getY());
+                powerUp.setPowerUp(PowerUpType.values()[Greenfoot.getRandomNumber(PowerUpType.values().length)]);
+                powerUp.setValue(1);
+
             }
-            else {
-            powerUp.setValue(-1);
-        }
+            else 
+            {
+                if(zufallzahl > 30 && zufallzahl <= 85)
+                {
+                }
+                else
+                {
+                     PowerUp powerUp = new PowerUp ();
+                    bomberWorld.addObject(powerUp, getX(), getY());
+                    powerUp.setPowerUp(PowerUpType.values()[Greenfoot.getRandomNumber(PowerUpType.values().length)]);
+                    powerUp.setValue(-1);
+                }
+               
+
+            }
             getWorld().removeObject(this);
-            
+
         }
-       
-        
+
     }
-   
     public boolean getIsDestructable()
     { 
-     return isDestructable;
+        return isDestructable;
     }
-    
+
     /**
      * Act - do whatever the Obstacle wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -55,24 +66,25 @@ public class Obstacle extends InteractableActor
     {
         setWallImage();
     } 
-    
+
     public void addedToWorld(World world)
     {
         super.addedToWorld(world);
         setWallImage();
     }
-    
+
     public void setisDestructable(boolean newIsDestructable)
     {
         isDestructable = newIsDestructable;
         setWallImage();
     }
+
     public void setWallImage()
     { 
         if (isDestructable== true)
         { 
             setImage ( bomberWorld.getStyleSheet().getObstacleImage());
-        
+
         }
         else 
         {
@@ -80,5 +92,5 @@ public class Obstacle extends InteractableActor
         }
     }
     private boolean isDestructable= true;
-   
+
 }

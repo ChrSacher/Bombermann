@@ -1,11 +1,19 @@
 #BlueJ class context
 comment0.target=FloorTile
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ FloorTile\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Klasse\ f\u00FCr\ das\ Anzeigen\ eines\ Bodens.\ Da\ das\ Spielfeld\ eine\ variable\ Gr\u00F6\u00DFe\ kann\ der\ Boden\ nicht\ aus\ einem\ einzigen\ Bild\ bestehen.\ Diese\ Klasse\ repr\u00E4sentiert\ den\ Boden\ f\u00FCr\ genau\ 1\ Raster-Feld.\r\n\ \r\n\ @author\ Christian\ Sacher\r\n\ @version\ 30.11.17\r\n
 comment1.params=newIsEdge
 comment1.target=FloorTile(boolean)
-comment1.text=\r\n\ Method\ loadImage\r\n\r\n\ @param\ isEdge\ A\ parameter\r\n
-comment2.params=newIsEdge
-comment2.target=void\ loadImage(boolean)
-comment3.params=world
-comment3.target=void\ addedToWorld(greenfoot.World)
-numComments=4
+comment1.text=\r\n\ FloorTile\ Constructor\ \r\n\ Konstruktor\ f\u00FCr\ das\ schnelle\ setzen\ der\ Edge-variable.\r\n\r\n\ @param\ isEdge\ Ist\ das\ Feld\ am\ Rand\ des\ Spielfeldes\r\n
+comment2.params=
+comment2.target=FloorTile()
+comment2.text=\r\n\ FloorTile\ Constructor\r\n\r\n
+comment3.params=
+comment3.target=void\ loadImage()
+comment3.text=\r\n\ Method\ loadImage\ Setzt\ das\ Bild\ je\ nachdem\ wie\ isEdge\ gesetzt\ ist\r\n\r\n
+comment4.params=newIsEdge
+comment4.target=void\ setIsEdge(boolean)
+comment4.text=\r\n\ Method\ setIsEdge\ setzt\ Variable\ isEdge\ und\ aktualiesiert\ das\ Bild.\r\n\r\n\ @param\ newIsEdge\ neues\ isEdge\r\n
+comment5.params=
+comment5.target=boolean\ getIsEdge()
+comment5.text=\r\n\ Method\ getIsEdge\r\n\r\n\ @return\ Returns\ isEdge\r\n
+numComments=6

@@ -32,12 +32,14 @@ public class PlayerBomberman extends Bomberman
 
     public void act()
     {
+        super.act();
         handleKeys();
+        
     }
 
     private void handleKeys()
     {
-        System.out.println(Greenfoot.getKey());
+        
         if(Greenfoot.isKeyDown(keySet[InputKeys.Up.ordinal()]))
         {
             decideMove(MovementDirection.Up);
@@ -54,7 +56,7 @@ public class PlayerBomberman extends Bomberman
         {
             decideMove(MovementDirection.Right);
         }
-        else if(Greenfoot.isKeyDown(keySet[InputKeys.ThrowBomb.ordinal()]))
+        if(Greenfoot.getKey() == keySet[InputKeys.ThrowBomb.ordinal()])
         {
             dropBomb();
         }

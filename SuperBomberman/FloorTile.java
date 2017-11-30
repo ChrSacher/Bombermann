@@ -1,27 +1,44 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class FloorTile here.
+ * Klasse für das Anzeigen eines Bodens. Da das Spielfeld eine variable Größe kann der Boden nicht aus einem einzigen Bild bestehen. Diese Klasse repräsentiert den Boden für genau 1 Raster-Feld.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Christian Sacher
+ * @version 30.11.17
  */
 public class FloorTile extends GridActor
 {
+    /**
+     * Variable die wahr ist wenn das Feld am Rand ist, falsch wenn es nicht ist.
+     */
     private boolean isEdge = false;
     /**
-     * Method loadImage
+     * FloorTile Constructor 
+     * Konstruktor für das schnelle setzen der Edge-variable.
      *
-     * @param isEdge A parameter
+     * @param isEdge Ist das Feld am Rand des Spielfeldes
      */
     FloorTile(boolean newIsEdge)
     {
         isEdge = newIsEdge;
     }
-    
-    public void loadImage(boolean newIsEdge)
+
+    /**
+     * FloorTile Constructor
+     *
+     */
+    FloorTile()
     {
-        isEdge = newIsEdge;
+
+    }
+
+    /**
+     * Method loadImage Setzt das Bild je nachdem wie isEdge gesetzt ist
+     *
+     */
+    @Override
+    protected void loadImage()
+    {
         if(isEdge == true)
         {
             setImage(bomberWorld.getStyleSheet().getEdgeFloorTileImage());
@@ -31,11 +48,26 @@ public class FloorTile extends GridActor
             setImage(bomberWorld.getStyleSheet().getFloorTileImage());
         }
     }
-    
-    public void addedToWorld(World world)
+
+    /**
+     * Method setIsEdge setzt Variable isEdge und aktualiesiert das Bild.
+     *
+     * @param newIsEdge neues isEdge
+     */
+    public void setIsEdge(boolean newIsEdge)
     {
-        super.addedToWorld(world);
-        loadImage(isEdge);
+        isEdge = newIsEdge;
+        loadImage();
     }
-  
+
+    /**
+     * Method getIsEdge
+     *
+     * @return Returns isEdge
+     */
+    public boolean getIsEdge()
+    {
+        return isEdge;
+    }
+
 }

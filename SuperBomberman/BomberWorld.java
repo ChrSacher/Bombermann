@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.List;
+import java.util.ArrayList;
 /**
  * Write a description of class BomberWorld here.
  * 
@@ -11,6 +12,7 @@ public class BomberWorld extends World
     private int gridSize = 25;
     private int gridXNum = 10;
     private int gridYNum = 10;
+    private int safeZoneSize = 4;
     private BombermanStyleSheet styleSheet = new BombermanStyleSheet();
     /**
      * Constructor for objects of class BomberWorld.
@@ -22,6 +24,8 @@ public class BomberWorld extends World
         super(1000, 1000, 1); 
         styleSheet.loadImages();
         styleSheet.resizeImages(gridSize);
+        setPaintOrder();
+
     }
 
     /**
@@ -39,6 +43,12 @@ public class BomberWorld extends World
         styleSheet.loadImages();
         styleSheet.resizeImages(gridSize);
         generateWorld(gridSize,gridNumX,gridNumY,numObstacles);
+        setPaintOrder();
+    }
+
+    public void setPaintOrder()
+    {
+        setPaintOrder(Bomberman.class,Explosion.class,Bomb.class,PowerUp.class,Obstacle.class,FloorTile.class);
     }
 
     /**
@@ -53,10 +63,12 @@ public class BomberWorld extends World
         drawGrid();
         repaint();
     }
+
     public int getGridSize()
     {
         return gridSize;
     }
+
     /**
      * Method getStyleSheet
      *
@@ -120,26 +132,12 @@ public class BomberWorld extends World
     }
 
     /**
-     * Method generateNewWorld
-     *
-     * @param gridSize A parameter
-     * @param gridNumX A parameter
-     * @param gridNumY A parameter
-     * @param numObstacles A parameter
-     */
-    public void generateNewWorld(int gridSize,int gridNumX,int gridNumY,int numObstacles)
-    {
-        Greenfoot.setWorld(new BomberWorld(gridSize,gridNumX,gridNumY,numObstacles));
-    }
-
-    /**
      * Method generateWorld
      *
-     * @param gridSize A parameter
-     * @param gridNumX A parameter
-     * @param gridNumY A parameter
-     * @param numPlayers A parameter
-     * @param numObstacles A parameter
+     * @param gridSize Wie viele Pixel ein Feld groß ist
+     * @param gridNumX Wie viele Felder in X Richtung
+     * @param gridNumY Wie viele Felder in Y Richtung
+     * @param numObstacles Wie viele zerstörbare Hindernisse soll es geben
      */
     public void generateWorld(int gridSize,int gridNumX,int gridNumY,int numObstacles)
     {
@@ -167,7 +165,6 @@ public class BomberWorld extends World
             }
         }
 
-                
         
         for(int i = 0; i < gridNumX;i++)
         {
@@ -191,20 +188,73 @@ public class BomberWorld extends World
             lowerOuterWall.setisDestructable(false);
         }
 
+        boolean occupancyGrid[][] = new boolean[gridSize][gridSize];
+        List<InteractableActor> actorList = getObjects(InteractableActor.class);
+        for(InteractableActor actor:actorList)
+        {
+            
+                occupancyGrid[convertPosToGrid(actor.getX())][convertPosToGrid(actor.getY())] = true;     
+        }
+        int countObstacles = 0;
+        boolean wasAbleToPlace = true;
+        while(wasAbleToPlace == true && countObstacles < numObstacles)
+        {
+            wasAbleToPlace = false;
+            for(int i = safeZoneSize; i < gridNumX - safeZoneSize;i++)
+            {
+                for(int j = 0; j < gridNumY ;j++)
+                {
+                    int randomNumber = Greenfoot.getRandomNumber(100);
+                    if(occupancyGrid[i][j] == false && countObstacles < numObstacles)
+                    {
+
+                        wasAbleToPlace = true;
+                        if(randomNumber < 50)
+                        {
+
+                            Obstacle destroyableObstacle = new Obstacle(true);
+                            addObject(destroyableObstacle,convertGridToPos(i),convertGridToPos(j));
+                            occupancyGrid[convertPosToGrid(destroyableObstacle.getX())][convertPosToGrid(destroyableObstacle.getY())] = true;   
+                            countObstacles++;
+                        }
+                    }                     
+                }
+            }
+            for(int i = 0; i < gridNumX ;i++)
+            {
+                for(int j = safeZoneSize; j < gridNumY - safeZoneSize;j++)
+                {
+                    int randomNumber = Greenfoot.getRandomNumber(100);
+                    if(occupancyGrid[i][j] == false  && countObstacles < numObstacles)
+                    {
+
+                        wasAbleToPlace = true;
+                        if(randomNumber < 50)
+                        {
+
+                            Obstacle destroyableObstacle = new Obstacle(true);
+                            addObject(destroyableObstacle,convertGridToPos(i),convertGridToPos(j));
+                            occupancyGrid[convertPosToGrid(destroyableObstacle.getX())][convertPosToGrid(destroyableObstacle.getY())] = true;   
+                            countObstacles++;
+                        }
+                    }                     
+                }
+            }
+        }
+
+        
     }
 
     /**
      * Method addPlayer
      *
-     * @param newBomberman A parameter
-     * @param gridX A parameter
-     * @param gridY A parameter
+     * @param newBomberman A Bomberman Object to add
+     * @param gridX On Which Grid in X Direction to place the Bomberman
+     * @param gridY On Which Grid in Y Direction to place the Bomberman
      */
     public void addPlayer(PlayerBomberman newBomberman,int gridX,int gridY)
     {
-          addObject(newBomberman,gridSize * gridX + gridSize / 2,gridSize * gridY  + gridSize / 2);
-      
-       
+        addObject(newBomberman,gridSize * gridX + gridSize / 2,gridSize * gridY  + gridSize / 2); 
     }
 
     /**
@@ -213,7 +263,7 @@ public class BomberWorld extends World
      */
     public  void playerTestSceneario()
     {
-        generateWorld(50,15,15,50);
-        addPlayer(new PlayerBomberman(),7,6);
+        generateWorld(50,15,15,100);
+        addPlayer(new PlayerBomberman(),1,1);
     }
 }
