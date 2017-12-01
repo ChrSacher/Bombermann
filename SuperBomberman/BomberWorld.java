@@ -36,13 +36,13 @@ public class BomberWorld extends World
      * @param gridNumY A parameter
      * @param numObstacles A parameter
      */
-    public BomberWorld(int gridSize,int gridNumX,int gridNumY,int numObstacles)
+    public BomberWorld(int gridSize,int gridNumX,int gridNumY,int numObstacles,int numPlayers)
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(gridNumX * gridSize , gridNumY * gridSize, 1); 
         styleSheet.loadImages();
         styleSheet.resizeImages(gridSize);
-        generateWorld(gridSize,gridNumX,gridNumY,numObstacles);
+        generateWorld(gridSize,gridNumX,gridNumY,numObstacles,numPlayers);
         setPaintOrder();
     }
 
@@ -138,25 +138,27 @@ public class BomberWorld extends World
      * @param gridNumX Wie viele Felder in X Richtung
      * @param gridNumY Wie viele Felder in Y Richtung
      * @param numObstacles Wie viele zerstörbare Hindernisse soll es geben
+     * @param numPlayers Wie viele Spieler sollen generiert werden. Max 4
      */
-    public void generateWorld(int gridSize,int gridNumX,int gridNumY,int numObstacles)
+    public void generateWorld(int gridSize,int newGridNumX,int newGridNumY,int numObstacles,int numPlayers)
     {
         removeObjects(getObjects(null));
         setGridSize(gridSize);
         drawGrid();
-
-        for(int i = 0; i < gridNumX;i++)
+        gridXNum = newGridNumX;
+        gridYNum = newGridNumY;
+        for(int i = 0; i < gridYNum;i++)
         {
-            for(int j = 0; j < gridNumY;j++)
+            for(int j = 0; j < gridYNum;j++)
             {
                 FloorTile newFloor = new FloorTile(false);
                 addObject(newFloor,i * gridSize, j * gridSize);  
 
             }
         }
-        for(int i = 2; i < (gridNumX -2);i +=2)
+        for(int i = 2; i < (gridXNum -2);i +=2)
         {
-            for(int j = 2; j < (gridNumY - 2);j +=2)
+            for(int j = 2; j < (gridYNum - 2);j +=2)
             {
 
                 Obstacle upperOuterWall = new Obstacle();    
@@ -166,25 +168,25 @@ public class BomberWorld extends World
         }
 
         
-        for(int i = 0; i < gridNumX;i++)
+        for(int i = 0; i < gridXNum;i++)
         {
             Obstacle upperOuterWall = new Obstacle();    
             addObject(upperOuterWall,i * gridSize,0);
             upperOuterWall.setisDestructable(false);
 
             Obstacle lowerOuterWall = new Obstacle();
-            addObject(lowerOuterWall,i * gridSize,(gridNumY -1 ) * gridSize);
+            addObject(lowerOuterWall,i * gridSize,(gridYNum -1 ) * gridSize);
             lowerOuterWall.setisDestructable(false);
         }
 
-        for(int i = 1; i < gridNumY -1;i++)
+        for(int i = 1; i < gridYNum -1;i++)
         {
             Obstacle upperOuterWall = new Obstacle();    
             addObject(upperOuterWall,0,i * gridSize);
             upperOuterWall.setisDestructable(false);
 
             Obstacle lowerOuterWall = new Obstacle();
-            addObject(lowerOuterWall,(gridNumX -1 ) * gridSize, i *gridSize);
+            addObject(lowerOuterWall,(gridXNum -1 ) * gridSize, i *gridSize);
             lowerOuterWall.setisDestructable(false);
         }
 
@@ -200,9 +202,9 @@ public class BomberWorld extends World
         while(wasAbleToPlace == true && countObstacles < numObstacles)
         {
             wasAbleToPlace = false;
-            for(int i = safeZoneSize; i < gridNumX - safeZoneSize;i++)
+            for(int i = safeZoneSize; i < gridXNum - safeZoneSize;i++)
             {
-                for(int j = 0; j < gridNumY ;j++)
+                for(int j = 0; j < gridYNum ;j++)
                 {
                     int randomNumber = Greenfoot.getRandomNumber(100);
                     if(occupancyGrid[i][j] == false && countObstacles < numObstacles)
@@ -220,9 +222,9 @@ public class BomberWorld extends World
                     }                     
                 }
             }
-            for(int i = 0; i < gridNumX ;i++)
+            for(int i = 0; i < gridXNum ;i++)
             {
-                for(int j = safeZoneSize; j < gridNumY - safeZoneSize;j++)
+                for(int j = safeZoneSize; j < gridYNum - safeZoneSize;j++)
                 {
                     int randomNumber = Greenfoot.getRandomNumber(100);
                     if(occupancyGrid[i][j] == false  && countObstacles < numObstacles)
@@ -242,6 +244,38 @@ public class BomberWorld extends World
             }
         }
 
+        if(numPlayers <= 0) numPlayers = 0;
+        if(numPlayers >= 4) numPlayers = 4;
+        
+        if(numPlayers >= 1)
+        {
+            PlayerBomberman newBomber = new PlayerBomberman();       
+            addPlayer(newBomber,1,1);
+            newBomber.setPlayerColor(PlayerColor.White);
+            
+            
+        }
+        if(numPlayers >= 2)
+        {
+            PlayerBomberman newBomber = new PlayerBomberman();
+            addPlayer(newBomber,1,gridYNum - 2);
+            newBomber.setPlayerColor(PlayerColor.Red);
+            newBomber.setKeySet(PlayerBomberman.ARROWKEYS);
+        }
+        if(numPlayers >= 3)
+        {
+            PlayerBomberman newBomber = new PlayerBomberman();
+            addPlayer(newBomber,gridXNum - 2 ,1);
+            newBomber.setPlayerColor(PlayerColor.Black);
+            newBomber.setKeySet(PlayerBomberman.IJKLKEYS);
+        }
+        if(numPlayers >= 4)
+        {
+            PlayerBomberman newBomber = new PlayerBomberman();
+            addPlayer(newBomber,gridXNum - 2,gridYNum - 2);
+            newBomber.setPlayerColor(PlayerColor.Blue);
+            newBomber.setKeySet(PlayerBomberman.NUMBERKEYS);
+        }
         
     }
 
@@ -263,7 +297,7 @@ public class BomberWorld extends World
      */
     public  void playerTestSceneario()
     {
-        generateWorld(50,15,15,100);
-        addPlayer(new PlayerBomberman(),1,1);
+        generateWorld(50,15,15,36,4);
+        
     }
 }

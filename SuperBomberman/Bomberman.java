@@ -20,7 +20,7 @@ public class Bomberman extends InteractableActor
     
     private boolean isDead = false;
 
-    List<Bomb> thrownBombsList = new ArrayList<Bomb>();
+    private List<Bomb> thrownBombsList = new ArrayList<Bomb>();
     //for statistics
     private int numBombThrown = 0;
     
@@ -32,8 +32,8 @@ public class Bomberman extends InteractableActor
     
     private boolean isInvulnerable = false;
  
-    
     private int invulnerabilityTimeCounter = 0;
+    
     Bomberman()
     {
         forceGridLocation = false;
@@ -598,11 +598,15 @@ public class Bomberman extends InteractableActor
      */
     void dropBomb()
     {
-        
+        List<Bomb> bombs = bomberWorld.getObjects(Bomb.class);
+        for(Bomb bomb : bombs)
+        {
+            if(bomb.getGridXPos() == getGridXPos() && bomb.getGridYPos() == getGridYPos())
+                return;
+        }
         if(getMaxNumOfBombs() > thrownBombsList.size())
         {
             Bomb newBomb = new Bomb(templateBomb);
-            
             bomberWorld.addObject(newBomb,bomberWorld.convertGridToPos(gridXPos),bomberWorld.convertGridToPos(gridYPos));         
             addThrownBomb(newBomb);
         }

@@ -9,7 +9,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class PlayerBomberman extends Bomberman
 {
     private String keySet[] = new String[5];
-
+    
+    public static String[] WASDKEYS = {"w","s","a","d","space"};
+    public static String[] ARROWKEYS = {"up","down","left","right","enter"};
+    public static String[] IJKLKEYS = {"i","k","j","l","."};
+    public static String[] NUMBERKEYS = {"5","2","1","3","+"};
     /**
      * Constructor for objects of class PlayerBomberman.
      * 
@@ -23,7 +27,12 @@ public class PlayerBomberman extends Bomberman
         keySet[InputKeys.ThrowBomb.ordinal()] = "space";
 
     }
-
+    PlayerBomberman(PlayerColor newPlayerColor,int newMaxNumOfBombs, int newMovementSpeed,int newLifes,String[] newSet)
+    {
+        super(newPlayerColor,newMaxNumOfBombs,newMovementSpeed,newLifes);
+        setKeySet(newSet);
+        
+    }
     void setKeySet(String[] newSet)
     {
         if(newSet.length != 5) return;
@@ -56,7 +65,7 @@ public class PlayerBomberman extends Bomberman
         {
             decideMove(MovementDirection.Right);
         }
-        if(Greenfoot.getKey() == keySet[InputKeys.ThrowBomb.ordinal()])
+        if(Greenfoot.isKeyDown(keySet[InputKeys.ThrowBomb.ordinal()]))
         {
             dropBomb();
         }
