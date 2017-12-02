@@ -6,7 +6,7 @@ import java.util.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Bomberman extends InteractableActor
+public class Bomberman extends InteractableActor implements AnimationInterface
 {
     private PlayerColor playerColor = PlayerColor.White;
     
@@ -33,6 +33,10 @@ public class Bomberman extends InteractableActor
     private boolean isInvulnerable = false;
  
     private int invulnerabilityTimeCounter = 0;
+    
+    private boolean hasMoved = false;
+    
+    private Animation currentAnimation = null;
     
     Bomberman()
     {
@@ -70,6 +74,31 @@ public class Bomberman extends InteractableActor
     /**
      * @return the maxNumOfBombs
      */
+    public Animation getCurrentAnimation() 
+    {
+        return currentAnimation;
+
+    }
+
+    /**
+     * @param maxNumOfBombs the maxNumOfBombs to set
+     */
+    public void setCurrentAnimation(Animation newAnim) 
+    {
+        if(currentAnimation != null)
+        {
+            currentAnimation.setAttachedInterface(null);
+        }
+        currentAnimation = newAnim;
+        if(currentAnimation != null)
+        {
+            currentAnimation.setAttachedInterface(this);
+        }
+    }
+
+    /**
+     * @return the maxNumOfBombs
+     */
     public PlayerColor getPlayerColor() 
     {
         return playerColor;
@@ -82,7 +111,7 @@ public class Bomberman extends InteractableActor
     public void setPlayerColor(PlayerColor color) 
     {
         playerColor = color;
-        setDirectionImage(currentDirection);
+        loadAnimation(currentDirection);
     }
 
     /**
@@ -135,7 +164,7 @@ public class Bomberman extends InteractableActor
     public void setLifes(int lifes) 
     {
         this.lifes = lifes;
-        if(lifes <= 0)
+        if(this.lifes <= 0)
         {
             OnDeath();
         }
@@ -218,8 +247,9 @@ public class Bomberman extends InteractableActor
      */
     public void setCurrentDirection(MovementDirection currentDirection)
     {
+        if(currentDirection ==  this.currentDirection) return;
         this.currentDirection = currentDirection;
-        setDirectionImage(currentDirection);
+        loadAnimation(currentDirection);
     }
 
     /**
@@ -228,6 +258,7 @@ public class Bomberman extends InteractableActor
      */
     public void act() 
     {
+        hasMoved = false;
         findPowerUp();
         if(isInvulnerable)
         {
@@ -237,18 +268,45 @@ public class Bomberman extends InteractableActor
                 OnEndInvulnerability();
             }
         }
-    }  
+        OnAct();
+        if(hasMoved == false)
+        {
+            if(currentAnimation != null)
+            {
+                currentAnimation.setAnimationFrameCounter(0);
+            }
+        }
+        else
+        {
+             if(currentAnimation != null)
+            {
+                currentAnimation.setAnimationFrameCounter(currentAnimation.getAnimationFrameCounter() + 1);
+            }
+        }
+    } 
+    public void OnNextAnimation(GreenfootImage newImage)
+    {
+       loadImage(newImage);
+    }
+    
+    public void OnAct() 
+    {
+       
+    } 
+    
     protected void OnStartInvulnerability()
     {
         invulnerabilityTimeCounter = invulnerabilityTime;
         isInvulnerable = true;
-        setDirectionImage(currentDirection);
+        if(currentAnimation == null) return ;
+            loadImage(currentAnimation.getCurrentImage());
     }
     
     protected void OnEndInvulnerability()
     {
         isInvulnerable = false;
-        setDirectionImage(currentDirection);
+        if(currentAnimation == null) return ;
+            loadImage(currentAnimation.getCurrentImage());
     }
     
     /**
@@ -260,17 +318,17 @@ public class Bomberman extends InteractableActor
         bomberWorld.removeObject(this);
     }
 
-    protected void setDirectionImage(MovementDirection dir)
+    protected void loadAnimation(MovementDirection dir)
     {
 
-        BomberWorld w = (BomberWorld)getWorld();
+       
         if(isInvulnerable == true)
         {
-            setImage(w.getStyleSheet().getBombermanInvulnerableImage(playerColor,dir));
+            setCurrentAnimation(bomberWorld.getStyleSheet().getBombermanAnimation(playerColor,dir));
         }
         else
         {
-            setImage(w.getStyleSheet().getBombermanImage(playerColor,dir));
+            setCurrentAnimation(bomberWorld.getStyleSheet().getBombermanAnimation(playerColor,dir));
         }
         
     }
@@ -558,10 +616,12 @@ public class Bomberman extends InteractableActor
     protected void move(MovementDirection newDirection,int distance)
     {
         if(canMove(newDirection) == false) return;
+        hasMoved = true;
+        
         if(currentDirection != newDirection)
         {
-            currentDirection = newDirection;
-            setDirectionImage(newDirection);
+            setCurrentDirection(newDirection);
+
         }
         switch(newDirection)
         {
@@ -649,10 +709,31 @@ public class Bomberman extends InteractableActor
             bomberWorld.removeObject(foundPowerUp);
         }
     }
-
+    protected void loadImage(GreenfootImage image)
+    {
+        if(image != null) 
+        {
+            if(isInvulnerable == true)
+            {
+                GreenfootImage alphaImage = new GreenfootImage(image);
+                alphaImage.setTransparency(100);
+                setImage(alphaImage);
+            }
+            else
+            {
+                setImage(image);
+            }
+            
+        }
+        
+    }
+    
     protected void loadImage()
     {
-        setDirectionImage(currentDirection);
+        loadAnimation(currentDirection);
+        if(currentAnimation == null) return ;
+        loadImage(currentAnimation.getCurrentImage());
+        
     }
     
     public void OnDeath()

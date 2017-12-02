@@ -11,16 +11,9 @@ import java.util.*;
  */
 public class BombermanStyleSheet  
 {
-    /*
-     * First index is the player Number and the second index is the the Type of Image
-     * The type is by the same order as the MovementDirection Enum
-     */
-    private GreenfootImage bombermanImageFiles[][] = new GreenfootImage[4][4];
-    /*
-     * First index is the player Number and the second index is the the Type of Image
-     * The type is by the same order as the MovementDirection Enum
-     */
-    private GreenfootImage bombermanInvulnerableImageFiles[][] = new GreenfootImage[4][4];
+   
+    
+    private Animation bombermanAnimations[][] = new Animation[PlayerColor.values().length][MovementDirection.values().length];
     
     private GreenfootImage wallImage = new GreenfootImage("/SpriteSheetImages/FloorTiles/Wall.png");
 
@@ -35,12 +28,12 @@ public class BombermanStyleSheet
     /*
      * Die PowerUp Bilder werden nach folgender Reihenfolge gespeichert. Nach Reihenfolge in der Enum Deklarierung . Erst Positiv dann negativ.
      */
-    private GreenfootImage powerUpImages[] = new GreenfootImage[8];
+    private GreenfootImage powerUpImages[] = new GreenfootImage[PowerUpType.values().length * 2  ];
 
     /*
      * The explosion images are 9 images. 1 center piece, 4 middle pieces and 4 end pieces. The order of  the images is center piece then middle piece and end piece for each of the MovementDirections
      */
-    private GreenfootImage explosionImages[] = new GreenfootImage[9];
+    private GreenfootImage explosionImages[] = new GreenfootImage[1 + MovementDirection.values().length * 2];
 
     public GreenfootImage getPowerupImage(PowerUpType type,int value)
     {
@@ -79,15 +72,13 @@ public class BombermanStyleSheet
         return bombImage;
     }
 
-    public GreenfootImage getBombermanImage(PlayerColor color,MovementDirection direction)
-    {
-        return bombermanImageFiles[color.ordinal()][direction.ordinal()];
-    }
-     public GreenfootImage getBombermanInvulnerableImage(PlayerColor color,MovementDirection direction)
-    {
-        return bombermanInvulnerableImageFiles[color.ordinal()][direction.ordinal()];
-    }
 
+    
+    public Animation getBombermanAnimation(PlayerColor color,MovementDirection direction)
+    {
+        return bombermanAnimations[color.ordinal()][direction.ordinal()];
+    }
+    
     public GreenfootImage getExplosionCenterImage()
     {
         return explosionImages[0];
@@ -119,35 +110,7 @@ public class BombermanStyleSheet
         //Wir haben nur Bilder für max 4 Spieler
 
         //ordinal damit Reihenfolge egal ist
-        bombermanImageFiles[PlayerColor.White.ordinal()][MovementDirection.Up.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BWhite_Up.png");
-        bombermanImageFiles[PlayerColor.White.ordinal()][MovementDirection.Down.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BWhite_Down.png");
-        bombermanImageFiles[PlayerColor.White.ordinal()][MovementDirection.Left.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BWhite_Left.png");
-        bombermanImageFiles[PlayerColor.White.ordinal()][MovementDirection.Right.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BWhite_Right.png");
-
-        bombermanImageFiles[PlayerColor.Red.ordinal()][MovementDirection.Up.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BRed_Up.png");
-        bombermanImageFiles[PlayerColor.Red.ordinal()][MovementDirection.Down.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BRed_Down.png");
-        bombermanImageFiles[PlayerColor.Red.ordinal()][MovementDirection.Left.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BRed_Left.png");
-        bombermanImageFiles[PlayerColor.Red.ordinal()][MovementDirection.Right.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BRed_Right.png");
-
-        bombermanImageFiles[PlayerColor.Black.ordinal()][MovementDirection.Up.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlack_Up.png");
-        bombermanImageFiles[PlayerColor.Black.ordinal()][MovementDirection.Down.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlack_Down.png");
-        bombermanImageFiles[PlayerColor.Black.ordinal()][MovementDirection.Left.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlack_Left.png");
-        bombermanImageFiles[PlayerColor.Black.ordinal()][MovementDirection.Right.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlack_Right.png");
-
-        bombermanImageFiles[PlayerColor.Blue.ordinal()][MovementDirection.Up.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlue_Up.png");
-        bombermanImageFiles[PlayerColor.Blue.ordinal()][MovementDirection.Down.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlue_Down.png");
-        bombermanImageFiles[PlayerColor.Blue.ordinal()][MovementDirection.Left.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlue_Left.png");
-        bombermanImageFiles[PlayerColor.Blue.ordinal()][MovementDirection.Right.ordinal()] = new GreenfootImage("/SpriteSheetImages/Bomberman/BBlue_Right.png");
-
-         for(int i = 0; i < bombermanImageFiles.length;i++)
-        {
-             for(int j = 0; j < bombermanImageFiles.length;j++)
-            {
-                GreenfootImage image = new GreenfootImage(bombermanImageFiles[i][j]);
-                image.setTransparency(100);
-                bombermanInvulnerableImageFiles[i][j] = image;
-            }
-        }
+        
        
         
         String piecePath = "/SpriteSheetImages/Explosion/Piece.png";
@@ -186,28 +149,62 @@ public class BombermanStyleSheet
 
         powerUpImages[PowerUpType.Death.ordinal() * 2] = new GreenfootImage("/SpriteSheetImages/Powerups/Death.png");
         powerUpImages[PowerUpType.Death.ordinal() * 2 + 1] = new GreenfootImage("/SpriteSheetImages/Powerups/Death2.png");  
+        
+        
+        
+        String paths[] = new String[PlayerColor.values().length];
+        paths[PlayerColor.White.ordinal()] = "/SpriteSheetImages/Bomberman/WhiteBomberman/";
+        paths[PlayerColor.Black.ordinal()] = "/SpriteSheetImages/Bomberman/BlackBomberman/";
+        paths[PlayerColor.Red.ordinal()] = "/SpriteSheetImages/Bomberman/RedBomberman/";
+        paths[PlayerColor.Blue.ordinal()] = "/SpriteSheetImages/Bomberman/BlueBomberman/";
+        
+        for(PlayerColor color : PlayerColor.values())
+        {
+            bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()] = new Animation();
+            bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Up_0.png",6);
+            bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Up_1.png",6);
+            bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Up_0.png",6);
+            bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Up_2.png",6);
+            
+            bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()] = new Animation();
+            bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Down_0.png",6);
+            bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Down_1.png",6);
+            bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Down_0.png",6);
+            bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Down_2.png",6);
+            
+            bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()] = new Animation();
+            bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Left_0.png",5);
+            bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Left_1.png",5);
+            bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Left_0.png",5);
+            bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Left_2.png",5);
+            
+            bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()] = new Animation();
+            bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Right_0.png",5);
+            bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Right_1.png",5);
+            bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Right_0.png",5);
+            bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Right_2.png",5);
+        }
 
     }
 
     public void resizeImages(int size)
     {
-        for(GreenfootImage[] i : bombermanImageFiles)
+       
+        for(Animation[] i : bombermanAnimations)
         {
-            for(GreenfootImage image : i)
+            for(Animation image : i)
             {
-                image.scale(size,size);
+                for(AnimationFrame frame : image.getFrames())
+                {
+                    frame.getFrameImage().scale(size,size);
+                }
+                
                 
             }
         }
-        for(GreenfootImage[] i : bombermanInvulnerableImageFiles)
-        {
-            for(GreenfootImage image : i)
-            {
-                image.scale(size,size);
-                
-            }
-        }
-
+        
+  
+        
         wallImage.scale(size,size);
 
         obstacleImage.scale(size,size);

@@ -39,9 +39,9 @@ public class PlayerBomberman extends Bomberman
         keySet = newSet;
     }
 
-    public void act()
+    public void OnAct()
     {
-        super.act();
+        
         handleKeys();
         
     }
