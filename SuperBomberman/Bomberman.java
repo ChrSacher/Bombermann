@@ -251,9 +251,13 @@ public class Bomberman extends InteractableActor
         setDirectionImage(currentDirection);
     }
     
+    /**
+     * Method onDeath
+     *
+     */
     protected void onDeath()
     {
-
+        bomberWorld.removeObject(this);
     }
 
     protected void setDirectionImage(MovementDirection dir)

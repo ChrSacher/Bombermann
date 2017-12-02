@@ -17,7 +17,9 @@ public class Bomb extends InteractableActor
     private Explosion explosionTemplate = new Explosion();
 
     private int lebenTime = 0; 
-
+    
+    //nicht static weil mehrere gleichzeitig abspielen
+    GreenfootSound explosionSound = new GreenfootSound("bomb.mp3");
     /**
      * @return the explosionGridLength
      */
@@ -132,7 +134,7 @@ public class Bomb extends InteractableActor
     public void explodier()
     {
         Explosion sondernexplosion = new Explosion ( );
-       
+        explosionSound.play();
         bomberWorld.addObject(sondernexplosion, getX(), getY());
          sondernexplosion.setCenterImage();
         for ( int i = 1; i< explosionGridLength; i++)

@@ -54,6 +54,7 @@ comment25.params=
 comment25.target=void\ OnEndInvulnerability()
 comment26.params=
 comment26.target=void\ onDeath()
+comment26.text=\r\n\ Method\ onDeath\r\n\r\n
 comment27.params=dir
 comment27.target=void\ setDirectionImage(MovementDirection)
 comment28.params=direction\ x\ y

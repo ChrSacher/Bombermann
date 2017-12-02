@@ -14,6 +14,10 @@ public class BomberWorld extends World
     private int gridYNum = 10;
     private int safeZoneSize = 4;
     private BombermanStyleSheet styleSheet = new BombermanStyleSheet();
+    
+    private String soundFiles[] = {"Track_04.mp3","Track_06.mp3"};
+    
+    GreenfootSound currentSound = null;
     /**
      * Constructor for objects of class BomberWorld.
      * 
@@ -27,7 +31,18 @@ public class BomberWorld extends World
         setPaintOrder();
 
     }
-
+    public void started()
+    {
+        super.started();
+        
+        currentSound = new GreenfootSound(soundFiles[Greenfoot.getRandomNumber(soundFiles.length)]);
+        if(currentSound != null) currentSound.playLoop();
+    }
+    public void stopped()
+    {
+        super.stopped();
+        if(currentSound != null) currentSound.stop();
+    }
     /**
      * BomberWorld Constructor
      *

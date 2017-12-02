@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Logger
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Logger\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=void\ enableLogging()
+comment2.params=
+comment2.target=void\ disabledLogging()
+comment3.params=errorMessage
+comment3.target=void\ logError(java.lang.String)
+comment4.params=errorMessage
+comment4.target=void\ logWarning(java.lang.String)
+comment5.params=errorMessage
+comment5.target=void\ log(java.lang.String)
+numComments=6
