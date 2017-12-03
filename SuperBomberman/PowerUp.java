@@ -3,7 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Write a description of class PowerUp here.
  * 
- * @author (your name) 
+ * @author Dieu Huyen Dinh
  * @version (a version number or a date)
  */
 public class PowerUp extends InteractableActor
@@ -53,8 +53,8 @@ public class PowerUp extends InteractableActor
         decideImage();
     }
     
-    
-    protected void loadImage()
+     @Override
+    protected void OnLoadWorldImage()
     {
         decideImage();
     }

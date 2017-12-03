@@ -3,7 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Klasse für das Anzeigen eines Bodens. Da das Spielfeld eine variable Größe kann der Boden nicht aus einem einzigen Bild bestehen. Diese Klasse repräsentiert den Boden für genau 1 Raster-Feld.
  * 
- * @author Christian Sacher
+ * @author Dieu Huyen Dinh
  * @version 30.11.17
  */
 public class FloorTile extends GridActor
@@ -37,7 +37,7 @@ public class FloorTile extends GridActor
      *
      */
     @Override
-    protected void loadImage()
+    protected void OnLoadWorldImage()
     {
         if(isEdge == true)
         {
@@ -57,7 +57,7 @@ public class FloorTile extends GridActor
     public void setIsEdge(boolean newIsEdge)
     {
         isEdge = newIsEdge;
-        loadImage();
+        OnLoadWorldImage();
     }
 
     /**

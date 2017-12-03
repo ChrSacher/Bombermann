@@ -1,7 +1,7 @@
 /**
  * Write a description of class Logger here.
  * 
- * @author (your name) 
+ * @author Christian Sacher
  * @version (a version number or a date)
  */
 public class Logger  

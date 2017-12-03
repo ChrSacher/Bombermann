@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * Write a description of class Bomb here.
  * 
- * @author (your name) 
+ * @author Dieu Huyen Dinh
  * @version (a version number or a date)
  */
 public class Bomb extends InteractableActor
@@ -268,8 +268,8 @@ public class Bomb extends InteractableActor
         lebenTime  = otherBomb.lebenTime; 
     }
 
-
-    protected void loadImage()
+    @Override
+    protected void OnLoadWorldImage()
     {
         GreenfootImage image = bomberWorld.getStyleSheet().getBombImage();
         setImage( image );

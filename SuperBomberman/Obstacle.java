@@ -3,7 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Write a description of class Obstacle here.
  * 
- * @author (your name) 
+ * @author Dieu Huyen Dinh 
  * @version (a version number or a date)
  */
 public class Obstacle extends InteractableActor
@@ -18,7 +18,7 @@ public class Obstacle extends InteractableActor
         isDestructable =  obstacle ;
 
     }
-
+     @Override
     protected void OnReceiveExplosion()
     {
         if( isDestructable== true)
@@ -64,22 +64,16 @@ public class Obstacle extends InteractableActor
      */
     public void act() 
     {
-        setWallImage();
+        
     } 
-
-    public void addedToWorld(World world)
-    {
-        super.addedToWorld(world);
-        setWallImage();
-    }
 
     public void setisDestructable(boolean newIsDestructable)
     {
         isDestructable = newIsDestructable;
-        setWallImage();
+        OnLoadWorldImage();
     }
-
-    public void setWallImage()
+     @Override
+    public void OnLoadWorldImage()
     { 
         if (isDestructable== true)
         { 

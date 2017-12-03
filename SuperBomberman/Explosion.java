@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * Write a description of class Explosion here.
  * 
- * @author (your name) 
+ * @author Dieu Huyen Dinh 
  * @version (a version number or a date)
  */
 public class Explosion extends GridActor
@@ -36,8 +36,8 @@ public class Explosion extends GridActor
         }
 
     }
-
-    protected void loadImage()
+    @Override
+    protected void OnLoadWorldImage()
     {
         setCenterImage();
         

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Write a description of class Animation here.
  * 
- * @author (your name) 
+ * @author Christian Sacher
  * @version (a version number or a date)
  */
 public class Animation  
@@ -17,6 +17,17 @@ public class Animation
 
     protected AnimationFrame currentFrame = null;
 
+    public Animation(Animation other)
+    {
+       attachedInterface = other.attachedInterface;
+       frames = other.frames;
+       animationFrameCounter  = other.animationFrameCounter;
+       currentFrame = other.currentFrame;
+    }
+    
+    public Animation()
+    {
+    }
     /**
      * Method addAnimationFrame
      *
@@ -53,9 +64,9 @@ public class Animation
     public void setAttachedInterface(AnimationInterface attachedInterface) 
     {
         this.attachedInterface = attachedInterface;
-        if(getAttachedInterface() != null && frames.size() > 0 )
+        if(attachedInterface != null && frames.size() > 0 )
         {
-            getAttachedInterface().OnNextAnimation(frames.get(0).getFrameImage());
+            attachedInterface.OnNextAnimation(frames.get(0).getFrameImage());
         }
     }
 
@@ -156,7 +167,7 @@ public class Animation
         int currentOffset = 0;
         for(AnimationFrame frame : frames)
         {
-            if(currentOffset + frame.getFrameTime() <= animationFrameCounter)
+            if(currentOffset + frame.getFrameTime() > animationFrameCounter && currentOffset <= animationFrameCounter)
             {
                 return frame.getFrameImage();
          

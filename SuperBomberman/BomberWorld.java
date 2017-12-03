@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * Write a description of class BomberWorld here.
  * 
- * @author (your name) 
+ * @author Christian Sacher
  * @version (a version number or a date)
  */
 public class BomberWorld extends World

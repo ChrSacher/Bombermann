@@ -76,7 +76,7 @@ public class BombermanStyleSheet
     
     public Animation getBombermanAnimation(PlayerColor color,MovementDirection direction)
     {
-        return bombermanAnimations[color.ordinal()][direction.ordinal()];
+        return new Animation(bombermanAnimations[color.ordinal()][direction.ordinal()]);
     }
     
     public GreenfootImage getExplosionCenterImage()

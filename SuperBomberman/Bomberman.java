@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * Write a description of class Bomberman here.
  * 
- * @author (your name) 
+ * @author Christian Sacher
  * @version (a version number or a date)
  */
 public class Bomberman extends InteractableActor implements AnimationInterface
@@ -36,7 +36,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
     
     private boolean hasMoved = false;
     
-    private Animation currentAnimation = null;
+    protected Animation currentAnimation = null;
     
     Bomberman()
     {
@@ -93,6 +93,11 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         if(currentAnimation != null)
         {
             currentAnimation.setAttachedInterface(this);
+            
+        }
+        else
+        {
+            System.out.println("test");
         }
     }
 
@@ -161,10 +166,10 @@ public class Bomberman extends InteractableActor implements AnimationInterface
     /**
      * @param lifes the lifes to set
      */
-    public void setLifes(int lifes) 
+    public void setLifes(int newLifes) 
     {
-        this.lifes = lifes;
-        if(this.lifes <= 0)
+        lifes = newLifes;
+        if(lifes <= 0)
         {
             OnDeath();
         }
@@ -313,24 +318,15 @@ public class Bomberman extends InteractableActor implements AnimationInterface
      * Method onDeath
      *
      */
-    protected void onDeath()
+    protected void OnDeath()
     {
         bomberWorld.removeObject(this);
     }
 
     protected void loadAnimation(MovementDirection dir)
     {
+            setCurrentAnimation(bomberWorld.getStyleSheet().getBombermanAnimation(playerColor,dir));
 
-       
-        if(isInvulnerable == true)
-        {
-            setCurrentAnimation(bomberWorld.getStyleSheet().getBombermanAnimation(playerColor,dir));
-        }
-        else
-        {
-            setCurrentAnimation(bomberWorld.getStyleSheet().getBombermanAnimation(playerColor,dir));
-        }
-        
     }
 
     protected boolean canMoveAtPos(MovementDirection direction,int x,int y)
@@ -645,7 +641,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
 
         }
     }
-
+    @Override
     protected void OnReceiveExplosion()
     {
         if(isInvulnerable == false)
@@ -727,8 +723,8 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         }
         
     }
-    
-    protected void loadImage()
+     @Override
+    protected void OnLoadWorldImage()
     {
         loadAnimation(currentDirection);
         if(currentAnimation == null) return ;
@@ -736,8 +732,5 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         
     }
     
-    public void OnDeath()
-    {
-        
-    }
+  
 }

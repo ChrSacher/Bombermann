@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Logger
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Logger\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Logger\ here.\r\n\ \r\n\ @author\ Christian\ Sacher\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 comment1.params=
 comment1.target=void\ enableLogging()
 comment2.params=

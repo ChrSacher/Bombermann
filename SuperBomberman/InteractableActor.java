@@ -3,7 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Write a description of class InteractableActor here.
  * 
- * @author (your name) 
+ * @author Dieu Huyen Dinh
  * @version (a version number or a date)
  */
 public class InteractableActor extends GridActor

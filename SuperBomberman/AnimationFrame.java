@@ -2,7 +2,7 @@ import greenfoot.*;
 /**
  * Write a description of class AnimationFrame here.
  * 
- * @author (your name) 
+ * @author Christian Sacher
  * @version (a version number or a date)
  */
 public class AnimationFrame  
