@@ -8,13 +8,16 @@ import java.util.ArrayList;
  */
 public class Animation  
 {
-    // instance variables - replace the example below with your own
+    // Zugehöriges Interface
     protected AnimationInterface attachedInterface = null;
 
+    //liste aller Frames
     protected ArrayList<AnimationFrame> frames = new ArrayList<AnimationFrame>();
 
+    //An  welcher Stelle in der Animation sind wir
     protected int animationFrameCounter = 0;
 
+    //Unser jeztiges Bild
     protected AnimationFrame currentFrame = null;
 
     public Animation(Animation other)
@@ -28,12 +31,7 @@ public class Animation
     public Animation()
     {
     }
-    /**
-     * Method addAnimationFrame
-     *
-     * @param path A parameter
-     * @param time A parameter
-     */
+
     public void addAnimationFrame(String path,int time )
     {
         AnimationFrame fra =  new AnimationFrame(path,time);
@@ -48,6 +46,9 @@ public class Animation
     public void removeAnimationFrame(AnimationFrame newFrame )
     {
         if(newFrame !=null ) frames.remove(newFrame);
+        
+        //Neue Brechnung unseres jetztigen Bildes
+        setAnimationFrameCounter(animationFrameCounter);
     }
 
     /**
@@ -59,7 +60,8 @@ public class Animation
     }
 
     /**
-     * @param attachedInterface the attachedInterface to set
+     * @param attachedInterface Interface welches gerufen wird
+     * Ruft OnNextAnimation auf wenn ein valides Interface gesetzt wird
      */
     public void setAttachedInterface(AnimationInterface attachedInterface) 
     {
@@ -71,7 +73,7 @@ public class Animation
     }
 
     /**
-     * @return the attachedInterface
+     * @return  Jetztiger Frame
      */
     public AnimationFrame getCurrentFrame() 
     {
@@ -89,7 +91,8 @@ public class Animation
     }
 
     /**
-     * @param attachedInterface the attachedInterface to set
+     * @param Neues Frame
+     * Rufe OnNextAnimation, falls es nicht das alte ist
      */
     public void setCurrentFrame(AnimationFrame currentFrame) 
     {
@@ -113,7 +116,7 @@ public class Animation
     }
 
     /**
-     * @param frames the frames to set
+     * @param frames Liste von AnimationFrame
      */
     public void setFrames(ArrayList<AnimationFrame> frames) 
     {
@@ -122,7 +125,7 @@ public class Animation
     }
 
     /**
-     * @return the animationFrameCounter
+     * @return  animationFrameCounter
      */
     public int getAnimationFrameCounter() 
     {
@@ -150,7 +153,10 @@ public class Animation
 
         int frameCount = getAnimationFrameCount();
         animationFrameCounter = newAnimationFrameCounter % frameCount;
+        //Offset vom Anfang da nur die Zeit eines Frames gespeichert wurde
         int currentOffset = 0;
+        //berechne welcher Frame jetzt gerade ist
+        
         for(AnimationFrame frame : frames)
         {
             if(currentOffset + frame.getFrameTime() >= animationFrameCounter)
@@ -161,7 +167,9 @@ public class Animation
             currentOffset += frame.getFrameTime();
         }
     }
-
+    /*
+     * @return Jetztiges Bild in der Animations
+     */
     public GreenfootImage getCurrentImage()
     {
         int currentOffset = 0;
@@ -169,8 +177,8 @@ public class Animation
         {
             if(currentOffset + frame.getFrameTime() > animationFrameCounter && currentOffset <= animationFrameCounter)
             {
-                return frame.getFrameImage();
-         
+                setCurrentFrame(frame);
+                return currentFrame.getFrameImage();
             }
             currentOffset += frame.getFrameTime();
         }

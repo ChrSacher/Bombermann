@@ -37,7 +37,7 @@ public class FloorTile extends GridActor
      *
      */
     @Override
-    protected void OnLoadWorldImage()
+    protected void OnWorldLoaded()
     {
         if(isEdge == true)
         {
@@ -57,7 +57,7 @@ public class FloorTile extends GridActor
     public void setIsEdge(boolean newIsEdge)
     {
         isEdge = newIsEdge;
-        OnLoadWorldImage();
+        OnWorldLoaded();
     }
 
     /**

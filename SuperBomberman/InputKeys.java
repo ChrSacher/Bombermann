@@ -1,5 +1,5 @@
 /**
- * Write a description of class PowerUp here.
+ * Enum für alle Funktionen die ein Bomberman Spieler braucht
  * 
  * @author Christian Sacher
  * @version (a version number or a date)

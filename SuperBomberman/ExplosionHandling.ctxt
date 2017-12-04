@@ -1,4 +1,4 @@
 #BlueJ class context
 comment0.target=ExplosionHandling
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ PowerUp\ here.\r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Enum\ f\u00FCr\ die\ Reaktion\ auf\ eine\ Explosion\r\n\ None\ L\u00E4sst\ Explosion\ einfach\ \u00FCber\ sich\r\n\ Receive\ Explosion\ endet\ hier\r\n\ Block\ Explosion\ endet\ bevor\ \r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 numComments=1

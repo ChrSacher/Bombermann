@@ -724,7 +724,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         
     }
      @Override
-    protected void OnLoadWorldImage()
+    protected void OnWorldLoaded()
     {
         loadAnimation(currentDirection);
         if(currentAnimation == null) return ;

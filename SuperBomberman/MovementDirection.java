@@ -1,5 +1,5 @@
 /**
- * Write a description of class MovementDirection here.
+ * Bewegungsrichtung
  * 
  * @author Dieu Huyen Dinh
  * @version (a version number or a date)

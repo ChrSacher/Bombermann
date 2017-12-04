@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 /**
- * Bomberman has a certain style for the game. The Images do not change.
- * This class holds are standard image information in a normal Bomber man game.
- * An advantage of using this class is that we have all pictures in 1 place and can access them in this 1 place
- * If we wanted to change the images all we would have to do is to change it in this class and tell every other class to just grab it.
+ * Klasse zum speichern aller Bilder. 
+ * Nicht alle Bilder haben die selbe größe usw.
+ * Funktionen um sehr einfach An gesuchte Bilder zu kommen
+ * Jede Welt kann Z.B ein eigenes SpriteSheet haben um komplett anders auszusehen
  * 
  * @author Christian Sacher 
  * @version 24.11.2017
@@ -12,7 +12,10 @@ import java.util.*;
 public class BombermanStyleSheet  
 {
    
-    
+    /*
+     * Array zum speichern der Animationen eines Bombermans
+     * Erster Index für die Farbe der Figur und zweiter Index für die Richtung der Bewegungen
+     */
     private Animation bombermanAnimations[][] = new Animation[PlayerColor.values().length][MovementDirection.values().length];
     
     private GreenfootImage wallImage = new GreenfootImage("/SpriteSheetImages/FloorTiles/Wall.png");
@@ -31,7 +34,8 @@ public class BombermanStyleSheet
     private GreenfootImage powerUpImages[] = new GreenfootImage[PowerUpType.values().length * 2  ];
 
     /*
-     * The explosion images are 9 images. 1 center piece, 4 middle pieces and 4 end pieces. The order of  the images is center piece then middle piece and end piece for each of the MovementDirections
+     * Es gibt 9 Explosions Bilder. 1 für die Mitte , 4 für Mittelstücke in 4 Richtungen, 4 für Endstücke in 4 Richtungen
+     * Gespeichert als Mitte, Mittleres Stück, EndStück,Mittleres Stück, EndStück....
      */
     private GreenfootImage explosionImages[] = new GreenfootImage[1 + MovementDirection.values().length * 2];
 
@@ -108,9 +112,8 @@ public class BombermanStyleSheet
     public void loadImages()
     {
         //Wir haben nur Bilder für max 4 Spieler
-
         //ordinal damit Reihenfolge egal ist
-        
+        //Alle Bilder sind in einer bestimmten Reihenfolge gespeichert um sie einfach zu greifen.
        
         
         String piecePath = "/SpriteSheetImages/Explosion/Piece.png";
@@ -187,6 +190,11 @@ public class BombermanStyleSheet
 
     }
 
+    /**
+     * Method resizeImages
+     *
+     * @param size Pixel Größe für die Felder
+     */
     public void resizeImages(int size)
     {
        

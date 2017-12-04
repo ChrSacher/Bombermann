@@ -2,22 +2,48 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
 import java.util.ArrayList;
 /**
- * Write a description of class BomberWorld here.
+ * Standard Welt 
  * 
  * @author Christian Sacher
  * @version (a version number or a date)
  */
 public class BomberWorld extends World
 {
+    /*
+     * Größe eines Feldes in Pixel
+     */
     private int gridSize = 25;
+    
+     /*
+     * Anzahl der Felder in X Richtung
+     */
     private int gridXNum = 10;
+    
+     /*
+     * Anzahl der Felder in Y Richtung
+     */
     private int gridYNum = 10;
+    
+    /*
+     * Distanz zu den Ecken ab welcher Hindernisse generiert werden könenn
+     */
     private int safeZoneSize = 4;
+    
+    /*
+     * Stylesheet für diese Welt
+     */
     private BombermanStyleSheet styleSheet = new BombermanStyleSheet();
     
+     /*
+     * Hintergrund Musik welche gespielt werden kann
+     */
     private String soundFiles[] = {"Track_04.mp3","Track_06.mp3"};
     
+     /*
+     * Hintergrundmusik die gespielt wird
+     */
     GreenfootSound currentSound = null;
+    
     /**
      * Constructor for objects of class BomberWorld.
      * 
@@ -31,10 +57,11 @@ public class BomberWorld extends World
         setPaintOrder();
 
     }
+    @Override
     public void started()
     {
         super.started();
-        
+        //zufälligen Song auswählen
         currentSound = new GreenfootSound(soundFiles[Greenfoot.getRandomNumber(soundFiles.length)]);
         if(currentSound != null) currentSound.playLoop();
     }
@@ -60,7 +87,7 @@ public class BomberWorld extends World
         generateWorld(gridSize,gridNumX,gridNumY,numObstacles,numPlayers);
         setPaintOrder();
     }
-
+    
     public void setPaintOrder()
     {
         setPaintOrder(Bomberman.class,Explosion.class,Bomb.class,PowerUp.class,Obstacle.class,FloorTile.class);
@@ -76,6 +103,9 @@ public class BomberWorld extends World
         gridSize = newGridSize;
         getStyleSheet().resizeImages(gridSize);
         drawGrid();
+        
+        
+        //Diese Methode gehört zu Greenfoot und funktionert nicht richtig
         repaint();
     }
 
@@ -84,11 +114,7 @@ public class BomberWorld extends World
         return gridSize;
     }
 
-    /**
-     * Method getStyleSheet
-     *
-     * @return The return value
-     */
+   
     public BombermanStyleSheet getStyleSheet()
     {
         return styleSheet;
@@ -97,8 +123,8 @@ public class BomberWorld extends World
     /**
      * Method convertPosToGrid
      *
-     * @param pos A parameter
-     * @return The return value
+     * @param pos Pixel Position
+     * @return Feld auf dem Raster
      */
     public int convertPosToGrid(double pos)
     {
@@ -108,8 +134,8 @@ public class BomberWorld extends World
     /**
      * Method convertGridToPos
      *
-     * @param grid A parameter
-     * @return The return value
+     * @param grid Feld auf dem Raster
+     * @return Mittelpunkt-Position des Feldes auf dem Raster in Pixel
      */
     public int convertGridToPos(int grid)
     {
@@ -119,8 +145,8 @@ public class BomberWorld extends World
     /**
      * Method roundToGrid
      *
-     * @param pos A parameter
-     * @return The return value
+     * @param pos Position
+     * @return Position der Mitte des Feldes 
      */
     public int roundToGrid(double pos)
     {
@@ -129,7 +155,7 @@ public class BomberWorld extends World
 
     /**
      * Method drawGrid
-     *
+     * Zeichnet das geladene Raster in die Welt
      */
     public void drawGrid()
     {
@@ -162,6 +188,7 @@ public class BomberWorld extends World
         drawGrid();
         gridXNum = newGridNumX;
         gridYNum = newGridNumY;
+        //Untergrund erstellen
         for(int i = 0; i < gridYNum;i++)
         {
             for(int j = 0; j < gridYNum;j++)
@@ -171,18 +198,20 @@ public class BomberWorld extends World
 
             }
         }
+        
+         //Innere Wand erstellen und unzerstörbar machen
         for(int i = 2; i < (gridXNum -2);i +=2)
         {
             for(int j = 2; j < (gridYNum - 2);j +=2)
             {
 
-                Obstacle upperOuterWall = new Obstacle();    
-                addObject(upperOuterWall,i * gridSize,j * gridSize);
-                upperOuterWall.setisDestructable(false);
+                Obstacle innerWall = new Obstacle();    
+                addObject(innerWall,i * gridSize,j * gridSize);
+                innerWall.setisDestructable(false);
             }
         }
 
-        
+        //Äußere Wand erstellen und unzerstörbar machen
         for(int i = 0; i < gridXNum;i++)
         {
             Obstacle upperOuterWall = new Obstacle();    
@@ -193,64 +222,64 @@ public class BomberWorld extends World
             addObject(lowerOuterWall,i * gridSize,(gridYNum -1 ) * gridSize);
             lowerOuterWall.setisDestructable(false);
         }
-
+        //rechte und linke äußere Wand erstellen und unzerstörbar machen
         for(int i = 1; i < gridYNum -1;i++)
         {
-            Obstacle upperOuterWall = new Obstacle();    
-            addObject(upperOuterWall,0,i * gridSize);
-            upperOuterWall.setisDestructable(false);
+            Obstacle leftWall = new Obstacle();    
+            addObject(leftWall,0,i * gridSize);
+            leftWall.setisDestructable(false);
 
-            Obstacle lowerOuterWall = new Obstacle();
-            addObject(lowerOuterWall,(gridXNum -1 ) * gridSize, i *gridSize);
-            lowerOuterWall.setisDestructable(false);
+            Obstacle rightWall = new Obstacle();
+            addObject(rightWall,(gridXNum -1 ) * gridSize, i *gridSize);
+            rightWall.setisDestructable(false);
         }
 
-        boolean occupancyGrid[][] = new boolean[gridSize][gridSize];
+        
+        
+        //occupany grid ist eine Array was anzeigt ob ein Feld belegt ist durch einen Interactable Actor
+        boolean occupancyGrid[][] = new boolean[gridXNum][gridYNum];
         List<InteractableActor> actorList = getObjects(InteractableActor.class);
         for(InteractableActor actor:actorList)
         {
-            
                 occupancyGrid[convertPosToGrid(actor.getX())][convertPosToGrid(actor.getY())] = true;     
         }
+        //Wie viele Obstacles wir schon erstellt haben
         int countObstacles = 0;
+        //gibt es noch freie Felder
         boolean wasAbleToPlace = true;
+        
+        //Wir platzieren solange Hindernisse bis wir genügend erstrellt haben oder es keinen Platz mehr gibt
         while(wasAbleToPlace == true && countObstacles < numObstacles)
         {
             wasAbleToPlace = false;
-            for(int i = safeZoneSize; i < gridXNum - safeZoneSize;i++)
+            for(int i = 0; i < gridXNum;i++)
             {
                 for(int j = 0; j < gridYNum ;j++)
                 {
                     int randomNumber = Greenfoot.getRandomNumber(100);
+                    //ignorieren wenn es die linke obere Ecke ist
+                    if( i < safeZoneSize && j < safeZoneSize) continue;
+                    
+                     //ignorieren wenn es die rechte obere Ecke ist
+                    if( i < safeZoneSize && j > gridXNum - safeZoneSize) continue;
+                    
+                    //ignorieren wenn es die rechte untere Ecke ist
+                    if( i > gridXNum - safeZoneSize && j > gridXNum - safeZoneSize) continue;
+                    //ignorieren wenn es die linke untere Ecke ist
+                    if( i > gridXNum - safeZoneSize && j < safeZoneSize) continue;
+                    
+                    //können wir es an dieser Position platzieren? und haben wir nicht genug?
                     if(occupancyGrid[i][j] == false && countObstacles < numObstacles)
                     {
 
                         wasAbleToPlace = true;
-                        if(randomNumber < 50)
+                        //zufallszahl damit nicht alle Hindernisse an einer Seite enstehen
+                        if(randomNumber < 20)
                         {
 
                             Obstacle destroyableObstacle = new Obstacle(true);
                             addObject(destroyableObstacle,convertGridToPos(i),convertGridToPos(j));
-                            occupancyGrid[convertPosToGrid(destroyableObstacle.getX())][convertPosToGrid(destroyableObstacle.getY())] = true;   
-                            countObstacles++;
-                        }
-                    }                     
-                }
-            }
-            for(int i = 0; i < gridXNum ;i++)
-            {
-                for(int j = safeZoneSize; j < gridYNum - safeZoneSize;j++)
-                {
-                    int randomNumber = Greenfoot.getRandomNumber(100);
-                    if(occupancyGrid[i][j] == false  && countObstacles < numObstacles)
-                    {
-
-                        wasAbleToPlace = true;
-                        if(randomNumber < 50)
-                        {
-
-                            Obstacle destroyableObstacle = new Obstacle(true);
-                            addObject(destroyableObstacle,convertGridToPos(i),convertGridToPos(j));
+                            //variablen updated
                             occupancyGrid[convertPosToGrid(destroyableObstacle.getX())][convertPosToGrid(destroyableObstacle.getY())] = true;   
                             countObstacles++;
                         }
@@ -258,7 +287,7 @@ public class BomberWorld extends World
                 }
             }
         }
-
+        //wir besitzen nur 4 Spielerfarben
         if(numPlayers <= 0) numPlayers = 0;
         if(numPlayers >= 4) numPlayers = 4;
         
@@ -295,7 +324,7 @@ public class BomberWorld extends World
     }
 
     /**
-     * Method addPlayer
+     * Method addPlayer Bomberman der Welt hinzufügen und auf ein Feld stellen
      *
      * @param newBomberman A Bomberman Object to add
      * @param gridX On Which Grid in X Direction to place the Bomberman

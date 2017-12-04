@@ -1,5 +1,5 @@
 /**
- * Write a description of class MovementDirection here.
+ * Spieler Farbe
  * 
  * @author Christian Sacher
  * @version (a version number or a date)

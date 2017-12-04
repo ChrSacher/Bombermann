@@ -1,5 +1,5 @@
 /**
- * Write a description of class PowerUp here.
+ * Art des Power Ups
  * 
  * @author Dieu Huyen Dinh
  * @version (a version number or a date)

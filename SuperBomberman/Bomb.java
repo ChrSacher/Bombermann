@@ -105,30 +105,35 @@ public class Bomb extends InteractableActor
         }
     }    
 
-    public boolean canContinueExplosion( int x, int y)
+    /**
+     * Method canContinueExplosion
+     *
+     * @param x A parameter
+     * @param y A parameter
+     * @return The return value
+     */
+    public ExplosionHandling getHandlingAtPoint( int x, int y)
     {
-        Obstacle obtacles = (Obstacle)getOneObjectAtOffset(x,y, Obstacle.class);
-        if ( obtacles == null )
+        int currentX  = getX();
+        int currentY = getY();
+        setLocation(x,y);
+        List<InteractableActor> actors = getIntersectingObjects(InteractableActor.class);
+        ExplosionHandling typeAtField = ExplosionHandling.None;
+        for(InteractableActor actor :actors)
         {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isValidExplosionLocation(int x, int y)
-    {
-
-        List <Obstacle> obtacles = getObjectsAtOffset(x,y, Obstacle.class);
-        for ( Obstacle o : obtacles)
-        {
-
-            if (o.getIsDestructable()== false)
-            { 
-                return false;
+            if(actor.getExplosionHandlingType() == ExplosionHandling.Block)
+            {
+               typeAtField = ExplosionHandling.Block;
+               break;
+            }
+             if(actor.getExplosionHandlingType() == ExplosionHandling.Receive)
+            {
+               typeAtField = ExplosionHandling.Receive; 
             }
         }
-        return true;
-
+        
+        setLocation(currentX,currentY);
+        return typeAtField;
     }
 
     public void explodier()
@@ -142,9 +147,8 @@ public class Bomb extends InteractableActor
 
             int exposition = gridXPos + i;
             int exppixel = bomberWorld.convertGridToPos( exposition );
-            boolean canC = canContinueExplosion(exppixel-getX(),0);
-            boolean isV = isValidExplosionLocation (exppixel-getX(),0 );
-            if (isV == true)
+            ExplosionHandling canC = getHandlingAtPoint(exppixel,getY());
+            if(canC == ExplosionHandling.Receive)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, exppixel, getY( ));
@@ -156,11 +160,24 @@ public class Bomb extends InteractableActor
                 {
                     explosion.setEndImage(MovementDirection.Right);
                 }
-               
-            }           
-            if( canC == false)
+                break;
+            }
+            if(canC == ExplosionHandling.Block)
             {
                 break;
+            }
+            if(canC == ExplosionHandling.None)
+            {
+                Explosion explosion = new Explosion(explosionTemplate);
+                bomberWorld.addObject(explosion, exppixel, getY( ));
+                if(i < explosionGridLength - 1)
+                {
+                    explosion.setPieceImage(MovementDirection.Right);
+                }
+                else
+                {
+                    explosion.setEndImage(MovementDirection.Right);
+                }
             }
 
         }
@@ -170,13 +187,11 @@ public class Bomb extends InteractableActor
             int exposition = gridXPos - i;
             int exppixel = bomberWorld.convertGridToPos( exposition );
 
-            boolean canC = canContinueExplosion(exppixel-getX(),0);
-            boolean isV = isValidExplosionLocation (exppixel-getX(),0 );
-            if (isV == true)
+           ExplosionHandling canC = getHandlingAtPoint(exppixel,getY());
+            if(canC == ExplosionHandling.Receive)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, exppixel, getY( ));
- 
                 if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Left);
@@ -185,11 +200,24 @@ public class Bomb extends InteractableActor
                 {
                     explosion.setEndImage(MovementDirection.Left);
                 }
-               
+                break;
             }
-            if( canC == false)
+            if(canC == ExplosionHandling.Block)
             {
                 break;
+            }
+            if(canC == ExplosionHandling.None)
+            {
+                Explosion explosion = new Explosion(explosionTemplate);
+                bomberWorld.addObject(explosion, exppixel, getY( ));
+                if(i < explosionGridLength - 1)
+                {
+                    explosion.setPieceImage(MovementDirection.Left);
+                }
+                else
+                {
+                    explosion.setEndImage(MovementDirection.Left);
+                }
             }
         }
 
@@ -198,13 +226,12 @@ public class Bomb extends InteractableActor
             int exposition = gridYPos + i;
             int ypixel = bomberWorld.convertGridToPos( exposition );
 
-            boolean canC = canContinueExplosion(0,ypixel-getY());
-            boolean isV = isValidExplosionLocation (0,ypixel-getY() );
-            if (isV == true)
+            ExplosionHandling canC = getHandlingAtPoint(getX(),ypixel);
+            if(canC == ExplosionHandling.Receive)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
-                 bomberWorld.addObject(explosion, getX(),ypixel);
-                if(i < explosionGridLength -1)
+                bomberWorld.addObject(explosion, getX(),ypixel);
+                if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Down);
                 }
@@ -212,11 +239,24 @@ public class Bomb extends InteractableActor
                 {
                     explosion.setEndImage(MovementDirection.Down);
                 }
-               
-            }    
-            if( canC == false)
+                break;
+            }
+            if(canC == ExplosionHandling.Block)
             {
                 break;
+            }
+            if(canC == ExplosionHandling.None)
+            {
+                Explosion explosion = new Explosion(explosionTemplate);
+                bomberWorld.addObject(explosion, getX(),ypixel);
+                if(i < explosionGridLength - 1)
+                {
+                    explosion.setPieceImage(MovementDirection.Down);
+                }
+                else
+                {
+                    explosion.setEndImage(MovementDirection.Down);
+                }
             }
         }
 
@@ -225,13 +265,12 @@ public class Bomb extends InteractableActor
             int exposition = gridYPos - i;
             int ypixel = bomberWorld.convertGridToPos( exposition );
 
-            boolean canC = canContinueExplosion(0,ypixel-getY());
-            boolean isV = isValidExplosionLocation (0,ypixel-getY() );
-            if (isV == true)
+            ExplosionHandling canC = getHandlingAtPoint(getX(),ypixel);
+            if(canC == ExplosionHandling.Receive)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, getX(),ypixel);
-                if(i < explosionGridLength -1)
+                if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Up);
                 }
@@ -239,13 +278,24 @@ public class Bomb extends InteractableActor
                 {
                     explosion.setEndImage(MovementDirection.Up);
                 }
-                
+                break;
             }
-
-          
-            if( canC == false)
+            if(canC == ExplosionHandling.Block)
             {
                 break;
+            }
+            if(canC == ExplosionHandling.None)
+            {
+                Explosion explosion = new Explosion(explosionTemplate);
+                bomberWorld.addObject(explosion, getX(),ypixel);
+                if(i < explosionGridLength - 1)
+                {
+                    explosion.setPieceImage(MovementDirection.Up);
+                }
+                else
+                {
+                    explosion.setEndImage(MovementDirection.Up);
+                }
             }
         }
 
@@ -269,7 +319,7 @@ public class Bomb extends InteractableActor
     }
 
     @Override
-    protected void OnLoadWorldImage()
+    protected void OnWorldLoaded()
     {
         GreenfootImage image = bomberWorld.getStyleSheet().getBombImage();
         setImage( image );

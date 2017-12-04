@@ -54,7 +54,7 @@ public class PowerUp extends InteractableActor
     }
     
      @Override
-    protected void OnLoadWorldImage()
+    protected void OnWorldLoaded()
     {
         decideImage();
     }

@@ -10,15 +10,23 @@ public class Obstacle extends InteractableActor
 {
     public Obstacle()
     {
-
+        isDestructable = true;
+        setExplosionHandlingType(ExplosionHandling.Block);
     }
 
     public Obstacle( boolean obstacle)
     {
         isDestructable =  obstacle ;
-
+        if(isDestructable) 
+        {
+            setExplosionHandlingType(ExplosionHandling.Receive);
+        }
+        else
+        {
+            setExplosionHandlingType(ExplosionHandling.Block);
+        }
     }
-     @Override
+    @Override
     protected void OnReceiveExplosion()
     {
         if( isDestructable== true)
@@ -70,19 +78,20 @@ public class Obstacle extends InteractableActor
     public void setisDestructable(boolean newIsDestructable)
     {
         isDestructable = newIsDestructable;
-        OnLoadWorldImage();
+        OnWorldLoaded();
     }
      @Override
-    public void OnLoadWorldImage()
+    public void OnWorldLoaded()
     { 
         if (isDestructable== true)
         { 
             setImage ( bomberWorld.getStyleSheet().getObstacleImage());
-
+            setExplosionHandlingType(ExplosionHandling.Receive);
         }
         else 
         {
             setImage ( bomberWorld.getStyleSheet().getWallImage());
+            setExplosionHandlingType(ExplosionHandling.Block);
         }
     }
     private boolean isDestructable= true;

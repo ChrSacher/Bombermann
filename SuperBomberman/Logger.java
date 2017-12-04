@@ -1,5 +1,5 @@
 /**
- * Write a description of class Logger here.
+ * Einfacher Logger dem man aus und an stellen kann
  * 
  * @author Christian Sacher
  * @version (a version number or a date)

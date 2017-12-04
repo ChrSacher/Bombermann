@@ -1,9 +1,14 @@
 #BlueJ class context
 comment0.target=InteractableActor
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ InteractableActor\ here.\r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=
-comment1.target=void\ OnReceiveExplosion()
+comment0.text=\r\n\ Klasse\ um\ Kollisionserkung\ von\ Explosionen\ sch\u00F6n\ variabel\ zu\ haben\r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=newHandlign
+comment1.target=void\ setExplosionHandlingType(ExplosionHandling)
 comment2.params=
-comment2.target=void\ act()
-comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ InteractableActor\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
-numComments=3
+comment2.target=ExplosionHandling\ getExplosionHandlingType()
+comment3.params=
+comment3.target=void\ OnReceiveExplosion()
+comment3.text=\r\n\ method\ OnReceiveExplosion\r\n\ Methode\ wird\ aufgerufen\ wenn\ der\ Actor\ von\ einer\ Explosion\ getroffen\ wurde.\ Kann\ mehrmals\ bei\ einer\ Explosion\ aufgerufen\ werden.\r\n
+comment4.params=
+comment4.target=void\ act()
+comment4.text=\r\n\ Act\ -\ do\ whatever\ the\ InteractableActor\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+numComments=5

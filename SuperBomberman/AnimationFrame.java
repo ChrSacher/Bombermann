@@ -1,6 +1,6 @@
 import greenfoot.*;
 /**
- * Write a description of class AnimationFrame here.
+ * Einfach Klasse zum speichern von Animationsbildern mit einer bestimmten Anzeige Zeit
  * 
  * @author Christian Sacher
  * @version (a version number or a date)

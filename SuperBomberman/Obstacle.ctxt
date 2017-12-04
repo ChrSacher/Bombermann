@@ -15,5 +15,5 @@ comment5.text=\r\n\ Act\ -\ do\ whatever\ the\ Obstacle\ wants\ to\ do.\ This\ m
 comment6.params=newIsDestructable
 comment6.target=void\ setisDestructable(boolean)
 comment7.params=
-comment7.target=void\ OnLoadWorldImage()
+comment7.target=void\ OnWorldLoaded()
 numComments=8

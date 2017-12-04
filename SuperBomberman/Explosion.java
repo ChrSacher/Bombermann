@@ -37,7 +37,7 @@ public class Explosion extends GridActor
 
     }
     @Override
-    protected void OnLoadWorldImage()
+    protected void OnWorldLoaded()
     {
         setCenterImage();
         
