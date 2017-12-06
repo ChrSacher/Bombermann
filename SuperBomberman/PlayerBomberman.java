@@ -8,8 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class PlayerBomberman extends Bomberman
 {
-    private String keySet[] = new String[5];
+    private String keySet[] = new String[InputKeys.values().length];
     
+    //Verschieden Eingabe Muster für jeden Spieler 
     public static String[] WASDKEYS = {"w","s","a","d","space"};
     public static String[] ARROWKEYS = {"up","down","left","right","enter"};
     public static String[] IJKLKEYS = {"i","k","j","l","."};
@@ -35,7 +36,7 @@ public class PlayerBomberman extends Bomberman
     }
     void setKeySet(String[] newSet)
     {
-        if(newSet.length != 5) return;
+        if(newSet.length != InputKeys.values().length) return;
         keySet = newSet;
     }
 

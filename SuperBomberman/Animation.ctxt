@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Animation
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Animation\ here.\r\n\ \r\n\ @author\ Christian\ Sacher\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Speichert\ Animationsframes\ und\ berechnet\ das\ jetzige\ Bild.\r\n\ \r\n\ @author\ Christian\ Sacher\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 comment1.params=other
 comment1.target=Animation(Animation)
 comment10.params=

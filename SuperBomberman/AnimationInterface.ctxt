@@ -3,5 +3,5 @@ comment0.target=AnimationInterface
 comment0.text=\r\n\ Interface\ f\u00FCr\ Animationen\r\n\ \r\n\ @author\ Christian\ Sacher\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 comment1.params=newImage
 comment1.target=void\ OnNextAnimation(greenfoot.GreenfootImage)
-comment1.text=\r\n\ Wird\ gerufen\ ,\ wenn\ sich\ ein\ AnimationFrame\ einer\ Animation\ \u00E4ndert.\r\n
+comment1.text=\r\n\ Method\ OnNextAnimation\ \r\n\r\n\ @param\ newImage\ Neues\ Bild\ aus\ der\ Animation\r\n
 numComments=2

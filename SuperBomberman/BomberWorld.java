@@ -55,6 +55,7 @@ public class BomberWorld extends World
         styleSheet.loadImages();
         styleSheet.resizeImages(gridSize);
         setPaintOrder();
+        
 
     }
     @Override
@@ -341,7 +342,7 @@ public class BomberWorld extends World
      */
     public  void playerTestSceneario()
     {
-        generateWorld(50,15,15,36,4);
+        generateWorld(35,15,15,90,4);
         
     }
 }

@@ -7,9 +7,11 @@ import greenfoot.*;
  */
 public interface AnimationInterface  
 {
-   /*
-    * Wird gerufen , wenn sich ein AnimationFrame einer Animation ändert.
-    */
+   /**
+     * Method OnNextAnimation 
+     *
+     * @param newImage Neues Bild aus der Animation
+     */
    public void OnNextAnimation(GreenfootImage newImage);
    
 }
