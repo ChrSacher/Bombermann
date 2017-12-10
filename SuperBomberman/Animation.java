@@ -1,7 +1,7 @@
 import greenfoot.*;
 import java.util.ArrayList;
 /**
- * Write a description of class Animation here.
+ * Speichert Animationsframes und berechnet das jetzige Bild.
  * 
  * @author Christian Sacher
  * @version (a version number or a date)
