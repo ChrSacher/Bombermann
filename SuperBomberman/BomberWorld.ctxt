@@ -1,9 +1,9 @@
 #BlueJ class context
 comment0.target=BomberWorld
-comment0.text=\r\n\ Standard\ Welt\ \r\n\ \r\n\ @author\ Christian\ Sacher\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Standard\ Welt.\ Generiert\ und\ verwalted\ das\ Raster\ in\ der\ Welt\r\n\ \r\n\ @author\ Christian\ Sacher\r\n\ @version\ 6.12.17\r\n
 comment1.params=
 comment1.target=BomberWorld()
-comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ BomberWorld.\r\n\ \r\n
+comment1.text=\r\n\ BomberWorld\ Constructor\r\n\r\n
 comment10.params=grid
 comment10.target=int\ convertGridToPos(int)
 comment10.text=\r\n\ Method\ convertGridToPos\r\n\r\n\ @param\ grid\ Feld\ auf\ dem\ Raster\r\n\ @return\ Mittelpunkt-Position\ des\ Feldes\ auf\ dem\ Raster\ in\ Pixel\r\n
@@ -18,9 +18,9 @@ comment13.target=void\ generateWorld(int,\ int,\ int,\ int,\ int)
 comment13.text=\r\n\ Method\ generateWorld\r\n\r\n\ @param\ gridSize\ Wie\ viele\ Pixel\ ein\ Feld\ gro\u00DF\ ist\r\n\ @param\ gridNumX\ Wie\ viele\ Felder\ in\ X\ Richtung\r\n\ @param\ gridNumY\ Wie\ viele\ Felder\ in\ Y\ Richtung\r\n\ @param\ numObstacles\ Wie\ viele\ zerst\u00F6rbare\ Hindernisse\ soll\ es\ geben\r\n\ @param\ numPlayers\ Wie\ viele\ Spieler\ sollen\ generiert\ werden.\ Max\ 4\r\n
 comment14.params=newBomberman\ gridX\ gridY
 comment14.target=void\ addPlayer(PlayerBomberman,\ int,\ int)
-comment14.text=\r\n\ Method\ addPlayer\ Bomberman\ der\ Welt\ hinzuf\u00FCgen\ und\ auf\ ein\ Feld\ stellen\r\n\r\n\ @param\ newBomberman\ A\ Bomberman\ Object\ to\ add\r\n\ @param\ gridX\ On\ Which\ Grid\ in\ X\ Direction\ to\ place\ the\ Bomberman\r\n\ @param\ gridY\ On\ Which\ Grid\ in\ Y\ Direction\ to\ place\ the\ Bomberman\r\n
+comment14.text=\r\n\ Method\ addPlayer\ Bomberman\ der\ Welt\ hinzuf\u00FCgen\ und\ auf\ ein\ Feld\ stellen\r\n\r\n\ @param\ newBomberman\ Bomberman\ Object\r\n\ @param\ gridX\ Auf\ welches\ Feld\ in\ X\ Richtung\r\n\ @param\ gridY\ Auf\ welches\ Feld\ in\ Y\ Richtung\r\n
 comment15.params=
-comment15.target=void\ playerTestSceneario()
+comment15.target=void\ TestScenario()
 comment15.text=\r\n\ Method\ playerTestSceneario\r\n\r\n
 comment2.params=
 comment2.target=void\ started()

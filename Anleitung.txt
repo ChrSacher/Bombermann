@@ -1,0 +1,16 @@
+Zum Starten auf den Start Game Actor klicken.
+Es wird eine Welt mit der Größe 25 Pixel und 15x15 Felder angelegt. Es werden 90 Hindernisse  und 4 Spieler platziert.
+
+Spieler 1 linke obere Ecke hat die Bewegungstasten WASD und Space für Bombe.
+Spieler 2 linke untere Ecke hat die Pfeiltasten als Bewegungstasten und Enter für Bombe.
+Spieler 3 rechte obere Ecke hat die Bewegungstasten 4123 und die + Taste für Bomben.
+Spieler 4 rechte untere Ecke hat die Bewegungstasten ijkl und die -Taste für Bomben.
+
+Jeder Spieler hat Standard 3 Leben.
+
+Es gibt 4 Arten von Powerups. Explosionstärke, Bewegungsgeschwindigkeit, Anzahl legbarer Bomben und Leben.
+
+Wenn ein Spieler stirbt, wird seine Figur aus der Welt.
+
+
+ 

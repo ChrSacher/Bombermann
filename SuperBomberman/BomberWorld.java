@@ -2,10 +2,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
 import java.util.ArrayList;
 /**
- * Standard Welt 
+ * Standard Welt. Generiert und verwalted das Raster in der Welt
  * 
  * @author Christian Sacher
- * @version (a version number or a date)
+ * @version 6.12.17
  */
 public class BomberWorld extends World
 {
@@ -27,7 +27,7 @@ public class BomberWorld extends World
     /*
      * Distanz zu den Ecken ab welcher Hindernisse generiert werden könenn
      */
-    private int safeZoneSize = 4;
+    private int safeZoneSize = 3;
     
     /*
      * Stylesheet für diese Welt
@@ -45,8 +45,8 @@ public class BomberWorld extends World
     GreenfootSound currentSound = null;
     
     /**
-     * Constructor for objects of class BomberWorld.
-     * 
+     * BomberWorld Constructor
+     *
      */
     public BomberWorld()
     {    
@@ -55,20 +55,24 @@ public class BomberWorld extends World
         styleSheet.loadImages();
         styleSheet.resizeImages(gridSize);
         setPaintOrder();
-
+        StartGameActor actor = new StartGameActor();
+        addObject(actor,500,500);
     }
     @Override
     public void started()
     {
         super.started();
         //zufälligen Song auswählen
-        currentSound = new GreenfootSound(soundFiles[Greenfoot.getRandomNumber(soundFiles.length)]);
+        if(currentSound == null)
+        {
+            currentSound = new GreenfootSound(soundFiles[Greenfoot.getRandomNumber(soundFiles.length)]);
+        }
         if(currentSound != null) currentSound.playLoop();
     }
     public void stopped()
     {
         super.stopped();
-        if(currentSound != null) currentSound.stop();
+        if(currentSound != null) currentSound.pause();
     }
     /**
      * BomberWorld Constructor
@@ -80,7 +84,7 @@ public class BomberWorld extends World
      */
     public BomberWorld(int gridSize,int gridNumX,int gridNumY,int numObstacles,int numPlayers)
     {    
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
+        //Neue welt mit benötigter Größe
         super(gridNumX * gridSize , gridNumY * gridSize, 1); 
         styleSheet.loadImages();
         styleSheet.resizeImages(gridSize);
@@ -103,7 +107,6 @@ public class BomberWorld extends World
         gridSize = newGridSize;
         getStyleSheet().resizeImages(gridSize);
         drawGrid();
-        
         
         //Diese Methode gehört zu Greenfoot und funktionert nicht richtig
         repaint();
@@ -261,12 +264,12 @@ public class BomberWorld extends World
                     if( i < safeZoneSize && j < safeZoneSize) continue;
                     
                      //ignorieren wenn es die rechte obere Ecke ist
-                    if( i < safeZoneSize && j > gridXNum - safeZoneSize) continue;
+                    if( i < safeZoneSize && j >= gridYNum - safeZoneSize) continue;
                     
                     //ignorieren wenn es die rechte untere Ecke ist
-                    if( i > gridXNum - safeZoneSize && j > gridXNum - safeZoneSize) continue;
+                    if( i >= gridXNum - safeZoneSize && j >= gridYNum - safeZoneSize) continue;
                     //ignorieren wenn es die linke untere Ecke ist
-                    if( i > gridXNum - safeZoneSize && j < safeZoneSize) continue;
+                    if( i >= gridXNum - safeZoneSize && j < safeZoneSize) continue;
                     
                     //können wir es an dieser Position platzieren? und haben wir nicht genug?
                     if(occupancyGrid[i][j] == false && countObstacles < numObstacles)
@@ -326,9 +329,9 @@ public class BomberWorld extends World
     /**
      * Method addPlayer Bomberman der Welt hinzufügen und auf ein Feld stellen
      *
-     * @param newBomberman A Bomberman Object to add
-     * @param gridX On Which Grid in X Direction to place the Bomberman
-     * @param gridY On Which Grid in Y Direction to place the Bomberman
+     * @param newBomberman Bomberman Object
+     * @param gridX Auf welches Feld in X Richtung
+     * @param gridY Auf welches Feld in Y Richtung
      */
     public void addPlayer(PlayerBomberman newBomberman,int gridX,int gridY)
     {
@@ -339,9 +342,9 @@ public class BomberWorld extends World
      * Method playerTestSceneario
      *
      */
-    public  void playerTestSceneario()
+    public  void TestScenario()
     {
-        generateWorld(50,15,15,36,4);
+        generateWorld(50,15,15,104,4);
         
     }
 }

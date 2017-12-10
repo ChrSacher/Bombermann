@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Obstacle here.
+ * Klasse welche Hindernise beschreibt. Kann zerstörbar und nicht zerstörbar sein.
  * 
  * @author Dieu Huyen Dinh 
- * @version (a version number or a date)
+ * @version 06.12.2017
  */
 public class Obstacle extends InteractableActor
 {
@@ -14,6 +14,11 @@ public class Obstacle extends InteractableActor
         setExplosionHandlingType(ExplosionHandling.Block);
     }
 
+    /**
+     * Obstacle Constructor
+     *
+     * @param obstacle ist Zerstörbar?
+     */
     public Obstacle( boolean obstacle)
     {
         isDestructable =  obstacle ;
@@ -31,7 +36,7 @@ public class Obstacle extends InteractableActor
     {
         if( isDestructable== true)
         {
-
+            //generiere Zufallszahl damit zufällig 1 positives powerup,ein negatives Powerup oder gar kein Powerup ensteht
             int zufallzahl = Greenfoot.getRandomNumber(100);
             if ( zufallzahl<= 25)
             {
@@ -86,6 +91,7 @@ public class Obstacle extends InteractableActor
         if (isDestructable== true)
         { 
             setImage ( bomberWorld.getStyleSheet().getObstacleImage());
+            //setzten des Verhaltens gegenüber von Explosionen. Zerstörbare Hindernisse haben eine Explosion über sich.
             setExplosionHandlingType(ExplosionHandling.Receive);
         }
         else 
@@ -94,6 +100,9 @@ public class Obstacle extends InteractableActor
             setExplosionHandlingType(ExplosionHandling.Block);
         }
     }
+    /*
+     * Ist das Hindernis Zerstörbar
+     */
     private boolean isDestructable= true;
 
 }

@@ -1,21 +1,35 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 /**
- * Write a description of class Bomb here.
+ * Klasse die eine Bombe in der Welt darstellt. Sie kann explodieren und Explosionen erzeugen.
  * 
  * @author Dieu Huyen Dinh
  * @version (a version number or a date)
  */
 public class Bomb extends InteractableActor
 {
+    /*
+     * Länge der Explosionen
+     */
     private int explosionGridLength = 2;
-
+    /*
+     * Wem gehört diese Bombe
+     */
     private Bomberman Besitzer;
 
+    /*
+     * Zeit bis zur Explosion
+     */
     private int explosionTime = 150;
 
+    /*
+     * Template einer Explosion
+     */
     private Explosion explosionTemplate = new Explosion();
 
+    /*
+     * Wie lange der Actor am Leben ist.
+     */
     private int lebenTime = 0; 
     
     //nicht static weil mehrere gleichzeitig abspielen
@@ -108,19 +122,24 @@ public class Bomb extends InteractableActor
     /**
      * Method canContinueExplosion
      *
-     * @param x A parameter
-     * @param y A parameter
-     * @return The return value
+     * @param x X Pixel in der Welt
+     * @param y Y Pixel in der Welt
+     * @return Höchstes Handling an der Stell (x,y)
      */
     public ExplosionHandling getHandlingAtPoint( int x, int y)
     {
         int currentX  = getX();
         int currentY = getY();
+        //Für Kollision muss der Actor bewegt werden,
         setLocation(x,y);
+        
         List<InteractableActor> actors = getIntersectingObjects(InteractableActor.class);
         ExplosionHandling typeAtField = ExplosionHandling.None;
+        
+        
         for(InteractableActor actor :actors)
         {
+            //Block ist wichtiger als Receive und None
             if(actor.getExplosionHandlingType() == ExplosionHandling.Block)
             {
                typeAtField = ExplosionHandling.Block;
@@ -135,7 +154,7 @@ public class Bomb extends InteractableActor
         setLocation(currentX,currentY);
         return typeAtField;
     }
-
+        
     public void explodier()
     {
         Explosion sondernexplosion = new Explosion ( );
@@ -144,14 +163,17 @@ public class Bomb extends InteractableActor
          sondernexplosion.setCenterImage();
         for ( int i = 1; i< explosionGridLength; i++)
         {
-
+            //i-te Feld nach rechts
             int exposition = gridXPos + i;
             int exppixel = bomberWorld.convertGridToPos( exposition );
-            ExplosionHandling canC = getHandlingAtPoint(exppixel,getY());
-            if(canC == ExplosionHandling.Receive)
+            
+            ExplosionHandling handlingType = getHandlingAtPoint(exppixel,getY());
+            //wenn handling auf dem Feld == Receive muss Explosion erstellt werden und aufgehört werden
+            if(handlingType == ExplosionHandling.Receive)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, exppixel, getY( ));
+                //Letzte Stück muss Endstück sein
                 if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Right);
@@ -162,14 +184,17 @@ public class Bomb extends InteractableActor
                 }
                 break;
             }
-            if(canC == ExplosionHandling.Block)
+            if(handlingType == ExplosionHandling.Block)
             {
+                //Aufhören
                 break;
             }
-            if(canC == ExplosionHandling.None)
+            //Explosion erstellen und weitermachen
+            if(handlingType == ExplosionHandling.None)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, exppixel, getY( ));
+                 //Letzte Stück muss Endstück sein
                 if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Right);
@@ -184,14 +209,16 @@ public class Bomb extends InteractableActor
 
         for ( int i = 1; i< explosionGridLength; i++)
         {
+            //i-te Feld nach links
             int exposition = gridXPos - i;
             int exppixel = bomberWorld.convertGridToPos( exposition );
 
-           ExplosionHandling canC = getHandlingAtPoint(exppixel,getY());
-            if(canC == ExplosionHandling.Receive)
+            ExplosionHandling handlingType = getHandlingAtPoint(exppixel,getY());
+            if(handlingType == ExplosionHandling.Receive)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, exppixel, getY( ));
+                 //Letzte Stück muss Endstück sein
                 if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Left);
@@ -202,14 +229,16 @@ public class Bomb extends InteractableActor
                 }
                 break;
             }
-            if(canC == ExplosionHandling.Block)
+            if(handlingType == ExplosionHandling.Block)
             {
-                break;
+                break; //aufhörem
             }
-            if(canC == ExplosionHandling.None)
+            //Explosion erstellen und weitermachen
+            if(handlingType == ExplosionHandling.None)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, exppixel, getY( ));
+                 //Letzte Stück muss Endstück sein
                 if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Left);
@@ -223,14 +252,16 @@ public class Bomb extends InteractableActor
 
         for ( int i = 1; i< explosionGridLength; i++)
         {
+            //i-te Feld nach unten
             int exposition = gridYPos + i;
             int ypixel = bomberWorld.convertGridToPos( exposition );
 
-            ExplosionHandling canC = getHandlingAtPoint(getX(),ypixel);
-            if(canC == ExplosionHandling.Receive)
+            ExplosionHandling handlingType = getHandlingAtPoint(getX(),ypixel);
+            if(handlingType == ExplosionHandling.Receive)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, getX(),ypixel);
+                 //Letzte Stück muss Endstück sein
                 if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Down);
@@ -241,14 +272,16 @@ public class Bomb extends InteractableActor
                 }
                 break;
             }
-            if(canC == ExplosionHandling.Block)
+            if(handlingType == ExplosionHandling.Block)
             {
-                break;
+                break; //Aufhören
             }
-            if(canC == ExplosionHandling.None)
+            //Explosion erstellen und weitermachen
+            if(handlingType == ExplosionHandling.None)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, getX(),ypixel);
+                 //Letzte Stück muss Endstück sein
                 if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Down);
@@ -262,14 +295,16 @@ public class Bomb extends InteractableActor
 
         for ( int i = 1; i< explosionGridLength; i++)
         {
+            //i-te Feld nach oben
             int exposition = gridYPos - i;
             int ypixel = bomberWorld.convertGridToPos( exposition );
 
-            ExplosionHandling canC = getHandlingAtPoint(getX(),ypixel);
-            if(canC == ExplosionHandling.Receive)
+            ExplosionHandling handlingType = getHandlingAtPoint(getX(),ypixel);
+            if(handlingType == ExplosionHandling.Receive)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, getX(),ypixel);
+                 //Letzte Stück muss Endstück sein
                 if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Up);
@@ -280,14 +315,16 @@ public class Bomb extends InteractableActor
                 }
                 break;
             }
-            if(canC == ExplosionHandling.Block)
+            if(handlingType == ExplosionHandling.Block)
             {
-                break;
+                break; //aufhören
             }
-            if(canC == ExplosionHandling.None)
+             //Letzte Stück muss Endstück sein
+            if(handlingType == ExplosionHandling.None)
             {
                 Explosion explosion = new Explosion(explosionTemplate);
                 bomberWorld.addObject(explosion, getX(),ypixel);
+                 //Letzte Stück muss Endstück sein
                 if(i < explosionGridLength - 1)
                 {
                     explosion.setPieceImage(MovementDirection.Up);

@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Klasse um Kollisionserkung von Explosionen schön variabel zu haben
+ * Klasse um auf Explosionen zu reagieren und diese ein wenig zu steuern
  * 
  * @author Dieu Huyen Dinh
  * @version (a version number or a date)

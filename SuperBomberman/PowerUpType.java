@@ -2,7 +2,7 @@
  * Art des Power Ups
  * 
  * @author Dieu Huyen Dinh
- * @version (a version number or a date)
+ * @version 6.12.17
  */
 public enum PowerUpType
 {

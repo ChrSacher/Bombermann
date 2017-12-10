@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=InteractableActor
-comment0.text=\r\n\ Klasse\ um\ Kollisionserkung\ von\ Explosionen\ sch\u00F6n\ variabel\ zu\ haben\r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Klasse\ um\ auf\ Explosionen\ zu\ reagieren\ und\ diese\ ein\ wenig\ zu\ steuern\r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 comment1.params=newHandlign
 comment1.target=void\ setExplosionHandlingType(ExplosionHandling)
 comment2.params=

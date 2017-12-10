@@ -4,9 +4,9 @@ Tell the reader (someone who does not know anything about this project)
 all he/she needs to know. The comments should usually include at least:
 ------------------------------------------------------------------------
 
-PROJECT TITLE:
-PURPOSE OF PROJECT:
-VERSION or DATE:
-HOW TO START THIS PROJECT:
-AUTHORS:
+PROJECT TITLE: Super Bomberman
+PURPOSE OF PROJECT: Uni-Project
+VERSION or DATE: 07.12.2017
+HOW TO START THIS PROJECT: Generate new World with new Parameters or run TestSceneario Function in the World
+AUTHORS:Christian Sacher, Dieuh Huyen Dinh
 USER INSTRUCTIONS:

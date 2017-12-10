@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Bomb
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ Bomb\ here.\r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Klasse\ die\ eine\ Bombe\ in\ der\ Welt\ darstellt.\ Sie\ kann\ explodieren\ und\ Explosionen\ erzeugen.\r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 comment1.params=
 comment1.target=int\ getExplosionGridLength()
 comment1.text=\r\n\ @return\ the\ explosionGridLength\r\n
@@ -12,7 +12,7 @@ comment11.target=void\ act()
 comment11.text=\r\n\ Act\ -\ do\ whatever\ the\ Bomb\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
 comment12.params=x\ y
 comment12.target=ExplosionHandling\ getHandlingAtPoint(int,\ int)
-comment12.text=\r\n\ Method\ canContinueExplosion\r\n\r\n\ @param\ x\ A\ parameter\r\n\ @param\ y\ A\ parameter\r\n\ @return\ The\ return\ value\r\n
+comment12.text=\r\n\ Method\ canContinueExplosion\r\n\r\n\ @param\ x\ X\ Pixel\ in\ der\ Welt\r\n\ @param\ y\ Y\ Pixel\ in\ der\ Welt\r\n\ @return\ H\u00F6chstes\ Handling\ an\ der\ Stell\ (x,y)\r\n
 comment13.params=
 comment13.target=void\ explodier()
 comment14.params=

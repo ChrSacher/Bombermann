@@ -1,13 +1,16 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class PowerUp here.
+ * Klasse welche Powerups in der Welt darstellt.
  * 
  * @author Dieu Huyen Dinh
  * @version (a version number or a date)
  */
 public class PowerUp extends InteractableActor
 {  
+    /*
+     * Wert der darstellt, ob es ein positives Powerup oder ein negatives Powerup ist.
+     */
     private int value = 1;
     
     private PowerUpType powerUpType = PowerUpType.Speed;

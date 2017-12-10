@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=PowerUp
-comment0.text=\r\n\ Write\ a\ description\ of\ class\ PowerUp\ here.\r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment0.text=\r\n\ Klasse\ welche\ Powerups\ in\ der\ Welt\ darstellt.\r\n\ \r\n\ @author\ Dieu\ Huyen\ Dinh\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 comment1.params=
 comment1.target=PowerUp()
 comment2.params=value\ powerUpType
