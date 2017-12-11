@@ -11,13 +11,15 @@ import java.util.*;
  */
 public class BombermanStyleSheet  
 {
-   
+
     /*
      * Array zum speichern der Animationen eines Bombermans
      * Erster Index für die Farbe der Figur und zweiter Index für die Richtung der Bewegungen
      */
     private Animation bombermanAnimations[][] = new Animation[PlayerColor.values().length][MovementDirection.values().length];
-    
+
+    private Animation bombermanDeathAnimations[] = new Animation[PlayerColor.values().length];
+
     private GreenfootImage wallImage = new GreenfootImage("/SpriteSheetImages/FloorTiles/Wall.png");
 
     private GreenfootImage obstacleImage = new GreenfootImage("/SpriteSheetImages/FloorTiles/Obstacle.png");
@@ -49,8 +51,9 @@ public class BombermanStyleSheet
         {
             return powerUpImages[type.ordinal() * 2 +1];
         }
-        
+
     }
+
     public GreenfootImage getWallImage()
     {
         return wallImage;
@@ -76,13 +79,16 @@ public class BombermanStyleSheet
         return bombImage;
     }
 
-
+     public Animation getBombermanDeathAnimation(PlayerColor color)
+    {
+        return new Animation(bombermanDeathAnimations[color.ordinal()]);
+    }
     
     public Animation getBombermanAnimation(PlayerColor color,MovementDirection direction)
     {
         return new Animation(bombermanAnimations[color.ordinal()][direction.ordinal()]);
     }
-    
+
     public GreenfootImage getExplosionCenterImage()
     {
         return explosionImages[0];
@@ -114,8 +120,7 @@ public class BombermanStyleSheet
         //Wir haben nur Bilder für max 4 Spieler
         //ordinal damit Reihenfolge egal ist
         //Alle Bilder sind in einer bestimmten Reihenfolge gespeichert um sie einfach zu greifen.
-       
-        
+
         String piecePath = "/SpriteSheetImages/Explosion/Piece.png";
         String endPath =  "/SpriteSheetImages/Explosion/End.png";
 
@@ -152,15 +157,14 @@ public class BombermanStyleSheet
 
         powerUpImages[PowerUpType.Death.ordinal() * 2] = new GreenfootImage("/SpriteSheetImages/Powerups/Death.png");
         powerUpImages[PowerUpType.Death.ordinal() * 2 + 1] = new GreenfootImage("/SpriteSheetImages/Powerups/Death2.png");  
-        
-        
+
         
         String paths[] = new String[PlayerColor.values().length];
         paths[PlayerColor.White.ordinal()] = "/SpriteSheetImages/Bomberman/WhiteBomberman/";
         paths[PlayerColor.Black.ordinal()] = "/SpriteSheetImages/Bomberman/BlackBomberman/";
         paths[PlayerColor.Red.ordinal()] = "/SpriteSheetImages/Bomberman/RedBomberman/";
         paths[PlayerColor.Blue.ordinal()] = "/SpriteSheetImages/Bomberman/BlueBomberman/";
-        
+
         for(PlayerColor color : PlayerColor.values())
         {
             bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()] = new Animation();
@@ -168,24 +172,31 @@ public class BombermanStyleSheet
             bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Up_1.png",6);
             bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Up_0.png",6);
             bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Up_2.png",6);
-            
+
             bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()] = new Animation();
             bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Down_0.png",6);
             bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Down_1.png",6);
             bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Down_0.png",6);
             bombermanAnimations[color.ordinal()][MovementDirection.Down.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Down_2.png",6);
-            
+
             bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()] = new Animation();
             bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Left_0.png",5);
             bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Left_1.png",5);
             bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Left_0.png",5);
             bombermanAnimations[color.ordinal()][MovementDirection.Left.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Left_2.png",5);
-            
+
             bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()] = new Animation();
             bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Right_0.png",5);
             bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Right_1.png",5);
             bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Right_0.png",5);
             bombermanAnimations[color.ordinal()][MovementDirection.Right.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Right_2.png",5);
+            
+            bombermanDeathAnimations[color.ordinal()] = new Animation();
+            bombermanDeathAnimations[color.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Death0.png",5);
+            bombermanDeathAnimations[color.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Death1.png",5);
+            bombermanDeathAnimations[color.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Death2.png",5);
+            bombermanDeathAnimations[color.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Death3.png",5);
+            
         }
 
     }
@@ -197,7 +208,7 @@ public class BombermanStyleSheet
      */
     public void resizeImages(int size)
     {
-       
+
         for(Animation[] i : bombermanAnimations)
         {
             for(Animation image : i)
@@ -206,12 +217,10 @@ public class BombermanStyleSheet
                 {
                     frame.getFrameImage().scale(size,size);
                 }
-                
-                
+
             }
         }
-        
-  
+
         
         wallImage.scale(size,size);
 
@@ -222,7 +231,7 @@ public class BombermanStyleSheet
         edgeFloorTile.scale(size,size);
 
         bombImage.scale(size,size);
-        
+
         for(GreenfootImage powerImage : powerUpImages)
         {
             powerImage.scale(size,size);
@@ -231,6 +240,14 @@ public class BombermanStyleSheet
         for(GreenfootImage explsImage : explosionImages)
         {
             explsImage.scale(size,size);
+        }
+        for(Animation da : bombermanDeathAnimations)
+        {
+            for(AnimationFrame frame : da.getFrames())
+            {
+                frame.getFrameImage().scale(size,size);
+            }
+
         }
 
     }
