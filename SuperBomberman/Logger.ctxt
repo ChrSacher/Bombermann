@@ -9,6 +9,6 @@ comment3.params=errorMessage
 comment3.target=void\ logError(java.lang.String)
 comment4.params=errorMessage
 comment4.target=void\ logWarning(java.lang.String)
-comment5.params=errorMessage
+comment5.params=message
 comment5.target=void\ log(java.lang.String)
 numComments=6

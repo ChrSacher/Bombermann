@@ -9,28 +9,28 @@ public class Logger
     // instance variables - replace the example below with your own
     private static boolean isLoggerEnabled = true;
     
-    public void enableLogging()
+    public static void enableLogging()
     {
         isLoggerEnabled = true;
     }
     
-    public  void disabledLogging()
+    public  static void disabledLogging()
     {
         isLoggerEnabled = false;
     }
     
-    public void logError(String errorMessage)
+    public static void logError(String errorMessage)
     {
         if(isLoggerEnabled) System.out.println("Error: " + errorMessage);
     }
     
-    public void logWarning(String errorMessage)
+    public static void logWarning(String errorMessage)
     {
         if(isLoggerEnabled)System.out.println("Warning: " + errorMessage);
     }
     
-     public void log(String errorMessage)
+     public static void log(String message)
     {
-       if(isLoggerEnabled) System.out.println(errorMessage);
+       if(isLoggerEnabled) System.out.println(message);
     }
 }

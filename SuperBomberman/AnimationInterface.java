@@ -3,7 +3,7 @@ import greenfoot.*;
  * Interface für Animationen
  * 
  * @author Christian Sacher 
- * @version (a version number or a date)
+ * @version 11.12.17
  */
 public interface AnimationInterface  
 {
@@ -14,4 +14,7 @@ public interface AnimationInterface
      */
    public void OnNextAnimation(GreenfootImage newImage);
    
+   //public void OnAnimationStarted();
+   
+   //public void OnAnimationEnded();
 }
