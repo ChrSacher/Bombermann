@@ -133,6 +133,7 @@ public class GridActor extends Actor
                 }
                 else
                 {
+                    //Welt existiert nicht
                     gridXPos = -1;
                     gridYPos = -1;
                 }

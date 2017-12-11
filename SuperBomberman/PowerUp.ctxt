@@ -20,4 +20,5 @@ comment8.params=
 comment8.target=void\ OnWorldLoaded()
 comment9.params=
 comment9.target=void\ decideImage()
+comment9.text=\r\n\ Method\ decideImage\r\n\ Lade\ Bild\ des\ Powerups\ mithilfe\ von\ powerUpType\ und\ value\r\n
 numComments=10

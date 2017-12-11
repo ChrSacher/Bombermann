@@ -5,7 +5,7 @@
  * Block Explosion endet bevor 
  * 
  * @author Dieu Huyen Dinh
- * @version (a version number or a date)
+ * @version 7.12.17
  */
 public enum ExplosionHandling
 { 

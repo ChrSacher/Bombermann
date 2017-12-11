@@ -2,7 +2,7 @@
  * Bewegungsrichtung
  * 
  * @author Dieu Huyen Dinh
- * @version (a version number or a date)
+ * @version 7.13.17
  */
 public enum MovementDirection
 { 

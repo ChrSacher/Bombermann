@@ -2,19 +2,19 @@
  * Einfacher Logger dem man aus und an stellen kann
  * 
  * @author Christian Sacher
- * @version (a version number or a date)
+ * @version 11.12.17
  */
 public class Logger  
 {
     // instance variables - replace the example below with your own
-    private static boolean isLoggerEnabled = true;
+    private static boolean isLoggerEnabled = false;
     
     public static void enableLogging()
     {
         isLoggerEnabled = true;
     }
     
-    public  static void disabledLogging()
+    public static void disabledLogging()
     {
         isLoggerEnabled = false;
     }

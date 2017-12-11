@@ -1,8 +1,8 @@
 /**
- * Spieler Farbe
+ * Spieler Farben die zur Verfügung stehen
  * 
  * @author Christian Sacher
- * @version (a version number or a date)
+ * @version 11.12.2017
  */
 public enum PlayerColor
 { 

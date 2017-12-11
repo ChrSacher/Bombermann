@@ -8,7 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class InteractableActor extends GridActor
 {
-    
+    /*
+     * Art der Reaktion auf Explosionen
+     */
     protected ExplosionHandling ExplosionHandlingType =  ExplosionHandling.None;
     
     public void setExplosionHandlingType(ExplosionHandling newHandlign)

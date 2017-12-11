@@ -42,7 +42,7 @@ public class Bomb extends InteractableActor
     }
 
     /**
-     * @param explosionGridLength the explosionGridLength to set
+     * @param explosionGridLength neue Explosionslänge 2<=x<=5
      */
     public void setExplosionGridLength(int explosionGridLength) {
         if(explosionGridLength <= 2) explosionGridLength = 2;
@@ -56,51 +56,33 @@ public class Bomb extends InteractableActor
         return Besitzer;
     }
 
-    /**
-     * @param besitzer the besitzer to set
-     */
     public void setBesitzer(Bomberman besitzer) {
         Besitzer = besitzer;
     }
-
-    /**
-     * @return the explosionTime
-     */
     public int getExplosionTime() {
         return explosionTime;
     }
 
-    /**
-     * @param explosionTime the explosionTime to set
-     */
     public void setExplosionTime(int explosionTime) {
         this.explosionTime = explosionTime;
     }
 
-    /**
-     * @return the explosionTemplate
-     */
+   
     public Explosion getExplosionTemplate() {
         return explosionTemplate;
     }
 
-    /**
-     * @param explosionTemplate the explosionTemplate to set
-     */
+  
     public void setExplosionTemplate(Explosion explosionTemplate) {
         this.explosionTemplate = explosionTemplate;
     }
 
-    /**
-     * @return the lebenTime
-     */
+  
     public int getLebenTime() {
         return lebenTime;
     }
 
-    /**
-     * @param lebenTime the lebenTime to set
-     */
+   
     public void setLebenTime(int lebenTime) {
         this.lebenTime = lebenTime;
     } 
@@ -115,6 +97,7 @@ public class Bomb extends InteractableActor
         lebenTime = lebenTime + 1 ;
         if (lebenTime > explosionTime)
         {
+            
             explodier();
         }
     }    
@@ -338,7 +321,7 @@ public class Bomb extends InteractableActor
         }
 
         if(Besitzer != null) Besitzer.removeThrownBomb(this);
-        else System.out.println("nope");
+        else Logger.logError("Bombe hat keinen Besitzer");
         bomberWorld.removeObject(this);
 
     }

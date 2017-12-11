@@ -19,13 +19,27 @@ public class Animation
 
     //Unser jeztiges Bild
     protected AnimationFrame currentFrame = null;
-
+    
+    /*
+     * Gibt an ob sich die Animation automatisch wiederholt
+     */
+    protected boolean loop = true;
+    
+    public void setLoop(boolean newLoop)
+    {
+        loop = newLoop;
+    }
+      public boolean getLoop()
+    {
+        return loop;
+    }
     public Animation(Animation other)
     {
        attachedInterface = other.attachedInterface;
        frames = other.frames;
        animationFrameCounter  = other.animationFrameCounter;
        currentFrame = other.currentFrame;
+       loop = other.loop;
     }
     
     public Animation()
@@ -91,7 +105,7 @@ public class Animation
     }
 
     /**
-     * @param Neues Frame
+     * @param currentFrame Neues Frame
      * Rufe OnNextAnimation, falls es nicht das alte ist
      */
     public void setCurrentFrame(AnimationFrame currentFrame) 
@@ -146,14 +160,16 @@ public class Animation
     }
 
     /**
-     * @param animationFrameCounter the animationFrameCounter to set
+     * @param animationFrameCounter neuer Index in der Animationszeit
      */
     public void setAnimationFrameCounter(int newAnimationFrameCounter) 
     {
 
         
         int frameCount = getAnimationFrameCount();
-        //if(attachedInterface != null) if(animationFrameCounter > frameCount) attachedInterface.OnEndAnimation();
+        
+        if(loop == false && newAnimationFrameCounter >= frameCount ) return;
+       //if(attachedInterface != null) if(newAnimationFrameCounter > frameCount) attachedInterface.OnEndAnimation();
         animationFrameCounter = newAnimationFrameCounter % frameCount;
         //Offset vom Anfang da nur die Zeit eines Frames gespeichert wurde
         

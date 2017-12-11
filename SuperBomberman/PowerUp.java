@@ -12,7 +12,9 @@ public class PowerUp extends InteractableActor
      * Wert der darstellt, ob es ein positives Powerup oder ein negatives Powerup ist.
      */
     private int value = 1;
-    
+    /*
+     * Variante des PowerUps
+     */
     private PowerUpType powerUpType = PowerUpType.Speed;
    
     public PowerUp()
@@ -61,6 +63,10 @@ public class PowerUp extends InteractableActor
     {
         decideImage();
     }
+    /**
+     * Method decideImage
+     * Lade Bild des Powerups mithilfe von powerUpType und value
+     */
     public void decideImage()
     {
         GreenfootImage image = bomberWorld.getStyleSheet().getPowerupImage(powerUpType, value);

@@ -18,6 +18,10 @@ public class BombermanStyleSheet
      */
     private Animation bombermanAnimations[][] = new Animation[PlayerColor.values().length][MovementDirection.values().length];
 
+    /*
+     * 
+     * Index ist die SpielfigurFarbe  und jede Farbe hat eine Animation
+     */
     private Animation bombermanDeathAnimations[] = new Animation[PlayerColor.values().length];
 
     private GreenfootImage wallImage = new GreenfootImage("/SpriteSheetImages/FloorTiles/Wall.png");
@@ -41,6 +45,13 @@ public class BombermanStyleSheet
      */
     private GreenfootImage explosionImages[] = new GreenfootImage[1 + MovementDirection.values().length * 2];
 
+    /**
+     * Method getPowerupImage
+     *
+     * @param type Art des Powerups (Enum)
+     * @param value Positives oder Negatives Powerup
+     * @return Das Powerup Bild
+     */
     public GreenfootImage getPowerupImage(PowerUpType type,int value)
     {
         if(value >= 0)
@@ -54,51 +65,106 @@ public class BombermanStyleSheet
 
     }
 
+    /**
+     * Method getWallImage
+     *
+     * @return Bild der Wand
+     */
     public GreenfootImage getWallImage()
     {
         return wallImage;
     }
 
+    /**
+     * Method getObstacleImage
+     *
+     * @return Bild des zerstörbaren Hindernisses
+     */
     public GreenfootImage getObstacleImage()
     {
         return obstacleImage;
     }
 
+    /**
+     * Method getFloorTileImage
+     *
+     * @return Bild des Fußbodens
+     */
     public GreenfootImage getFloorTileImage()
     {
         return floorTile;
     }
 
+    /**
+     * Method getEdgeFloorTileImage
+     *
+     * @return Bild des Fußbodens am Rand
+     */
     public GreenfootImage getEdgeFloorTileImage()
     {
         return edgeFloorTile;
     }
 
+    /**
+     * Method getBombImage
+     *
+     * @return Bild der Bombe
+     */
     public GreenfootImage getBombImage()
     {
         return bombImage;
     }
 
+     /**
+      * Method getBombermanDeathAnimation
+      *
+      * @param color Farbe der Death Animation
+      * @return Animation
+      */
      public Animation getBombermanDeathAnimation(PlayerColor color)
     {
         return new Animation(bombermanDeathAnimations[color.ordinal()]);
     }
     
+    /**
+     * Method getBombermanAnimation
+     *
+     * @param color Farbe des Bombermans
+     * @param direction Richtung der Animation
+     * @return Animation für die Bewegung
+     */
     public Animation getBombermanAnimation(PlayerColor color,MovementDirection direction)
     {
         return new Animation(bombermanAnimations[color.ordinal()][direction.ordinal()]);
     }
 
+    /**
+     * Method getExplosionCenterImage
+     *
+     * @return Bild der mittleren Explosion
+     */
     public GreenfootImage getExplosionCenterImage()
     {
         return explosionImages[0];
     }
 
+    /**
+     * Method getExplosionEndImage
+     *
+     * @param direction Richtung der Endstückes
+     * @return Bild des Endstückes in Richtung direction
+     */
     public GreenfootImage getExplosionEndImage(MovementDirection direction)
     {
         return explosionImages[direction.ordinal() * 2 + 2];
     }
 
+    /**
+     * Method getExplosionPieceImage
+     *
+     * @param direction Richtung der Mittelstückes
+     * @return Bild des Mittelstückes in Richtung direction
+     */
     public GreenfootImage getExplosionPieceImage(MovementDirection direction)
     {
         return explosionImages[direction.ordinal() * 2 + 1];
@@ -120,7 +186,7 @@ public class BombermanStyleSheet
         //Wir haben nur Bilder für max 4 Spieler
         //ordinal damit Reihenfolge egal ist
         //Alle Bilder sind in einer bestimmten Reihenfolge gespeichert um sie einfach zu greifen.
-
+        Logger.log("Lade Bilder");
         String piecePath = "/SpriteSheetImages/Explosion/Piece.png";
         String endPath =  "/SpriteSheetImages/Explosion/End.png";
 
@@ -165,8 +231,10 @@ public class BombermanStyleSheet
         paths[PlayerColor.Red.ordinal()] = "/SpriteSheetImages/Bomberman/RedBomberman/";
         paths[PlayerColor.Blue.ordinal()] = "/SpriteSheetImages/Bomberman/BlueBomberman/";
 
+        //Animationen laden
         for(PlayerColor color : PlayerColor.values())
         {
+            //AnimationFrame(Bild, Anzahl act Durchgänge)
             bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()] = new Animation();
             bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Up_0.png",6);
             bombermanAnimations[color.ordinal()][MovementDirection.Up.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Up_1.png",6);
@@ -196,6 +264,7 @@ public class BombermanStyleSheet
             bombermanDeathAnimations[color.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Death1.png",5);
             bombermanDeathAnimations[color.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Death2.png",5);
             bombermanDeathAnimations[color.ordinal()].addAnimationFrame( paths[color.ordinal()] + "Death3.png",5);
+            bombermanDeathAnimations[color.ordinal()].setLoop(false);
             
         }
 

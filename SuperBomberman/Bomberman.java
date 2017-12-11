@@ -12,27 +12,27 @@ public class Bomberman extends InteractableActor implements AnimationInterface
      * Spieler Farbe. Steuert welche Animation ausgewählt wird
      */
     private PlayerColor playerColor = PlayerColor.White;
-    
+
     /*
      * Maximale Anzahl an Bomben die gleichzeitig platziert werden können
      */
     private int maxNumOfBombs = 3;
-    
+
     /*
      * Bewegungsgeschwindigkeit in Pixel/Act
      */
     private int movementSpeed = 2;
-    
+
     /*
      * Anzahl der Leben des Bombermans
      */
     private int lifes = 3;
-    
+
     /*
      * Bombe welche kopiert und auf ein Feld gelegt wird. Durch templates ensteht bessere Benutzbarkeit.
      */
     private Bomb templateBomb = new Bomb();
-    
+
     /*
      * Alle Bomben die in der Welt von diesen Bomberman existieren. 
      * Bombe muss dies updaten wenn sie explodiert und verschwindet.
@@ -42,45 +42,44 @@ public class Bomberman extends InteractableActor implements AnimationInterface
      * Anzahl der platzierten Bomben
      */
     private int numBombThrown = 0;
-    
+
     /*
      * Jetzige Richtung in die der Actor zeigt
      */
     private MovementDirection currentDirection = MovementDirection.Down;
-    
+
     /*
      * Zeit die der Actor unverwundbar ist.
      */
     private int invulnerabilityTime = 150;
-    
-    
+
     private boolean isInvulnerable = false;
     /*
      * Zähler um die Unverwundbarkeit wieder auszuschalten
      */
     private int invulnerabilityTimeCounter = 0;
-    
+
     /*
      * Variable die benutzt wird um Animationen zurückzusetzten
      */
     private boolean hasMoved = false;
-    
+
     /*
      * Ist die Figur tot
      */
     private boolean isDead = false;
-    
+
     /*
      * Jetzige Animation die abgearbeitet wird
      */
     protected Animation currentAnimation = null;
-    
+
     Bomberman()
     {
         forceGridLocation = false;
         templateBomb.setBesitzer(this);
     }
-    
+
     /**
      * Bomberman Constructor
      *
@@ -97,20 +96,21 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         templateBomb.setBesitzer(this);
         movementSpeed = newMovementSpeed;
         lifes = newLifes;
-        
+
         Logger.log("Erstelle neuen Spielerbomberman mit Farbe" + newPlayerColor.toString() +
-        ", mit " + newMaxNumOfBombs +" Bomben, der Bewegungsgeschwindigkeit " + newMovementSpeed + " und " + newLifes + " Leben");
+            ", mit " + newMaxNumOfBombs +" Bomben, der Bewegungsgeschwindigkeit " + newMovementSpeed + " und " + newLifes + " Leben");
     }
-    
+
     public void addThrownBomb(Bomb newBomb)
     {
         thrownBombsList.add(newBomb);
     }
-    
+
     public void removeThrownBomb(Bomb removeBomb)
     {
         thrownBombsList.remove(removeBomb);
     }
+
     /**
      * @return currentAnimation
      */
@@ -135,7 +135,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         if(currentAnimation != null)
         {
             currentAnimation.setAttachedInterface(this);
-            
+
         }
         else
         {
@@ -153,7 +153,8 @@ public class Bomberman extends InteractableActor implements AnimationInterface
     }
 
     /**
-     * @param maxNumOfBombs the maxNumOfBombs to set
+     * Setzt neue Spielerfarbe und updated die Animation
+     * @param color neue Spielerfarbe
      */
     public void setPlayerColor(PlayerColor color) 
     {
@@ -166,7 +167,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
      */
     public int getMaxNumOfBombs() 
     {
-      
+
         return maxNumOfBombs;
     }
 
@@ -175,7 +176,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
      */
     public void setMaxNumOfBombs(int maxNumOfBombs) 
     {
-          if(maxNumOfBombs <= 1) maxNumOfBombs = 1; 
+        if(maxNumOfBombs <= 1) maxNumOfBombs = 1; 
         this.maxNumOfBombs = maxNumOfBombs;
     }
 
@@ -217,7 +218,11 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             OnDeath();
         }
     }
-
+    
+    public boolean getIsDead()
+    {
+        return isDead;
+    }
     /**
      * @return templateBomb
      */
@@ -277,7 +282,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         hasMoved = false;
         //Powerup kollision und aufnehemen
         findPowerUp();
-        
+
         //Unverwundbarkeit überprüfen
         if(isInvulnerable)
         {
@@ -287,10 +292,13 @@ public class Bomberman extends InteractableActor implements AnimationInterface
                 OnEndInvulnerability();
             }
         }
-        
+        if(isDead == true)
+        {
+            currentAnimation.setAnimationFrameCounter(currentAnimation.getAnimationFrameCounter() + 1);
+            return;
+        }
         OnAct();
-        
-        //wenn sich der Spieler nicht bewegt hat wird die Animation zurückgesetzt
+
         if(hasMoved == false)
         {
             if(currentAnimation != null)
@@ -298,10 +306,13 @@ public class Bomberman extends InteractableActor implements AnimationInterface
                 currentAnimation.setAnimationFrameCounter(0);
             }
         }
+
+        //wenn sich der Spieler nicht bewegt hat wird die Animation zurückgesetzt
+
         currentAnimation.setAnimationFrameCounter(currentAnimation.getAnimationFrameCounter() + 1);
-            
-        
+
     }
+
     /**
      * Method OnNextAnimation aus AnimationInterface
      *
@@ -310,9 +321,9 @@ public class Bomberman extends InteractableActor implements AnimationInterface
     @Override
     public void OnNextAnimation(GreenfootImage newImage)
     {
-       loadImage(newImage);
+        loadImage(newImage);
     }
-    
+
     /**
      * Method OnAct
      *
@@ -322,40 +333,44 @@ public class Bomberman extends InteractableActor implements AnimationInterface
      */
     public void OnAct() 
     {
-       
+
     } 
-    
+
     protected void OnStartInvulnerability()
     {
+        //wenn man tot ist , kann man nicht unverwundbar werden
+        if(isDead == true) return;
         invulnerabilityTimeCounter = invulnerabilityTime;
         isInvulnerable = true;
         if(currentAnimation == null) return ;
-            loadImage(currentAnimation.getCurrentImage());
+        loadImage(currentAnimation.getCurrentImage());
     }
-    
+
     protected void OnEndInvulnerability()
     {
         isInvulnerable = false;
         if(currentAnimation == null) return ;
-            loadImage(currentAnimation.getCurrentImage());
+        loadImage(currentAnimation.getCurrentImage());
     }
-    
+
     /**
      * Method onDeath
      *
      */
     protected void OnDeath()
     {
-        isDead = true;
         
-        //TODO Animation for Death
-        bomberWorld.removeObject(this);
+        isDead = true; 
+        //lade Tod Animation 
+        setCurrentAnimation(bomberWorld.getStyleSheet().getBombermanDeathAnimation(playerColor));
+        if(bomberWorld != null) bomberWorld.OnPlayerDied(this);
+
     }
 
     protected void loadAnimation(MovementDirection dir)
     {
         //jetztige Animation laden
-            setCurrentAnimation(bomberWorld.getStyleSheet().getBombermanAnimation(playerColor,dir));
+        setCurrentAnimation(bomberWorld.getStyleSheet().getBombermanAnimation(playerColor,dir));
     }
 
     /**
@@ -384,7 +399,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             return false;
         }
     }
-    
+
     /**
      * Method maxMoveDistance
      *
@@ -448,8 +463,11 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         return maxMoveDistance(newDirection) > 0;
     }
 
-    
-
+    /**
+     * Method decideMoveY
+     * Bewegt den Bomberman in die Richtung dir. Dabei wird darauf geachtet ob er sich in die Richtung bewegen kann und ob er noch links oder rechts gehen muss.
+     * @param dir Richtung
+     */
     protected void decideMoveY(MovementDirection dir)
     {
         //erlaube nur Up und Down Bewegung
@@ -457,11 +475,11 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         //Überprüfe ob wir in die Richtung können
         if(canMove(dir) == true)
         {
-            
+
             move(dir);
             return;
         }
-        
+
         //Überprüfe ob wir perfekt in unseren grid hoch können
 
         if(canMoveAtPos(dir,getGridXPosAsPixel(),getGridYPosAsPixel()))
@@ -486,7 +504,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             }
             else
             {
-               
+                
                 move(MovementDirection.Right,deltaX);
                 move(dir,remainingMovement);
                 return;
@@ -501,16 +519,16 @@ public class Bomberman extends InteractableActor implements AnimationInterface
                 //Berechne Weg bis zu dem Feld 
                 int deltaX = bomberWorld.convertGridToPos(gridXPos - 1) - getX();
                 int remainingMovement =  movementSpeed - Math.abs(deltaX);
-                 //überprüfe ob wir mehr laufen können  als Distanz zum Feld
+                //überprüfe ob wir mehr laufen können  als Distanz zum Feld
                 if(remainingMovement <= 0)
                 {
-                    
+
                     move(MovementDirection.Left,movementSpeed);
                     return;
                 }
                 else
                 {
-                    
+
                     move(MovementDirection.Left,-deltaX);
                     move(dir,remainingMovement);
                     return;
@@ -525,16 +543,16 @@ public class Bomberman extends InteractableActor implements AnimationInterface
                 //Berechne Weg bis zu dem Feld 
                 int deltaX = bomberWorld.convertGridToPos(gridXPos + 1) - getX();
                 int remainingMovement =  movementSpeed - deltaX;
-                 //überprüfe ob wir mehr laufen können  als Distanz zum Feld
+                //überprüfe ob wir mehr laufen können  als Distanz zum Feld
                 if(remainingMovement <= 0)
                 {
-                    
+
                     move(MovementDirection.Right,movementSpeed);
                     return;
                 }
                 else
                 {
-                   
+
                     move(MovementDirection.Right,deltaX);
                     move(dir,remainingMovement);
                     return;
@@ -542,14 +560,20 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             }
         }
     }
-        
+    
+    /**
+     * Method decideMoveX
+     * Bewegt den Bomberman in die Richtung dir. Dabei wird darauf geachtet ob er sich in die Richtung bewegen kann und ob er noch hoch oder runter gehen muss.
+     * @param dir Richtung
+     */
     protected void decideMoveX(MovementDirection dir)
     {
+        //Erlaube nur links rechts Bewegung
         if(MovementDirection.Up == dir || dir == MovementDirection.Down) return;
         //analog zu decideMoveY
         if(canMove(dir) == true)
         {
-            
+
             move(dir);
             return;
         }
@@ -564,12 +588,12 @@ public class Bomberman extends InteractableActor implements AnimationInterface
 
                 if(deltaY >= 0)
                 {
-                    
+
                     move(MovementDirection.Down,movementSpeed);
                 }
                 else
                 {
-                    
+
                     move(MovementDirection.Up,movementSpeed);
                 }
 
@@ -577,9 +601,9 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             }
             else
             {
-                
+
                 move(MovementDirection.Down,deltaY);
-                
+
                 move(dir,remainingMovement);
                 return;
             }
@@ -594,13 +618,13 @@ public class Bomberman extends InteractableActor implements AnimationInterface
                 int remainingMovement =  movementSpeed - Math.abs(deltaY);
                 if(remainingMovement <= 0)
                 {
-                    
+
                     move(MovementDirection.Up,movementSpeed);
                     return;
                 }
                 else
                 {
-                    
+
                     move(dir,-deltaY);
                     move(MovementDirection.Up,remainingMovement);
                     return;
@@ -615,13 +639,13 @@ public class Bomberman extends InteractableActor implements AnimationInterface
                 int remainingMovement =  movementSpeed - deltaX;
                 if(remainingMovement <= 0)
                 {
-                    
+
                     move(MovementDirection.Down,movementSpeed);
                     return;
                 }
                 else
                 {
-                   
+
                     move(MovementDirection.Down,deltaX);
                     move(dir,remainingMovement);
                     return;
@@ -629,8 +653,6 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             }
         }
     }
-    
-    
 
     protected void decideMove(MovementDirection newDirection)
     {
@@ -643,7 +665,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             }break;
             case Down:
             {
-                 decideMoveY(newDirection);
+                decideMoveY(newDirection);
             }break;
             case Left:
             {
@@ -652,12 +674,17 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             }break;
             case Right:
             {
-               decideMoveX(newDirection);
+                decideMoveX(newDirection);
             }break;
 
         }
     }
 
+    /**
+     * Method move
+     * Bewege den Bomberman die maximale Distanz in Richtung dir
+     * @param newDirection Richtung
+     */
     protected void move(MovementDirection newDirection)
     {
         move (newDirection,maxMoveDistance(newDirection));
@@ -672,7 +699,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
     {
         if(canMove(newDirection) == false) return;
         hasMoved = true;
-        
+
         if(currentDirection != newDirection)
         {
             setCurrentDirection(newDirection);
@@ -700,16 +727,17 @@ public class Bomberman extends InteractableActor implements AnimationInterface
 
         }
     }
+
     @Override
     protected void OnReceiveExplosion()
     {
         if(isInvulnerable == false)
         {
-             setLifes(getLifes() - 1 );
-             Logger.log("Bomberman wurde getroffen");
-             OnStartInvulnerability();
+            setLifes(getLifes() - 1 );
+            Logger.log("Bomberman wurde getroffen");
+            OnStartInvulnerability();
         }
-        
+
     }
 
     /**
@@ -726,8 +754,9 @@ public class Bomberman extends InteractableActor implements AnimationInterface
                 Logger.log("Bombe kann nicht platziert werden,weil eine Bombe bereits in disen Feld existiert");
                 return;
             }
-                
+
         }
+        //können wir überhaupt Bomben platzieren
         if(getMaxNumOfBombs() > thrownBombsList.size())
         {
             Bomb newBomb = new Bomb(templateBomb);
@@ -736,7 +765,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             Logger.log("Bombe auf Feld (" + gridXPos + "," + gridYPos + ") platziert");
             numBombThrown++;
         }
-        
+
     }
 
     /**
@@ -772,6 +801,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             bomberWorld.removeObject(foundPowerUp);
         }
     }
+
     protected void loadImage(GreenfootImage image)
     {
         if(image != null) 
@@ -786,18 +816,18 @@ public class Bomberman extends InteractableActor implements AnimationInterface
             {
                 setImage(image);
             }
-            
+
         }
-        
+
     }
-     @Override
+
+    @Override
     protected void OnWorldLoaded()
     {
         loadAnimation(currentDirection);
         if(currentAnimation == null) return ;
         loadImage(currentAnimation.getCurrentImage());
-        
+
     }
-    
-  
+
 }

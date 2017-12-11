@@ -1,4 +1,4 @@
-Zum Starten auf den Start Game klicken.
+Zum Starten auf Start Game klicken.
 Es wird eine Welt mit der Größe 30 Pixel und 15x15 Felder angelegt. Es werden 104 Hindernisse  und 4 Spieler platziert.
 Die Hndernisse werden in einem gewissen Abstand von den Ecken kreiert.
 
@@ -7,12 +7,11 @@ Spieler 2 rechte obere Ecke hat die Pfeiltasten als Bewegungstasten und Enter fü
 Spieler 3 linke untere Ecke hat die Bewegungstasten ijkl und die .Taste für Bomben.
 Spieler 4 rechte untere Ecke hat die Bewegungstasten 5123 und die + Taste für Bomben.
 
-
 Jeder Spieler hat Standard 3 Leben.
 
 Es gibt 4 Arten von Powerups. Explosionstärke, Bewegungsgeschwindigkeit, Anzahl legbarer Bomben und Leben.
 
-Wenn ein Spieler stirbt, wird seine Figur aus der Welt.
+Wenn ein Spieler stirbt, spielt seine Figur eine Animation ab und bewegt sich nicht mehr.
 
-
+Es wird eine Hintergrundmusik abgespielt und Bomben erzeugen Explosionsgeräusche.
  

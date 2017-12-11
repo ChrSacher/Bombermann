@@ -42,8 +42,12 @@ public class BomberWorld extends World
      /*
      * Hintergrundmusik die gespielt wird
      */
-    GreenfootSound currentSound = null;
+    private GreenfootSound currentSound = null;
     
+    /*
+     * Hintergrundmusik die gespielt wird
+     */
+    private List<Bomberman> aliveBombermans = new ArrayList<Bomberman>();
     /**
      * BomberWorld Constructor
      *
@@ -349,8 +353,22 @@ public class BomberWorld extends World
     {
         Logger.log("Spielerplatzierung: Erstelle Bomberman auf Feld (" + gridX + "," + gridY + ")");
         addObject(newBomberman,convertGridToPos(gridX),convertGridToPos(gridY)); 
+        aliveBombermans.add(newBomberman);
     }
 
+    /**
+     * Method OnPlayerDied
+     * Methode soll von Bomberman gerufen werden, wenn er gestorben ist.
+     * @param deadBomberman Bomberman der gestorben ist
+     */
+    public void OnPlayerDied(Bomberman deadBomberman)
+    {
+        aliveBombermans.remove(deadBomberman);
+        if(aliveBombermans.size() == 1)
+        {
+            showText("Spieler mit der Farbe " + aliveBombermans.get(0).getPlayerColor().toString() + " gewinnt!",getWidth() / 2, getHeight() / 2);
+        }
+    }
     /**
      * Method TestScenario
      * Lädt ein Testszenario in die Welt
@@ -361,4 +379,5 @@ public class BomberWorld extends World
         generateWorld(30,15,15,104,4);
         
     }
+    
 }

@@ -59,7 +59,7 @@ public class Obstacle extends InteractableActor
                 }
                 else
                 {
-                     PowerUp powerUp = new PowerUp ();
+                    PowerUp powerUp = new PowerUp ();
                     bomberWorld.addObject(powerUp, getX(), getY());
                     PowerUpType type = PowerUpType.values()[Greenfoot.getRandomNumber(PowerUpType.values().length)];
                     powerUp.setPowerUp(type);
@@ -109,7 +109,7 @@ public class Obstacle extends InteractableActor
         }
     }
     /*
-     * Ist das Hindernis Zerstörbar
+     * Ist das Hindernis zerstörbar
      */
     private boolean isDestructable= true;
 
