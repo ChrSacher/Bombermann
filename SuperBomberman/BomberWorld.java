@@ -2,7 +2,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
 import java.util.ArrayList;
 /**
- * Standard Welt. Generiert und verwalted das Raster in der Welt
+ * Standard Welt. Generiert alle Hindernisse und Felder in Welt und verwaltet das Raster auf dem das Spiel basiert.
  * 
  * @author Christian Sacher
  * @version 6.12.17
@@ -57,6 +57,7 @@ public class BomberWorld extends World
         setPaintOrder();
         StartGameActor actor = new StartGameActor();
         addObject(actor,500,500);
+        Logger.log("Erstelle Welt mit der Größe " + getWidth() +"x" + getHeight());
     }
     @Override
     public void started()
@@ -66,6 +67,7 @@ public class BomberWorld extends World
         if(currentSound == null)
         {
             currentSound = new GreenfootSound(soundFiles[Greenfoot.getRandomNumber(soundFiles.length)]);
+            Logger.log("Starte neuen Sound: " + currentSound.toString());
         }
         if(currentSound != null) currentSound.playLoop();
     }
@@ -75,12 +77,13 @@ public class BomberWorld extends World
         if(currentSound != null) currentSound.pause();
     }
     /**
-     * BomberWorld Constructor
+     * BomberWorld Constructor Erstelle eine Welt der Größe(gridSize * gridNumX,gridSize * gridYNum)vund belebt sie.
      *
-     * @param gridSize A parameter
-     * @param gridNumX A parameter
-     * @param gridNumY A parameter
-     * @param numObstacles A parameter
+     * @param gridSize Pixelgröße eines Feldes
+     * @param gridNumX Anzahl Felder in X-Richtung
+     * @param gridNumY Anzahl Felder in Y-Richtung
+     * @param numObstacles Anzahl zerstörbarer Hindernisse
+     * @param numPlayers Anzahl Spieler in der Welt (max4)
      */
     public BomberWorld(int gridSize,int gridNumX,int gridNumY,int numObstacles,int numPlayers)
     {    
@@ -89,12 +92,14 @@ public class BomberWorld extends World
         styleSheet.loadImages();
         styleSheet.resizeImages(gridSize);
         generateWorld(gridSize,gridNumX,gridNumY,numObstacles,numPlayers);
+        Logger.log("Erstelle Welt mit der Größe " + getWidth() +"x" + getHeight());
         setPaintOrder();
     }
     
     public void setPaintOrder()
     {
         setPaintOrder(Bomberman.class,Explosion.class,Bomb.class,PowerUp.class,Obstacle.class,FloorTile.class);
+        Logger.log("Setze Weltzeichnungsordnung");
     }
 
     /**
@@ -172,7 +177,7 @@ public class BomberWorld extends World
         {
             getBackground().drawLine(i * gridSize,0,i * gridSize,gridXNum * gridSize);
         }
-
+        Logger.log("Zeichne Basisgrid");
     }
 
     /**
@@ -187,11 +192,14 @@ public class BomberWorld extends World
     public void generateWorld(int gridSize,int newGridNumX,int newGridNumY,int numObstacles,int numPlayers)
     {
         removeObjects(getObjects(null));
+        Logger.log("Weltgenerierung: Begin");
         setGridSize(gridSize);
         drawGrid();
         gridXNum = newGridNumX;
         gridYNum = newGridNumY;
         //Untergrund erstellen
+        Logger.log("Weltgenerierung: Erstellung Welt mit Feldgröße " + gridSize + "Pixel, " + gridXNum + " Felder in X-Richtung und " + gridYNum  + " Felder in Y-Richtung");
+        Logger.log("Weltgenerierung: Erstelle Fußboden");
         for(int i = 0; i < gridYNum;i++)
         {
             for(int j = 0; j < gridYNum;j++)
@@ -202,6 +210,7 @@ public class BomberWorld extends World
             }
         }
         
+        Logger.log("Weltgenerierung: Erstelle innere Wände im Pflaster-Muster");
          //Innere Wand erstellen und unzerstörbar machen
         for(int i = 2; i < (gridXNum -2);i +=2)
         {
@@ -214,6 +223,7 @@ public class BomberWorld extends World
             }
         }
 
+        Logger.log("Weltgenerierung: Erstelle obere und untere Wand");
         //Äußere Wand erstellen und unzerstörbar machen
         for(int i = 0; i < gridXNum;i++)
         {
@@ -225,6 +235,7 @@ public class BomberWorld extends World
             addObject(lowerOuterWall,i * gridSize,(gridYNum -1 ) * gridSize);
             lowerOuterWall.setisDestructable(false);
         }
+        Logger.log("Weltgenerierung: Erstelle linke und rechte Wand");
         //rechte und linke äußere Wand erstellen und unzerstörbar machen
         for(int i = 1; i < gridYNum -1;i++)
         {
@@ -238,7 +249,7 @@ public class BomberWorld extends World
         }
 
         
-        
+        Logger.log("Weltgenerierung: Erstelle " + numObstacles +  " zerstörbare Hindernisse");
         //occupany grid ist eine Array was anzeigt ob ein Feld belegt ist durch einen Interactable Actor
         boolean occupancyGrid[][] = new boolean[gridXNum][gridYNum];
         List<InteractableActor> actorList = getObjects(InteractableActor.class);
@@ -290,6 +301,7 @@ public class BomberWorld extends World
                 }
             }
         }
+        Logger.log("Weltgenerierung: Erstelle " + numPlayers + " Spieler");
         //wir besitzen nur 4 Spielerfarben
         if(numPlayers <= 0) numPlayers = 0;
         if(numPlayers >= 4) numPlayers = 4;
@@ -335,16 +347,18 @@ public class BomberWorld extends World
      */
     public void addPlayer(PlayerBomberman newBomberman,int gridX,int gridY)
     {
-        addObject(newBomberman,gridSize * gridX + gridSize / 2,gridSize * gridY  + gridSize / 2); 
+        Logger.log("Spielerplatzierung: Erstelle Bomberman auf Feld (" + gridX + "," + gridY + ")");
+        addObject(newBomberman,convertGridToPos(gridX),convertGridToPos(gridY)); 
     }
 
     /**
-     * Method playerTestSceneario
-     *
+     * Method TestScenario
+     * Lädt ein Testszenario in die Welt
      */
     public  void TestScenario()
     {
-        generateWorld(50,15,15,104,4);
+        Logger.log("Lade Testszenario");
+        generateWorld(30,15,15,104,4);
         
     }
 }

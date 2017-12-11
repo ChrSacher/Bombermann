@@ -151,9 +151,14 @@ public class Animation
     public void setAnimationFrameCounter(int newAnimationFrameCounter) 
     {
 
+        
         int frameCount = getAnimationFrameCount();
+        //if(attachedInterface != null) if(animationFrameCounter > frameCount) attachedInterface.OnEndAnimation();
         animationFrameCounter = newAnimationFrameCounter % frameCount;
         //Offset vom Anfang da nur die Zeit eines Frames gespeichert wurde
+        
+        // if(attachedInterface != null) if(animationFrameCounter == 0) attachedInterface.OnStartAnimation();
+        
         int currentOffset = 0;
         //berechne welcher Frame jetzt gerade ist
         

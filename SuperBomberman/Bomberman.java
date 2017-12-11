@@ -66,6 +66,11 @@ public class Bomberman extends InteractableActor implements AnimationInterface
     private boolean hasMoved = false;
     
     /*
+     * Ist die Figur tot
+     */
+    private boolean isDead = false;
+    
+    /*
      * Jetzige Animation die abgearbeitet wird
      */
     protected Animation currentAnimation = null;
@@ -92,6 +97,9 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         templateBomb.setBesitzer(this);
         movementSpeed = newMovementSpeed;
         lifes = newLifes;
+        
+        Logger.log("Erstelle neuen Spielerbomberman mit Farbe" + newPlayerColor.toString() +
+        ", mit " + newMaxNumOfBombs +" Bomben, der Bewegungsgeschwindigkeit " + newMovementSpeed + " und " + newLifes + " Leben");
     }
     
     public void addThrownBomb(Bomb newBomb)
@@ -290,13 +298,9 @@ public class Bomberman extends InteractableActor implements AnimationInterface
                 currentAnimation.setAnimationFrameCounter(0);
             }
         }
-        else
-        {
-             if(currentAnimation != null)
-            {
-                currentAnimation.setAnimationFrameCounter(currentAnimation.getAnimationFrameCounter() + 1);
-            }
-        }
+        currentAnimation.setAnimationFrameCounter(currentAnimation.getAnimationFrameCounter() + 1);
+            
+        
     }
     /**
      * Method OnNextAnimation aus AnimationInterface
@@ -342,6 +346,9 @@ public class Bomberman extends InteractableActor implements AnimationInterface
      */
     protected void OnDeath()
     {
+        isDead = true;
+        
+        //TODO Animation for Death
         bomberWorld.removeObject(this);
     }
 
@@ -699,6 +706,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         if(isInvulnerable == false)
         {
              setLifes(getLifes() - 1 );
+             Logger.log("Bomberman wurde getroffen");
              OnStartInvulnerability();
         }
         
@@ -714,13 +722,18 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         for(Bomb bomb : bombs)
         {
             if(bomb.getGridXPos() == getGridXPos() && bomb.getGridYPos() == getGridYPos())
+            {
+                Logger.log("Bombe kann nicht platziert werden,weil eine Bombe bereits in disen Feld existiert");
                 return;
+            }
+                
         }
         if(getMaxNumOfBombs() > thrownBombsList.size())
         {
             Bomb newBomb = new Bomb(templateBomb);
             bomberWorld.addObject(newBomb,bomberWorld.convertGridToPos(gridXPos),bomberWorld.convertGridToPos(gridYPos));         
             addThrownBomb(newBomb);
+            Logger.log("Bombe auf Feld (" + gridXPos + "," + gridYPos + ") platziert");
             numBombThrown++;
         }
         
@@ -735,6 +748,7 @@ public class Bomberman extends InteractableActor implements AnimationInterface
         List<PowerUp> foundPowerUpsList = getIntersectingObjects(PowerUp.class);
         for(PowerUp foundPowerUp : foundPowerUpsList)
         {
+            Logger.log("Powerup vom typ "+ foundPowerUp.getPowerUpType().toString() +" mit Wert "+ foundPowerUp .getValue() + " gefunden");
             switch(foundPowerUp.getPowerUpType())
             {
                 case Speed:

@@ -157,6 +157,7 @@ public class Bomb extends InteractableActor
         
     public void explodier()
     {
+        Logger.log("Bombe explodiert");
         Explosion sondernexplosion = new Explosion ( );
         explosionSound.play();
         bomberWorld.addObject(sondernexplosion, getX(), getY());

@@ -141,7 +141,9 @@ public class GridActor extends Actor
             } }
         catch(Exception e)
         {
+            Logger.logError("Exception in setLocation");
             e.printStackTrace();
+            
         }
     }
     

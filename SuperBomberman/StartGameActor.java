@@ -16,9 +16,11 @@ public class StartGameActor extends Actor
     {
       if (Greenfoot.mouseClicked(this)) 
       {
+        Logger.log("Starte neues Spiel");
         BomberWorld world = (BomberWorld)getWorld();
-        world.TestScenario();
         world.removeObject(this);
+        world.TestScenario();
+        
         return;
       }   
     }    

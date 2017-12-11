@@ -36,27 +36,35 @@ public class Obstacle extends InteractableActor
     {
         if( isDestructable== true)
         {
+            Logger.log("Hindernis zerstört");
             //generiere Zufallszahl damit zufällig 1 positives powerup,ein negatives Powerup oder gar kein Powerup ensteht
             int zufallzahl = Greenfoot.getRandomNumber(100);
             if ( zufallzahl<= 25)
             {
                 PowerUp powerUp = new PowerUp ();
                 bomberWorld.addObject(powerUp, getX(), getY());
-                powerUp.setPowerUp(PowerUpType.values()[Greenfoot.getRandomNumber(PowerUpType.values().length)]);
+                PowerUpType type = PowerUpType.values()[Greenfoot.getRandomNumber(PowerUpType.values().length)];
+                powerUp.setPowerUp(type);
                 powerUp.setValue(1);
+                Logger.log("Lasse positives Powerup vom typ " + type.toString() +"fallen");
+                
+                
 
             }
             else 
             {
                 if(zufallzahl > 30 && zufallzahl <= 85)
                 {
+                    Logger.log("Lasse kein Powerup fallen");
                 }
                 else
                 {
                      PowerUp powerUp = new PowerUp ();
                     bomberWorld.addObject(powerUp, getX(), getY());
-                    powerUp.setPowerUp(PowerUpType.values()[Greenfoot.getRandomNumber(PowerUpType.values().length)]);
+                    PowerUpType type = PowerUpType.values()[Greenfoot.getRandomNumber(PowerUpType.values().length)];
+                    powerUp.setPowerUp(type);
                     powerUp.setValue(-1);
+                    Logger.log("Lasse negatives Powerup vom typ " + type.toString() + " fallen");
                 }
                
 

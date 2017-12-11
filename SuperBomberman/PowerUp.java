@@ -4,7 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * Klasse welche Powerups in der Welt darstellt.
  * 
  * @author Dieu Huyen Dinh
- * @version (a version number or a date)
+ * @version 07.12.17
  */
 public class PowerUp extends InteractableActor
 {  

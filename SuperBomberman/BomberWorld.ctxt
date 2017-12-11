@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=BomberWorld
-comment0.text=\r\n\ Standard\ Welt.\ Generiert\ und\ verwalted\ das\ Raster\ in\ der\ Welt\r\n\ \r\n\ @author\ Christian\ Sacher\r\n\ @version\ 6.12.17\r\n
+comment0.text=\r\n\ Standard\ Welt.\ Generiert\ alle\ Hindernisse\ und\ Felder\ in\ Welt\ und\ verwaltet\ das\ Raster\ auf\ dem\ das\ Spiel\ basiert.\r\n\ \r\n\ @author\ Christian\ Sacher\r\n\ @version\ 6.12.17\r\n
 comment1.params=
 comment1.target=BomberWorld()
 comment1.text=\r\n\ BomberWorld\ Constructor\r\n\r\n
@@ -21,14 +21,14 @@ comment14.target=void\ addPlayer(PlayerBomberman,\ int,\ int)
 comment14.text=\r\n\ Method\ addPlayer\ Bomberman\ der\ Welt\ hinzuf\u00FCgen\ und\ auf\ ein\ Feld\ stellen\r\n\r\n\ @param\ newBomberman\ Bomberman\ Object\r\n\ @param\ gridX\ Auf\ welches\ Feld\ in\ X\ Richtung\r\n\ @param\ gridY\ Auf\ welches\ Feld\ in\ Y\ Richtung\r\n
 comment15.params=
 comment15.target=void\ TestScenario()
-comment15.text=\r\n\ Method\ playerTestSceneario\r\n\r\n
+comment15.text=\r\n\ Method\ TestScenario\r\n\ L\u00E4dt\ ein\ Testszenario\ in\ die\ Welt\r\n
 comment2.params=
 comment2.target=void\ started()
 comment3.params=
 comment3.target=void\ stopped()
 comment4.params=gridSize\ gridNumX\ gridNumY\ numObstacles\ numPlayers
 comment4.target=BomberWorld(int,\ int,\ int,\ int,\ int)
-comment4.text=\r\n\ BomberWorld\ Constructor\r\n\r\n\ @param\ gridSize\ A\ parameter\r\n\ @param\ gridNumX\ A\ parameter\r\n\ @param\ gridNumY\ A\ parameter\r\n\ @param\ numObstacles\ A\ parameter\r\n
+comment4.text=\r\n\ BomberWorld\ Constructor\ Erstelle\ eine\ Welt\ der\ Gr\u00F6\u00DFe(gridSize\ *\ gridNumX,gridSize\ *\ gridYNum)vund\ belebt\ sie.\r\n\r\n\ @param\ gridSize\ Pixelgr\u00F6\u00DFe\ eines\ Feldes\r\n\ @param\ gridNumX\ Anzahl\ Felder\ in\ X-Richtung\r\n\ @param\ gridNumY\ Anzahl\ Felder\ in\ Y-Richtung\r\n\ @param\ numObstacles\ Anzahl\ zerst\u00F6rbarer\ Hindernisse\r\n\ @param\ numPlayers\ Anzahl\ Spieler\ in\ der\ Welt\ (max4)\r\n
 comment5.params=
 comment5.target=void\ setPaintOrder()
 comment6.params=newGridSize
